@@ -95,3 +95,134 @@ Overvew
 		Incremental repair
 		
 4. Deep Dive into Cassandra Database
+	Goal: 
+		In this module you will learn about Keyspace and its attributes in Cassandra. You will also create Keyspace, learn how to create a Table and perform operations like Inserting, Updating and Deleting data from a table while using CQLSH.
+	
+	Skills: 
+		Database Operations
+		Table Operations
+		
+	Objectives: At the end of this module, you will be able to:
+		Describe Different Data Types Used in Cassandra
+		Explain Collection Types
+		Describe What are CRUD Operations
+		Implement Insert, Select, Update and Delete of various elements
+		Implement Various Functions Used in Cassandra
+		Describe Importance of Roles and Indexing 
+		Understand tombstones in Cassandra
+	
+	Topics:
+		Replication Factor
+		Replication Strategy
+		Defining columns and data types
+		Defining a partition key
+		Recognizing a partition key
+		Specifying a descending clustering order
+		Updating data
+		Tombstones
+		Deleting data
+		Using TTL
+		Updating a TTL
+		
+5. Node Operations in a Cluster
+	Goal: 
+		Learn how to add nodes in Cassandra and configure Nodes using “cassandra.yaml” file. Use Nodetool to remove node and restore node back into the service. In addition, by using Nodetool repair command learn the importance of repair and how repair operation functions.
+	
+	Skills: 
+		Node Operations
+		
+	Objectives: At the end of this module, you will be able to:
+		Explain Cassandra Nodes
+		Understand Seed Nodes
+		Configure Seed Nodes using cassandra.yaml file
+		Add/bootstrap a node in a Cluster
+		Use Nodetool utility to decommission a node from the cluster
+		Remove a Dead Node from a Cluster 
+		Describe the need to repair Nodes
+		Use Nodetool repair command
+	
+	Topics:
+		Cassandra nodes
+		Specifying seed nodes
+		Bootstrapping a node
+		Adding a node (Commissioning) in Cluster
+		Removing (Decommissioning) a node
+		Removing a dead node
+		Repair
+		Read Repair
+		What’s new in incremental repair
+		Run a Repair Operation
+		Cassandra and Spark Implementation
+
+6. Managing and Monitoring the Cluster
+	Goal: 
+		The key aspects to monitoring Cassandra are resources used by each node, response latencies to requests, requests to offline nodes, and the compaction process. Learn to use various monitoring tools in Cassandra such as Nodetool and JConsole in this module.
+		
+	Skills: 
+		Clustering
+
+	Objectives: At the end of this module, you will be able to:
+		Describe the various monitoring tools available 
+		Implement nodetool utility to manage a cluster
+		Use JConsole to monitor JMX statistics
+		Understand OpsCenter tool
+
+	Topics:
+		Cassandra monitoring tools
+		Logging 
+		Tailing 
+		Using Nodetool Utility
+		Using JConsole
+		Learning about OpsCenter
+		Runtime Analysis Tools
+		
+7. Backup & Restore and Performance Tuning
+	Goal: 
+		In this Module you will learn about the importance of Backup and Restore functions in Cassandra and Create Snapshots in Cassandra. You will learn about Hardware selection and Performance Tuning (Configuring Log Files) in Cassandra. You will also learn about Cassandra integration with various other frameworks.
+
+	Skills: 
+		Performance tuning
+		Cassandra Design Principals
+		Backup and Restoration
+
+	Objectives: At the end of this module, you’ll be able to: 
+		Learn backup and restore functionality and its importance
+		Create a snapshot using Nodetool utility
+		Restore a snapshot
+		Understand how to choose the right balance of the following resources: memory, CPU, disks, number of nodes, and network.
+		Understand all the logs created by Cassandra 
+		Explain the purpose of different log files
+		Configure the log files 
+		Learn about Performance Tuning 
+		Integration with Spark and Kafka
+
+	Topics:
+		Creating a Snapshot
+		Restoring from a Snapshot
+		RAM and CPU recommendations
+		Hardware choices
+		Selecting storage
+		Types of Storage to Avoid
+		Cluster connectivity, security and the factors that affect distributed system performance
+		End-to-end performance tuning of Cassandra clusters against very large data sets
+		Load balance and streams
+		
+8. Hosting Cassandra Database on Cloud
+	Goal: 
+		In this Module you will learn about Design, Implementation, and on-going support of Cassandra Operational Data. Finally, you will learn how to Host a Cassandra Database on Cloud.
+
+	Skills:
+		Security
+		Design Implementation
+		On-going support of Cassandra Operational Data
+
+	Objectives: At the end of this module, you’ll be able to: 
+		Security 
+		Learn about DataStax
+		Create an End-to-End Project using Cassandra
+		Implement a Cassandra Database on Cloud
+
+	Topics:
+		Security
+		Ongoing Support of Cassandra Operational Data
+		Hosting a Cassandra Database on Cloud
