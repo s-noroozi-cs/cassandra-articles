@@ -1,0 +1,38 @@
+Certificates: 
+	Apache Cassandra™ Administrator Associate Certification
+	Apache Cassandra™ Developer Associate Certification
+	Apache Cassandra™ K8ssandra Associate Certification
+	
+Which certification should I pursue?
+
+	The Developer Certification 
+		is designed for professionals that use Apache Cassandra clusters to manage data. This includes roles such as application developers, data architects, database designers, and database administrators.
+
+	The Administrator Certification 
+		is designed for professionals who install, configure, manage and tune the performance of Apache Cassandra clusters, such as database administrators, DevOps engineers and Site Reliability Engineers (SREs).
+
+	The K8ssandra Certification 
+	is designed to up-level your DBA know-how to SRE skills. The topics covered in this exam include Docker, basic Kubernetes constructs, Sidecar, secrets, port-forwarding, helm, ingress, storage, Reaper repair, Medusa backup, K8ssandra, the cass-operator, Prometheus metrics collection, and Grafana metrics display.
+	
+Core topics
+	
+	Cassandra Architecture
+		Ring, nodes, replication and consistency, and how Cassandra achieves scalability, availability, performance, fast response time, and low latency
+		
+	Storing & Retrieving Data
+		Cassandra Query Language (CQL) operations including, INSERT, UPDATE, DELETE, and SELECT, and tools for bulk loading and unloading
+
+
+Developer side
+
+	Data Modeling
+		Conceptual, logical and physical data models, plus schema definition including keyspaces, tables, columns, partitions, clustering columns, user defined types, collections, secondary indexes, and materialized views
+		
+Administrator side
+
+	Cassandra Installation And Configuration
+		
+		Installing Cassandra tarball, YAML configuration file options including vnodes, seeds, gossip, snitches, JVM Tuning, and security (authentication, authorization, and encryption),
+
+		Adding & removing nodes, replacing nodes, multi-datacenter concepts, multicloud and hybrid cloud deployments, understanding Cassandra’s write and read paths and associated metrics, running maintenance actions including compaction, repair, rebuild, backup and restore
+		

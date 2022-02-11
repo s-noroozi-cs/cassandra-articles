@@ -1,0 +1,97 @@
+Overvew
+	Edureka’s Apache Cassandra Certification Training is designed by professionals as per the industry requirements and demands. This Cassandra Certification Training helps you to master the concepts of Apache Cassandra including Cassandra Architecture, its features, Cassandra Data Model, and its Administration. Throughout the Cassandra course, you will learn to install, configure, and monitor Cassandra, along with its integration with other Apache frameworks like Hadoop, Spark, and Kafka.
+	
+	
+1. Introduction to Big Data, and Cassandra
+	Goal: 
+		In this module you will get a brief introduction of Big Data and how it creates problems for traditional Database Management Systems like RDBMS. You will also learn how Cassandra solves these problems and understand Cassandra’s features.
+
+	Skills:
+		Basic concepts of Cassandra
+
+	Objectives:
+		At the end of this module, you will be able to
+		Explain what is Big Data
+		List the Limitations of RDBMS 
+		Define NoSQL and it’s Characteristics
+		Define CAP Theorem
+		Learn Cassandra 
+		List the Features of Cassandra
+		Get a Tour of Edureka’s VM
+	 
+	Topics:
+		Introduction to Big Data and Problems caused by it
+		5V – Volume, Variety, Velocity, Veracity and Value
+		Traditional Database Management System
+		Limitations of RDMS 
+		NOSQL databases
+		Common characteristics of NoSQL databases
+		CAP theorem
+		How Cassandra solves the Limitations?
+		History of Cassandra
+		Features of Cassandra
+		
+2. Cassandra Data Model
+	Goal: 
+		In this module, you will learn about Database Model and similarities between RDBMS and Cassandra Data Model. You will also understand the key Database Elements of Cassandra and learn about the concept of Primary Key.
+	
+	Skills: 
+		Data Modelling in Cassandra
+		Data Structure Design
+		
+	Objectives:
+		At the end of this module, you will be able to
+		Explain what is Database Modelling and it’s Features
+		Describe the Different Types of Data Models
+		List the Difference between RDBMS and Cassandra Data Model
+		Define Cassandra Data Model
+		Explain Cassandra Database Elements
+		Implement Keyspace Creation, Updating and Deletion
+		Implement Table Creation, Updating and Deletion
+	
+	Topics: 
+		Introduction to Database Model
+		Understand the analogy between RDBMS and Cassandra Data Model
+		Understand following Database Elements: Cluster, Keyspace, Column Family/Table, Column
+		Column Family Options 
+		Columns 
+		Wide Rows, Skinny Rows 
+		Static and dynamic tables
+		
+3. Cassandra Architecture
+	Goal: 
+		Gain knowledge of architecting and creating Cassandra Database Systems. In addition, learn about the complex inner workings of Cassandra such as Gossip Protocol, Read Repairs and so on.
+		
+	Skills: 
+		Cassandra Architecture
+		
+	Objectives: At the end of this module, you will be able to:
+		Explain the Architecture of Cassandra
+		Describe the Different Layers of Cassandra Architecture
+		Learn about Gossip Protocol
+		Describe Partitioning and Snitches
+		Explain Vnodes and How Read and Write Path works
+		Understand Compaction, Anti-Entropy and Tombstone
+		Describe Repairs in Cassandra
+		Explain Hinted Handoff
+
+	Topics: 
+		Cassandra as a Distributed Database
+		Key Cassandra Elements
+			a. Memtable
+			b. Commit log
+			c. SSTables
+		Replication Factor
+		Data Replication in Cassandra
+		Gossip protocol – Detecting failures
+		Gossip: Uses
+		Snitch: Uses
+		Data Distribution
+		Staged Event-Driven Architecture (SEDA) 
+		Managers and Services 
+		Virtual Nodes: Write path and Read path
+		Consistency level
+		Repair
+		Incremental repair
+		
+4. Deep Dive into Cassandra Database
