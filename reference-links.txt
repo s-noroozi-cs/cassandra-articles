@@ -1,0 +1,4 @@
+======================== chapter 01 ========================
+
+https://www.edureka.co/blog/big-data-tutorial
+https://www.tutorialspoint.com/cassandra/cassandra_architecture.htm
