@@ -1,4 +1,5 @@
 ======================== chapter 01 ========================
 
 https://www.edureka.co/blog/big-data-tutorial
-https://www.tutorialspoint.com/cassandra/cassandra_architecture.htm
+https://www.loginradius.com/blog/async/relational-database-management-system-rdbms-vs-nosql/
+https://pandorafms.com/blog/nosql-vs-sql-key-differences/
