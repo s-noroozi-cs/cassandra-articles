@@ -103,3 +103,55 @@ NoSQL vs SQL: When should we use which type of database?
 	4. For analyzing large quantities of data in read mode only. NoSQL.
 	5. Event capture and processing. NoSQL
 	6. Online stores with complex intelligence engines. NoSQL
+
+RDBMS
+	Relational Databases strictly comply with ACID guarantees and hence are a good choice for transactional data. 
+	Relational Databases are mainly based on a single node design. 
+	That said, lately, most of the popular ones have been adding cluster support through the use of Sharding. 
+	But none of them are as elegant as their multi-node NoSQL counterparts since partition tolerance is built into their foundation. 
+	Sharding leads to increased costs and requires close management.
+	
+	It is safe to say that most Relational Databases prioritize consistency and availability over partition tolerance. 
+	This means Relational Databases are not very good at handling a large amount of data since the data they have to be stored in a single system or need constant babysitting because of their limitations when it comes to multi-node operation.
+	
+NoSQL
+	NoSQL Databases are great at storing semi-structured or non-structured data since they don’t enforce a concrete schema for tables. 
+	This means data attributes can be added on the fly without changing the structure of the entire table or adding redundant elements to the rest of the rows. Since there is no particular structure enforced by the database, they are also not very good at join queries. 
+	NoSQL Databases recommend data to be stored in a format in which it will be frequently accessed. 
+	This helps in defining the database very close to the UI layer or where the data will be actually used or reported.
+	
+	NoSQL Databases are great at scaling horizontally and partition tolerance is built into their foundation. 
+	NoSQL Databases do well in scenarios where sub-second response time for high data volume is required. 
+	NoSQL Databases achieve this by compromising consistency and referential integrity. 
+	Most NoSQL Databases support only eventual consistency and are hence not a great choice for transactional operations. 
+	Lately, databases like MongoDB have found some success in breaking this barrier. Here is the article on MongoDB vs MySQL.
+	Article Link: https://hevodata.com/learn/mongodb-vs-mysql-7-critical-differences/
+	
+	NoSQL is an umbrella term to describe a whole set of databases that do not conform to the structured data format. It consists of the following:
+
+		1. Document Databases
+			Document Databases store data as objects in JSON form.
+		2. Key-Value-Based Databases 
+			Key-Value-based Databases store data as a collection of key-value pairs.
+		3. Column-Oriented Databases
+			Column-Oriented Databases store data as a collection of columns and perform great when specific columns are accessed.
+		4. Graph Databases
+			Graph Databases store data as nodes and relationships. 
+			They help users to express complex relationships that exist between data elements and query them using specialized Graph Query Languages.
+			
+Factors that Drive the Relational Database Vs NoSQL Decision
+	1. Schema Flexibility
+		* The biggest advantage offered by NoSQL Databases is the flexibility of schema.
+		* So the very question that you should ask yourself is whether your use case can take advantage of this schema flexibility.
+		* IoT platform that stores data from different kinds of sensors --> NoSQL
+		* Simple web application with all the user attributes known upfront --> RDBMS
+	
+	2. Workload Volume
+		* Due to the distributed storage and processng NoSQL most of the time sbetter choice to large volume of data
+		* Another critical factor is minimum hardware level to perform acceptably. NoSQL can be run and operate in commodity (inexpensive) hardware
+	
+	3. 
+		
+
+		
+	

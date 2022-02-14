@@ -3,3 +3,4 @@
 https://www.edureka.co/blog/big-data-tutorial
 https://www.loginradius.com/blog/async/relational-database-management-system-rdbms-vs-nosql/
 https://pandorafms.com/blog/nosql-vs-sql-key-differences/
+https://hevodata.com/learn/relational-database-vs-nosql/
