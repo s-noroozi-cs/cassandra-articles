@@ -150,8 +150,43 @@ Factors that Drive the Relational Database Vs NoSQL Decision
 		* Due to the distributed storage and processng NoSQL most of the time sbetter choice to large volume of data
 		* Another critical factor is minimum hardware level to perform acceptably. NoSQL can be run and operate in commodity (inexpensive) hardware
 	
-	3. 
-		
+	3. Data Consistency
+		Relational Databases are great at enforcing consistency. 
+		NoSQL Databases mostly go by eventual consistency when it comes to writes. 
+		This means, there is a chance that your application will read old data till the time writes are propagated to all the nodes. 
+		If your application cannot afford such scenarios, you should use a classic Relational Database. 
+		This limitation of NoSQL Databases makes them a non-starter for transactional loads.
+	
+	4. Write Performance Requirements
+		NoSQL Databases compromise consistency to achieve fast write performance. 
+		SQL databases offer to write safely with consistency but at the expense of a bit of speed. 
+		Eventual consistency may be a strict nonstarter in some use cases but may be acceptable in others.
 
+		A good answer to the question ‘Can we afford to let go of strict consistency for faster writes ?’ 
+			can help you arrive at the RDBMS vs NoSQL decision quickly.
+	
+	5. Read Requirements
+		RDBMS possesses a great ability to query data and execute complex joins. 
+		NoSQL Databases perform best when data is stored in the same form in which they are to be consumed. 
+
+		For example, let’s say you are creating a reporting solution. 
+		You can choose to implement it by storing data for specific reports in different tables and access it through a simple select statement, 
+		in this case, you are better off with a NoSQL Database. 
+		The other choice is to store the base data in a small number of related tables and execute various queries 
+		and aggregate them to form different reports and this use case points to using a Relational Database
+	
+	6. Infrastructure Constraints
+		NoSQL Databases are well known for their ability to run using cheap general-purpose hardware and scale horizontally. 
+		Since the cost of a high-end special-purpose instance is more than multiple cheap general-purpose instances, 
+		there is the possibility of cost advantage in case you use a NoSQL Database. 
+		This becomes valid only when your data volume is significant enough for a distributed database to make sense. 
+		For handling TBs of data, Relational Databases often require high-end special-purpose hardware.
 		
+Common characteristics of NoSQL databases
+	* They have higher scalability.
+	* They use distributed computing.
+	* They are cost effective.
+	* They support flexible schema.
+	* They can process both unstructured and semi-structured data.
+	* There are no complex relationships, such as the ones between tables in an RDBMS.
 	
