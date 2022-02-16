@@ -5,3 +5,5 @@ https://www.loginradius.com/blog/async/relational-database-management-system-rdb
 https://pandorafms.com/blog/nosql-vs-sql-key-differences/
 https://hevodata.com/learn/relational-database-vs-nosql/
 https://docs.rackspace.com/support/how-to/properties-of-rdbmss-and-nosql-databases/
+https://en.wikipedia.org/wiki/CAP_theorem#:~:text=In%20theoretical%20computer%20science%2C%20the,Availability
+https://towardsdatascience.com/when-to-use-cassandra-and-when-to-steer-clear-72b7f2cede76
