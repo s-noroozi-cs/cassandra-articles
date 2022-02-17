@@ -10,3 +10,7 @@ https://towardsdatascience.com/when-to-use-cassandra-and-when-to-steer-clear-72b
 https://www.edureka.co/blog/apache-cassandra-advantages/
 https://blog.pythian.com/cassandra-use-cases/
 https://blog.knoldus.com/is-apache-cassandra-really-the-database-you-need/
+https://www.javatpoint.com/use-cases-of-cassandra
+https://www.datastax.com/resources/infographic/apache-cassandratm-version-history
+https://cdn.cupinteractive.com/assets/zdnet/downloads/The_History_of_Apache_Cassandra.pdf
+

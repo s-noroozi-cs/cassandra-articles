@@ -382,3 +382,13 @@ Cassandra won't be an optimal choice in the following cases:
 	- Do Not Use if you are application has more read requests than writes.
 	- Do Not Use if you require strong Consistency.
 
+History of Cassandra
+	Cassandra was initially developed at Facebook by two Indians Avinash Lakshman (one of the authors of Amazon's Dynamo) and Prashant Malik. 
+	It was developed to power the Facebook inbox search feature. The following points specify the most important happenings in Cassandra history:
+
+	- Cassandra was developed at Facebook by Avinash Lakshman and Prashant Malik.
+	- It was developed for Facebook inbox search feature.
+	- It was open sourced by Facebook in July 2008.
+	- It was accepted by Apache Incubator in March 2009.
+	- Cassandra is a top level project of Apache since February 2010.
+	- The latest version of Apache Cassandra is 3.11 (8 February 2022)
