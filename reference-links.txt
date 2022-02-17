@@ -7,3 +7,6 @@ https://hevodata.com/learn/relational-database-vs-nosql/
 https://docs.rackspace.com/support/how-to/properties-of-rdbmss-and-nosql-databases/
 https://en.wikipedia.org/wiki/CAP_theorem#:~:text=In%20theoretical%20computer%20science%2C%20the,Availability
 https://towardsdatascience.com/when-to-use-cassandra-and-when-to-steer-clear-72b7f2cede76
+https://www.edureka.co/blog/apache-cassandra-advantages/
+https://blog.pythian.com/cassandra-use-cases/
+https://blog.knoldus.com/is-apache-cassandra-really-the-database-you-need/

@@ -292,6 +292,12 @@ When it’s a ‘yes’
 		If you don’t, Cassandra will have to scan all nodes to find what you need, which will take a while. 
 		And if the latency threshold is exceeded, the scan will not be completed at all.
 		
+	Aggregates
+		Cassandra does not support aggregates, if you need to do a lot of them, think another database.
+	
+	Joins
+		You many be able to data model yourself out of this one, but take care.
+		
 Real use cases when it’s a ‘sure’
 	Sensor data
 		The way Cassandra’s data model is organized and the fact that Cassandra is designed for intensive write workloads 
@@ -322,4 +328,57 @@ Real use cases when it’s a ‘sure’
 		for their clients by enabling fraud detection. Cassandra does it splendidly, given its great speeds and 
 		support for real-time analytics through a seamless integration with Apache Spark.
 		
+	Transaction logging
+		Purchases, test scores, movies watched and movie latest location.
 	
+	Storing time series data 
+		as long as you do your own aggregates.
+		
+	Tracking 
+		Tracking pretty much anything including order status, packages etc.
+
+Cassandra Advantages
+	1. Open Source: 
+		open-source project means it is available for FREE!
+	
+	2. Peer to Peer Architecture
+		Cassandra follows a peer-to-peer architecture, instead of master-slave architecture. 
+		Hence, there is no single point of failure in Cassandra. 
+		Moreover, any number of servers/nodes can be added to any Cassandra cluster in any of the datacenters. 
+		As all the machines are at equal level, any server can entertain request from any client. 
+		Undoubtedly, with its robust architecture and exceptional characteristics, 
+		Cassandra has raised the bar far above than other databases.
+		
+	3. Elastic Scalability
+		Cassandra cluster can be easily scaled-up or scaled-down. 
+		Interestingly, any number of nodes can be added or deleted in Cassandra cluster without much disturbance. 
+		You don’t have to restart the cluster or change queries related Cassandra application while scaling up or down. 
+		This is why Cassandra is popular of having a very high throughput for the highest number of nodes. 
+		As scaling happens, read and write throughput both increase simultaneously with zero downtime or any pause to the applications.
+		
+	4. High Availability and Fault Tolerance
+		Another striking feature of Cassandra is Data replication which makes Cassandra highly available and fault-tolerant. 
+		Replication means each data is stored at more than one location. 
+		This is because, even if one node fails, the user should be able to retrieve the data with ease from another location. 
+		In a Cassandra cluster, each row is replicated based on the row key. 
+		You can set the number of replicas you want to create. Just like scaling, data replication can also happen across multiple data centres. 
+		This further leads to high level back-up and recovery competencies in Cassandra.
+		
+	5. Tunable Consistency
+		Characteristics like Tunable Consistency, makes Cassandra an incomparable database. 
+		In Cassandra, Consistency can be of two types – Eventual consistency and Strong consistency. 
+		You can adopt any of these, based on your requirements. 
+		Eventual consistency makes sure that the client is approved as soon as the cluster accepts the write. Whereas, 
+		Strong consistency means that any update is broadcasted to all machines or all the nodes where the particular data is situated. 
+		You also have the freedom to blend both eventual and strong consistency. 
+		For instance, you can go for eventual consistency in case of remote data centers where latency is quite high and 
+		go for Strong consistency for local data centers where latency is low.
+		
+Cassandra won't be an optimal choice in the following cases:
+	- Do Not Use if you are not storing volumes of data across racks of clusters.
+	- Do Not Use if you have a strong requirement for ACID properties.
+	- Do Not Use if you want to use aggregate function.
+	- Do Not Use if you are not partitioning your servers.
+	- Do Not Use if you are application has more read requests than writes.
+	- Do Not Use if you require strong Consistency.
+
