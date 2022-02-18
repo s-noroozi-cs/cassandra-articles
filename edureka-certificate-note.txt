@@ -1,10 +1,14 @@
 Overvew
-	Edureka’s Apache Cassandra Certification Training is designed by professionals as per the industry requirements and demands. This Cassandra Certification Training helps you to master the concepts of Apache Cassandra including Cassandra Architecture, its features, Cassandra Data Model, and its Administration. Throughout the Cassandra course, you will learn to install, configure, and monitor Cassandra, along with its integration with other Apache frameworks like Hadoop, Spark, and Kafka.
+	Edureka’s Apache Cassandra Certification Training is designed by professionals as per the industry requirements and demands. 
+	This Cassandra Certification Training helps you to master the concepts of Apache Cassandra including Cassandra Architecture, its features, 
+	Cassandra Data Model, and its Administration. Throughout the Cassandra course, you will learn to install, configure, and monitor Cassandra, 
+	along with its integration with other Apache frameworks like Hadoop, Spark, and Kafka.
 	
 	
 1. Introduction to Big Data, and Cassandra
 	Goal: 
-		In this module you will get a brief introduction of Big Data and how it creates problems for traditional Database Management Systems like RDBMS. You will also learn how Cassandra solves these problems and understand Cassandra’s features.
+		In this module you will get a brief introduction of Big Data and how it creates problems for traditional Database Management Systems like RDBMS. 
+		You will also learn how Cassandra solves these problems and understand Cassandra’s features.
 
 	Skills:
 		Basic concepts of Cassandra
@@ -33,7 +37,8 @@ Overvew
 		
 2. Cassandra Data Model
 	Goal: 
-		In this module, you will learn about Database Model and similarities between RDBMS and Cassandra Data Model. You will also understand the key Database Elements of Cassandra and learn about the concept of Primary Key.
+		In this module, you will learn about Database Model and similarities between RDBMS and Cassandra Data Model. 
+		You will also understand the key Database Elements of Cassandra and learn about the concept of Primary Key.
 	
 	Skills: 
 		Data Modelling in Cassandra
@@ -60,7 +65,8 @@ Overvew
 		
 3. Cassandra Architecture
 	Goal: 
-		Gain knowledge of architecting and creating Cassandra Database Systems. In addition, learn about the complex inner workings of Cassandra such as Gossip Protocol, Read Repairs and so on.
+		Gain knowledge of architecting and creating Cassandra Database Systems. In addition, learn about the complex inner workings of Cassandra 
+		such as Gossip Protocol, Read Repairs and so on.
 		
 	Skills: 
 		Cassandra Architecture
@@ -96,7 +102,8 @@ Overvew
 		
 4. Deep Dive into Cassandra Database
 	Goal: 
-		In this module you will learn about Keyspace and its attributes in Cassandra. You will also create Keyspace, learn how to create a Table and perform operations like Inserting, Updating and Deleting data from a table while using CQLSH.
+		In this module you will learn about Keyspace and its attributes in Cassandra. You will also create Keyspace, 
+		learn how to create a Table and perform operations like Inserting, Updating and Deleting data from a table while using CQLSH.
 	
 	Skills: 
 		Database Operations
@@ -126,7 +133,9 @@ Overvew
 		
 5. Node Operations in a Cluster
 	Goal: 
-		Learn how to add nodes in Cassandra and configure Nodes using “cassandra.yaml” file. Use Nodetool to remove node and restore node back into the service. In addition, by using Nodetool repair command learn the importance of repair and how repair operation functions.
+		Learn how to add nodes in Cassandra and configure Nodes using “cassandra.yaml” file. 
+		Use Nodetool to remove node and restore node back into the service. 
+		In addition, by using Nodetool repair command learn the importance of repair and how repair operation functions.
 	
 	Skills: 
 		Node Operations
@@ -156,7 +165,9 @@ Overvew
 
 6. Managing and Monitoring the Cluster
 	Goal: 
-		The key aspects to monitoring Cassandra are resources used by each node, response latencies to requests, requests to offline nodes, and the compaction process. Learn to use various monitoring tools in Cassandra such as Nodetool and JConsole in this module.
+		The key aspects to monitoring Cassandra are resources used by each node, response latencies to requests, 
+		requests to offline nodes, and the compaction process. 
+		Learn to use various monitoring tools in Cassandra such as Nodetool and JConsole in this module.
 		
 	Skills: 
 		Clustering
@@ -178,7 +189,9 @@ Overvew
 		
 7. Backup & Restore and Performance Tuning
 	Goal: 
-		In this Module you will learn about the importance of Backup and Restore functions in Cassandra and Create Snapshots in Cassandra. You will learn about Hardware selection and Performance Tuning (Configuring Log Files) in Cassandra. You will also learn about Cassandra integration with various other frameworks.
+		In this Module you will learn about the importance of Backup and Restore functions in Cassandra and Create Snapshots in Cassandra. 
+		You will learn about Hardware selection and Performance Tuning (Configuring Log Files) in Cassandra. 
+		You will also learn about Cassandra integration with various other frameworks.
 
 	Skills: 
 		Performance tuning
@@ -209,7 +222,8 @@ Overvew
 		
 8. Hosting Cassandra Database on Cloud
 	Goal: 
-		In this Module you will learn about Design, Implementation, and on-going support of Cassandra Operational Data. Finally, you will learn how to Host a Cassandra Database on Cloud.
+		In this Module you will learn about Design, Implementation, and on-going support of Cassandra Operational Data. 
+		Finally, you will learn how to Host a Cassandra Database on Cloud.
 
 	Skills:
 		Security
