@@ -2,6 +2,9 @@ What is a Database Model?
 	A database model shows the logical structure of a database, including the relationships and constraints 
 	that determine how data can be stored and accessed. Individual database models are designed based on the rules and concepts 
 	of whichever broader data model the designers adopt. Most data models can be represented by an accompanying database diagram.
+	In another words: 
+	A Database model defines the logical design and structure of a database and defines 
+	how data will be stored, accessed and updated in a database management system. 
 	
 Types of database models
 	Some of the most common ones include:
@@ -82,4 +85,34 @@ Types of database models
 		- The multivalue model, which breaks from the relational model by allowing attributes to contain a list of data rather than a single data point.
 		- The document model, which is designed for storing and managing documents or semi-structured data, rather than atomic data.
 		
-	
+Understand the analogy between RDBMS and Cassandra Data Model
+
+	CASSANDRA
+		- high performance and highly scalable distributed NoSQL DBMS
+		- unstructured data
+		- flexible schema
+		- master-slave core architecture means no single point of failure
+		- handles high volume incoming data velocity
+		- there are various data source means data come from one/few location
+		- it supports simple transactions
+		- the outermost container is Keyspace
+		- it follows decentralized deployments
+		- data written in many locations
+		- row represents a unit of replication
+		- column represents a unit of storage
+		- relationships are represented using collections
+		
+	RDBMS
+		- designed for relational databases
+		- It deals with structured data
+		- It has fixed schema
+		- it has master-slave core architecture means single point of failure
+		- it handles moderate incoming data velocity
+		- there is limited data source means data come from many locations
+		- It supports complex and nested transactions
+		- the outermost container is database
+		- it follows centralized deployments
+		- mainly data written in one location
+		- row represents a single record
+		- column represents an attribute
+		- relationships are represented using keys and joins etc
