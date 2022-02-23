@@ -19,3 +19,9 @@ https://cdn.cupinteractive.com/assets/zdnet/downloads/The_History_of_Apache_Cass
 https://www.lucidchart.com/pages/database-diagram/database-models
 https://www.studytonight.com/dbms/database-model.php
 https://www.geeksforgeeks.org/difference-between-cassandra-and-rdbms/
+https://data-flair.training/blogs/cassandra-cluster/
+
+======================== chapter 03 ========================
+https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
+https://www.baeldung.com/cassandra-cluster-datacenters-racks-nodes
+https://www.instaclustr.com/blog/cassandra-architecture/

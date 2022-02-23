@@ -116,3 +116,39 @@ Understand the analogy between RDBMS and Cassandra Data Model
 		- row represents a single record
 		- column represents an attribute
 		- relationships are represented using keys and joins etc
+		
+What is Cluster?
+	The cluster is a collection of nodes that represents a single system. 
+	A Cluster is basically the outermost shell or storage unit in a database. 
+	The Cassandra Cluster contains many different layers of storage units. 
+	Each layer contains the other.
+	
+	Node Cluster
+		This layer basically comprises of systems or computers or storage units. 
+		They collectively share data through the replication in Cassandra and independently as well. 
+		The replication factor in the nodes allows the user to have a redundancy for the data stored.
+		
+	Keyspace
+		In a node, there are many keyspaces. 
+		These keyspaces are basically the outermost storage unit in a system. 
+		They contain the main data. 
+		The data distributed according to their properties or areas.
+		
+	Column Families/Tables
+		The keyspace is further divided into column families. 
+		These column families have different areas or headings under which the data is distributed. 
+		In a keyspace, these column families are categorized into different headings or titles.
+		These titles further contain different layers of storage units. 
+		These column families can also be characterized by tables. 
+		The column families differ from the tables through their APIs.
+		
+	Rows
+		The Rows are basically the classification under which the column family is divided. 
+		These classifications, in turn, create specific distribution criteria for the entries.
+		
+	Column
+		This is the innermost layer in a database. 
+		The column basically is divided into different titles or headings. 
+		These headings contain the main data regarding the specific entry.
+		
+	
