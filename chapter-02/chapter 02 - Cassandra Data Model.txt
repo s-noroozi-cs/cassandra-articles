@@ -151,4 +151,122 @@ What is Cluster?
 		The column basically is divided into different titles or headings. 
 		These headings contain the main data regarding the specific entry.
 		
+Column Family
+	A Column family is similar to a table in RDBMS or Relational Database Management System and is a logical division that associates similar data. 
+	Basically, in similar data you tend to store some kind of data that are of similar subjects.
+	For example, an order data is stored in a single column family so you can have an order ID as a row key 
+	as well as various columns like the kind of product was brought as a part of that order to be stored in the particular order family. 
+	
+	Types of Columns
+		Column Family is nothing but a table which is analogous to a table in an RDBMS world. 
+		There are certain types to it, namely;
+
+			Static column Family 
+				Static Column family is where the names and data types are defined. 
+				So when the column family is created, the option to name the column name and data types is available. 
+				It’s called static because the columns remain static and the number of columns available will be known.
+
+			Dynamic Column Family 
+				A dynamic column family on the other hand doesn’t define the column names up front and Cassandra’s ability 
+				to use arbitrary application and column names to store data is available. 
+				So dynamic helps in a way because in an unstructured data, most of the times, 
+				dynamic column family helps in taking care of new fields that might have been added later.
+				
+			If you have a static column family and you want to add a dynamic column family in your code while loading the data, 
+			it can be added to a static column family anytime. 
+			Cassandra gives the freedom to choose column names.
+	
+	Difference With RDBMS
+		Cassandra column family is schema free and is much scalable. 
+		Cassandra column family has two attributes – Name and Comparator. 
+		So when you have a Cassandra column family, giving it a name becomes mandatory and Comparator is basically a data type for column names. 
+		If you don’t specify the comparator, it will assume it to be some default comparator.
+		
+		Cassandra also has a column of super column families. 
+		It will use a super column internally. It is a logical grouping and another level of grouping of columns. 
+		So in a user column family, you can have two super columns where we can have users’ personal information and product information.
+		
+Columns
+	A column is the smallest increment of data in Cassandra. It has 3 components:
+		1. Name
+		2. Value
+		3. Time stamp
+			Used in conflict resolution and  the time stamp cannot be edited. 
+			It’s an internal mechanism to see when this data or column was updated.
+		4. Expiring columns
+			An expiry date can be given to a column in order to know that the column will be expiring.
+		5. Counter columns
+			Counter columns is nothing but to maintain the columns so you can increment and decrement those counter columns.
+			
+Super Columns
+	Super Columns is grouping of all the columns altogether depending on a business need and logical grouping. 
+	It adds another level of nesting to the regular column family structure. They comprise a super column family structure.
+	
+	The primary case for super columns is to denormalize multiple rows from other column families in to 
+	a single row allowing for materialized view data retrieval.
+	
+	Limitations of Super Columns
+		One limitation is that all sub-columns of a super column family must be de-serialized to read a single sub-column family. 
+		Another limitation is that we cannot create secondary indexes on the sub-columns of  a super column.
+		
+	The data type for a column value is called a validator. 
+	And comparator is the data type for a column. 
+	The name and address become a column name. 
+	So you can have a date  in case of column names. 
+	You can also have a time series data by having the date as a column name.
+	
+Rows
+	Wide rows
+		There can be wide rows and several rows. There can be millions of columns and rows available.
+	Skinny rows 
+		Skinny rows have small number of columns having the option of having only limited rows.
+
+Composite key
+	It consists of one or more primary key fields. 
+	Suppose the name of a city is set as a row key, there maybe a city named in two different states, 
+	so you will have to mention which city and which state. 
+	This simply means the key has to be stated. 
+	Instead of having a simple column key of one type, 
+	you can aggregate several values also called components of several types to form one unique column key.
+	
+Cassandra Data Model
+	
+	- Data in Cassandra is stored as a set of rows that are organized into tables.
+    - Tables are also called column families.
+    - Each Row is identified by a primary key value.
+    - Data is partitioned by the primary key.
+    - You can get the entire data or some data based on the primary key.
+	
+Cassandra Data Model Components
+	
+	Keyspaces
+		Cassandra data model consists of keyspaces at the highest level. 
+		Keyspaces are the containers of data, similar to the schema or database in a relational database. 
+		Typically, keyspaces contain many tables.
+		
+		- A keyspace needs to be defined before creating tables, as there is no default keyspace.
+		- A keyspace can contain any number of tables, and a table belongs only to one keyspace. This represents a one-to-many relationship.
+		- Replication is specified at the keyspace level. 
+			For example, replication of three implies that each data row in the keyspace will have three copies.
+		- Further, you need to specify the replication factor during the creation of keyspace. 
+			However, the replication factor can be modified later.
+		
+	Tables
+		Within the keyspaces, the tables are defined. Tables are also referred to as Column Families in the earlier versions of Cassandra. 
+		Tables contain a set of columns and a primary key, and they store data in a set of rows.
+		
+		A table contains data in the horizontal and vertical formats, 
+		referred to as rows and columns respectively. Some of the features of tables are:
+		
+			- Tables have multiple rows and columns. As mentioned earlier, a table is also called Column Family in the earlier versions of Cassandra.
+			- It is still referred to as column family in some of the error messages and documents of Cassandra.
+			- It is important to define a primary key for a table.
+			
+			
+	
+	Columns
+		Columns define the structure of data in a table. 
+		Each column has an associated type, such as integer, text, double, and Boolean. 
+		These Cassandra data model components will be discussed in detail in this lesson.
+		
 	

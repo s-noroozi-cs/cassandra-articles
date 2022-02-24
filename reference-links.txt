@@ -20,6 +20,8 @@ https://www.lucidchart.com/pages/database-diagram/database-models
 https://www.studytonight.com/dbms/database-model.php
 https://www.geeksforgeeks.org/difference-between-cassandra-and-rdbms/
 https://data-flair.training/blogs/cassandra-cluster/
+https://www.edureka.co/blog/introduction-to-cassandra-column-family/
+https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-data-model
 
 ======================== chapter 03 ========================
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
