@@ -261,12 +261,82 @@ Cassandra Data Model Components
 			- Tables have multiple rows and columns. As mentioned earlier, a table is also called Column Family in the earlier versions of Cassandra.
 			- It is still referred to as column family in some of the error messages and documents of Cassandra.
 			- It is important to define a primary key for a table.
-			
-			
 	
 	Columns
 		Columns define the structure of data in a table. 
 		Each column has an associated type, such as integer, text, double, and Boolean. 
 		These Cassandra data model components will be discussed in detail in this lesson.
-		
+		Column represents a single piece of data in Cassandra and has a type defined.
+		Some of its features are:
+			- Columns consist of various types, such as integer, big integer, text, float, double, and Boolean.
+			- Cassandra also provides collection types such as set, list, and map.
+			- Further, column values have an associated time stamp representing the time of update.
+			- This timestamp can be retrieved using the function writetime.		
 	
+		UUID and TimeUUID
+			There are two special column types for sequence numbers and timestamps called UUID and TimeUUID.
+			
+			Universal Unique Identity or UUID
+				This is similar to the sequence numbers in relational databases. It is a 128-bit integer.
+				The given example for this column is represented as hexadecimal digits with hyphens in between:
+				Sample UUID is – 01234567-0123-0123-0123-0123456789ab.
+				
+			TimeUUID
+				It contains a timestamp and guarantees no duplication. 
+				TimeUUID uses time in 100 nanosecond intervals. 
+				You can use the function now() to get the TimeUUID.
+				Sample TimeUUID is – D2177dd0-eaa2-11de-a572-001b779c76e3.
+		
+		Counter
+			Counter is a special column which stores a number that is incremented. 
+			It can be used to count the occurrences of an event or a process. 
+			Some of the features of the counter are:
+				- You can only update the value by adding or subtracting from the current value.
+				- Before the first update, a counter will have an initial value of zero.
+				- The update using the current value is allowed only for the counter columns in Cassandra.
+
+		Compound Keys
+			The primary key in Cassandra can be a compound key, which refers to a key consisting of multiple columns. 
+			For example, a multi-year stock market data has the primary key (tradeDate, ticker), where:
+				- tradeDate is the date of the stock trade and
+				- ticker is the stock symbol.
+
+			When compound keys are specified, the first key is considered for partitioning of data and is called the partition key. 
+			The data in each partition is clustered and ordered by the remaining keys.
+
+			Further, if you want to partition the data by multiple columns, 
+			group the data as first part of the primary key, as shown in the following two instances:
+
+				1. Primary key ((key1), key2, key3, key4)
+
+					Here the data is partitioned by key1 and clustered by key2, key3, key4
+
+				2. Primary key ((key1, key2), key3, key4)
+
+					Here the data is partitioned by key1, key2 and clustered by key3, key4
+
+				Note that you can also specify the order for the cluster keys.
+
+				In databases, clustering refers to the grouping of data together. 
+				Suppose the data is clustered by key3, key4, the rows with the key3 values are stored together on physical storage, 
+				so that the queries such as key3 = 100 can be fetched quickly.
+				
+		Indexes
+			Indexes can be used to speed up queries. Index column can be used to search for data rows. 
+			Cassandra allows only one column in an index. You can create multiple indexes on the same table.
+
+		Collection Columns
+			Collection columns are used to represent a group of data in a single column. 
+			Cassandra provides three types of collection columns, such as set, list, and map.
+			
+			Set
+				It refers to an unordered group of values. Set values are enclosed within curly brackets, also called braces.
+				For example, { ‘XYZ’, ‘ABC’,’PQR’ }
+
+			List
+				It is an ordered group of values, like an array. List values are enclosed within square brackets.
+				For example, [ ‘2011’, ‘2012’, ‘2013’ ]
+	
+			Map
+				It is a set of key-value pairs. Map values are also enclosed within braces.
+				For example, { ‘key1’: ‘value1’, ‘key2’: ‘value2’}
