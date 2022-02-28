@@ -33,3 +33,10 @@ https://is.muni.cz/el/fi/podzim2019/PA195/um/
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
 https://www.baeldung.com/cassandra-cluster-datacenters-racks-nodes
 https://www.instaclustr.com/blog/cassandra-architecture/
+
+
+======================== Success Stories / Use Cases ========================
+---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
+---https://www.datastax.com/blog/success-stories
+---https://cassandra.apache.org/_/case-studies.html
+---https://www.datastax.com/blog/exploring-common-apache-cassandra-use-cases
