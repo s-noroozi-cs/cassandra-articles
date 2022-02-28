@@ -1,0 +1,16 @@
+eBay
+	We’ve been trying out Cassandra for more than a year(2010-2011). 
+	Cassandra is now serving a handful of use cases ranging from write-heavy logging and tracking, to mixed workload. 
+	One of them serves our “Social Signal” project, which enables like/own/want features on eBay product pages. 
+	A few use cases have reached production, while more are in development.
+
+	Our Cassandra deployment is not huge, but it’s growing at a healthy pace. 
+	In the past couple of months, we’ve deployed dozens of nodes across several small clusters spanning multiple data centers. 
+	You may ask, why multiple clusters? 
+		We isolate clusters by functional area and criticality. 
+		Use cases with similar criticality from the same functional area share the same cluster, 
+		but reside in different keyspaces.
+
+	RedLaser, Hunch, and other eBay adjacencies are also trying out Cassandra for various purposes. 
+	In addition to Cassandra, we also utilize MongoDB and HBase. 
+	I won’t discuss these now, but suffice it to say we believe each has its own merit.

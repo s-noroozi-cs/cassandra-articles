@@ -340,3 +340,46 @@ Cassandra Data Model Components
 			Map
 				It is a set of key-value pairs. Map values are also enclosed within braces.
 				For example, { ‘key1’: ‘value1’, ‘key2’: ‘value2’}
+				
+Understand the Cassandra data model
+	
+	The Cassandra data model defines
+		- Column family as a way to store and organize data
+		- Table as a two-dimensional view of a multi-dimensional column family
+		- Operations on tables using the Cassandra Query Language (CQL)
+		
+	Row (Partition)
+		Row is the smallest unit that stores related data in Cassandra 
+			- Rows: individual rows constitute a column family
+			- Row key: uniquely identifies a row in a column family
+			- Row: stores pairs of column keys and column values
+			- Column key: uniquely identifies a column value in a row
+			- Column value: stores one value or a collection of values
+			
+		Rows may be described as skinny or wide
+			- Skinny row: has a fixed, relatively small number of column keys
+			- Wide row: has a relatively large number of column keys (hundreds or thousands); this number may increase as new data values are inserted
+			
+	Key (Partition Key)
+		- Composite row key: multiple components separated by colon 
+		- Composite column key: multiple components separated by colon
+		- Column family (Table): set of rows with a similar structure
+		- Table with single-row partitions
+		- Table with multi-row partitions
+
+Types of Columns
+
+	Column Family is nothing but a table which is analogous to a table in an RDBMS world. There are certain types to it, namely;
+
+		- Static column Family
+			Static Column family is where the names and data types are defined. 
+			So when the column family is created, the option to name the column name and data types is available. 
+			It’s called static because the columns remain static and the number of columns available will be known.
+
+		- Dynamic Column Family
+			A dynamic column family on the other hand doesn’t define the column names up front and 
+			Cassandra’s ability to use arbitrary application and column names to store data is available. 
+			So dynamic helps in a way because in an unstructured data, most of the times, 
+			dynamic column family helps in taking care of new fields that might have been added later.
+
+If you have a static column family and you want to add a dynamic column family in your code while loading the data, it can be added to a static column family anytime. Cassandra gives the freedom to choose column names.

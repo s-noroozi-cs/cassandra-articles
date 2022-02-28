@@ -22,6 +22,12 @@ https://www.geeksforgeeks.org/difference-between-cassandra-and-rdbms/
 https://data-flair.training/blogs/cassandra-cluster/
 https://www.edureka.co/blog/introduction-to-cassandra-column-family/
 https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-data-model
+https://pandaforme.gitbooks.io/introduction-to-cassandra/content/understand_the_cassandra_data_model.html
+https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-1/
+https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-2/
+https://www.edureka.co/blog/introduction-to-cassandra-column-family/
+https://www.ksi.mff.cuni.cz/~svoboda/courses/2015-1-NDBI040/lectures/
+https://is.muni.cz/el/fi/podzim2019/PA195/um/
 
 ======================== chapter 03 ========================
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
