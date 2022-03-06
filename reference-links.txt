@@ -41,3 +41,4 @@ https://www.instaclustr.com/blog/cassandra-architecture/
 ---https://cassandra.apache.org/_/case-studies.html
 ---https://www.datastax.com/blog/exploring-common-apache-cassandra-use-cases
 https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
+---https://netflixtechblog.com/building-netflixs-distributed-tracing-infrastructure-bb856c319304
