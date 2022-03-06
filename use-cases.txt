@@ -17,13 +17,19 @@ eBay
 	
 	
 	Marketplaces
-	 97 Million active buyers and sellers
-	 200+ Million items
-	 2 billion page views each day
-	 80 billion database calls each day
-	 5+ petabytes of site storage capacity
-	 80+ petabytes of analytics storage capacity
-	 
-	 
-	
-	
+		97 Million active buyers and sellers
+		200+ Million items
+		2 billion page views each day
+		80 billion database calls each day
+		5+ petabytes of site storage capacity
+		80+ petabytes of analytics storage capacity
+		
+	Use cases
+		Social Signals on eBay product & item pages
+		Hunch taste graph for eBay users & items
+		Time series use cases (many): 
+			Mobile notification logging and tracking
+			Tracking for fraud detection
+			SOA request/response payload logging
+			RedLaser server logs and analytics
+			
