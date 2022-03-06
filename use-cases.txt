@@ -14,3 +14,16 @@ eBay
 	RedLaser, Hunch, and other eBay adjacencies are also trying out Cassandra for various purposes. 
 	In addition to Cassandra, we also utilize MongoDB and HBase. 
 	I won’t discuss these now, but suffice it to say we believe each has its own merit.
+	
+	
+	Marketplaces
+	 97 Million active buyers and sellers
+	 200+ Million items
+	 2 billion page views each day
+	 80 billion database calls each day
+	 5+ petabytes of site storage capacity
+	 80+ petabytes of analytics storage capacity
+	 
+	 
+	
+	

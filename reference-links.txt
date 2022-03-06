@@ -40,3 +40,4 @@ https://www.instaclustr.com/blog/cassandra-architecture/
 ---https://www.datastax.com/blog/success-stories
 ---https://cassandra.apache.org/_/case-studies.html
 ---https://www.datastax.com/blog/exploring-common-apache-cassandra-use-cases
+https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
