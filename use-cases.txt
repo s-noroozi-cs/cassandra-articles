@@ -33,3 +33,46 @@ eBay
 			SOA request/response payload logging
 			RedLaser server logs and analytics
 			
+Netflix
+	
+	Distributed Tracing Infrastructure
+	
+		We started with Elasticsearch as our data store due to its flexible data model and querying capabilities. 
+		As we onboarded more streaming services, the trace data volume started increasing exponentially. 
+		The increased operational burden of scaling ElasticSearch clusters due to high data write rate became painful for us. 
+		The data read queries took an increasingly longer time to finish because 
+		ElasticSearch clusters were using heavy compute resources for creating indexes on ingested traces. 
+		The high data ingestion rate eventually degraded both read and write operations. 
+		We solved this by migrating to Cassandra as our data store for handling high data ingestion rates. 
+		Using simple lookup indices in Cassandra gives us the ability to maintain acceptable read latencies while doing heavy writes.
+
+		In theory, scaling up horizontally would allow us to handle higher write rates and retain larger amounts of data in Cassandra clusters. 
+		This implies that the cost of storing traces grows linearly to the amount of data being stored. 
+		We needed to ensure storage cost growth was sub-linear to the amount of data being stored. 
+		In pursuit of this goal, we outlined following storage optimization strategies:
+
+			1. Use cheaper Elastic Block Store (EBS) volumes instead of SSD instance stores in EC2.
+			2. Employ better compression technique to reduce trace data size.
+			3. Store only relevant and interesting traces by using simple rules-based filters.
+
+		We were adding new Cassandra nodes whenever the EC2 SSD instance stores of existing nodes reached maximum storage capacity. 
+		The use of a cheaper EBS Elastic volume instead of an SSD instance store was an attractive option 
+		because AWS allows dynamic increase in EBS volume size without re-provisioning the EC2 node. 
+		This allowed us to increase total storage capacity without adding a new Cassandra node to the existing cluster. 
+		
+		In 2019 our stunning colleagues in the Cloud Database Engineering (CDE) team benchmarked EBS performance for our use case 
+		and migrated existing clusters to use EBS Elastic volumes. By optimizing the Time Window Compaction Strategy (TWCS) parameters, 
+		they reduced the disk write and merge operations of Cassandra SSTable files, thereby reducing the EBS I/O rate. 
+		This optimization helped us reduce the data replication network traffic amongst the cluster nodes because 
+		SSTable files were created less often than in our previous configuration. 
+		
+		Additionally, by enabling Zstd block compression on Cassandra data files, the size of our trace data files was reduced by half. 
+		With these optimized Cassandra clusters in place, 
+			it now costs us 71% less to operate clusters and we could store 35x more data than our previous configuration.
+------
+		 We currently use a simple rule based filter in our Storage Mantis job that retains interesting traces for very rarely looked service call paths in Edgar. The filter qualifies a trace as an interesting data point by inspecting all buffered spans of a trace for warnings, errors, and retry tags. This tail-based sampling approach reduced the trace data volume by 20% without impacting user experience. There is an opportunity to use machine learning based classification techniques to further reduce trace data volume.
+
+While we have made substantial progress, we are now at another inflection point in building our trace data storage system. Onboarding new user experiences on Edgar could require us to store 10x the amount of current data volume. As a result, we are currently experimenting with a tiered storage approach for a new data gateway. This data gateway provides a querying interface that abstracts the complexity of reading and writing data from tiered data stores. Additionally, the data gateway routes ingested data to the Cassandra cluster and transfers compacted data files from Cassandra cluster to S3. We plan to retain the last few hours worth of data in Cassandra clusters and keep the rest in S3 buckets for long term retention of traces.
+Table 1. Timeline of Storage Optimizations
+
+------
