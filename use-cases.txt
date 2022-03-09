@@ -68,11 +68,62 @@ Netflix
 		
 		Additionally, by enabling Zstd block compression on Cassandra data files, the size of our trace data files was reduced by half. 
 		With these optimized Cassandra clusters in place, 
-			it now costs us 71% less to operate clusters and we could store 35x more data than our previous configuration.
-------
-		 We currently use a simple rule based filter in our Storage Mantis job that retains interesting traces for very rarely looked service call paths in Edgar. The filter qualifies a trace as an interesting data point by inspecting all buffered spans of a trace for warnings, errors, and retry tags. This tail-based sampling approach reduced the trace data volume by 20% without impacting user experience. There is an opportunity to use machine learning based classification techniques to further reduce trace data volume.
+		it now costs us 71% less to operate clusters and we could store 35x more data than our previous configuration.
+		
+Instagram
+	
+	At Instagram, we use Apache Cassandra heavily as a general key value storage service. 
+	The majority of Instagram’s Cassandra requests are online, 
+	so in order to provide a reliable and responsive user experience for hundreds of millions of Instagram users, 
+	we have very tight SLA on the metrics. 
+	
+	Instagram maintains a 5–9s reliability SLA, which means at any given time, the request failure rate should be less than 0.001%. 
+	For performance, we actively monitor the throughput and latency of different Cassandra clusters, especially the P99 read latency. 
+	
+	After investigation, we found the JVM garbage collector (GC) contributed a lot to the latency spikes. 
+	We defined a metric called GC stall percentage to measure the percentage of time a Cassandra server was doing stop-the-world GC (Young Gen GC) 
+	and could not serve client requests.
+	
+	The graph shows that a Cassandra server instance could spend 2.5% of runtime on garbage collections instead of serving client requests. 
+	The GC overhead obviously had a big impact on our P99 latency, so if we could lower the GC stall percentage, 
+	we would be able to reduce our P99 latency significantly.
+	
+	Apache Cassandra is a distributed database with it’s own LSM tree-based storage engine written in Java. 
+	We found that the components in the storage engine, like memtable, compaction, read/write path, etc., 
+	created a lot of objects in the Java heap and generated a lot of overhead to JVM. 
+	To reduce the GC impact from the storage engine, 
+	we considered different approaches and ultimately decided to develop a C++ storage engine to replace existing ones.
+	
+	We did not want to build a new storage engine from scratch, so we decided to build the new storage engine on top of RocksDB. 
+	
+	RocksDB is an open source, high-performance embedded database for key-value data. 
+	It’s written in C++, and provides official API language bindings for C++, C, and Java. 
+	RocksDB is optimized for performance, especially on fast storage like SSD. 
+	It’s widely used in the industry as the storage engine for MySQL, mongoDB, and other popular databases.
 
-While we have made substantial progress, we are now at another inflection point in building our trace data storage system. Onboarding new user experiences on Edgar could require us to store 10x the amount of current data volume. As a result, we are currently experimenting with a tiered storage approach for a new data gateway. This data gateway provides a querying interface that abstracts the complexity of reading and writing data from tiered data stores. Additionally, the data gateway routes ingested data to the Cassandra cluster and transfers compacted data files from Cassandra cluster to S3. We plan to retain the last few hours worth of data in Cassandra clusters and keep the rest in S3 buckets for long term retention of traces.
-Table 1. Timeline of Storage Optimizations
-
-------
+	The first challenge was that Cassandra does not have a pluggable storage engine architecture yet, 
+	which means the existing storage engine is coupled together with other components in the database. 
+	To find a balance between massive refactoring and quick iterations, we defined a new storage engine API, 
+	including the most common read/write and streaming interfaces. 
+	This way we could implement the new storage engine behind the API and inject it into the related code paths inside Cassandra.
+	
+	Secondly, Cassandra supports rich data types and table schema, while RocksDB provides purely key-value interfaces. 
+	We carefully defined the encoding/decoding algorithms to support Cassandra’s data model within RocksDB’s data structure and 
+	supported same-query semantics as original Cassandra.
+	
+	The third challenge was about streaming. Streaming is an important component for a distributed database like Cassandra. 
+	Whenever we join or remove a node from a Cassandra cluster, Cassandra needs to stream data among different nodes to balance the load across the cluster. 
+	The existing streaming implementation was based on the details in the current storage engine. 
+	Accordingly, we had to decouple them from each other, make an abstraction layer, and re-implement the streaming using RocksDB APIs. 
+	For high streaming throughput, we now stream data into temp sst files first, and then use the RocksDB ingest file API to bulk load them 
+	into the RocksDB instance at once.
+	
+	After about a year of development and testing, we have finished a first version of the implementation and 
+	successfully rolled it into several production Cassandra clusters in Instagram. 
+	In one of our production clusters, the P99 read latency dropped from 60ms to 20ms. 
+	We also observed that the GC stalls on that cluster dropped from 2.5% to 0.3%, which was a 10X reduction!
+	
+	We have open sourced our Rocksandra code base and benchmark framework, which you can download from Github to try out in your own environment! 
+	https://github.com/Instagram/cassandra/tree/rocks_3.0
+	https://github.com/Instagram/cassandra-aws-benchmark
+	
