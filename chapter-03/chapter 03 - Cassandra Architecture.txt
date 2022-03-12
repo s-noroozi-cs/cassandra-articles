@@ -85,3 +85,25 @@ Data Partitions
 
 	The following diagram depicts a four node cluster with token values of 0, 25, 50 and 75.[CassandraArchitecture_7.avif]
 	
+	For a given key, a hash value is generated in the range of 1 to 100. Keys with hash values in the range 
+	1 to 25 are stored on the first node, 
+	26 to 50 are stored on the second node, 
+	51 to 75 are stored on the third node, and 
+	76 to 100 are stored on the fourth node. 
+	Please note that actual tokens and hash values in Cassandra are 127-bit positive integers.
+	
+Replication in Cassandra
+	Replication refers to the number of replicas that are maintained for each row. 
+	Replication provides redundancy of data for fault tolerance. 
+	A replication factor of 3 means that 3 copies of data are maintained in the system.
+	In this case, even if 2 machines are down, you can access your data from the third copy. 
+	
+	The default replication factor is 1. A replication factor of 1 means that a single copy of the data is maintained, 
+	so if the node that has the data fails, you will lose the data.
+
+	Cassandra allows replication based on nodes, racks, and data centers, 
+	unlike HDFS that allows replication based on only nodes and racks. 
+	Replication across data centers guarantees data availability even when a data center is down.
+	
+Network Topology
+...	
