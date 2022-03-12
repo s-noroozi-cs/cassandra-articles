@@ -1,1 +1,51 @@
-﻿
+﻿Architecture Requirements of Cassandra
+	Cassandra was designed to address many architecture requirements. 
+	The most important requirement is to ensure there is no single point of failure. 
+	This means that if there are 100 nodes in a cluster and a node fails, the cluster should continue to operate.
+
+	This is in contrast to Hadoop where the namenode failure can cripple the entire system. 
+	Another requirement is to have massive scalability so that a cluster can hold hundreds or thousands of nodes. 
+	It should be possible to add a new node to the cluster without stopping the cluster.
+
+	Further, the architecture should be highly distributed so that both processing and data can be distributed. 
+	Also, high performance of read and write of data is expected so that the system can be used in real-time. 
+	Let us explore the Cassandra architecture in the next section of the cassandra architecture tutorial.
+	
+Cassandra Architecture	
+    - Cassandra is designed such that it has no master or slave nodes.
+    - It has a ring-type architecture, that is, its nodes are logically distributed like a ring.
+    - Data is automatically distributed across all the nodes.
+    - Similar to HDFS, data is replicated across the nodes for redundancy.
+    - Data is kept in memory and lazily written to the disk.
+    - Hash values of the keys are used to distribute the data among nodes in the cluster.
+	- Cassandra architecture supports multiple data centers.
+	- Data can be replicated across data centers.
+	
+Effects of the Architecture
+	Cassandra architecture enables transparent distribution of data to nodes. 
+	This means you can determine the location of your data in the cluster based on the data. 
+	Any node can accept any request as there are no masters or slaves. 
+	If a node has the data, it will return the data. Else, it will send the request to the node that has the data.
+
+	You can specify the number of replicas of the data to achieve the required level of redundancy. 
+	For example, if the data is very critical, you may want to specify a replication factor of 4 or 5.
+	If the data is not critical, you may specify just two. 
+	
+	It also provides tunable consistency, that is, the level of consistency can be specified as a trade-off with performance. 
+	Transactions are always written to a commit log on disk so that they are durable. 
+	
+Cassandra Write Process
+	The Cassandra write process ensures fast writes. Steps in the Cassandra write process are:
+	
+	1. Data is written to a commitlog on disk.
+    2. The data is sent to a responsible node based on the hash value.
+    3. Nodes write data to an in-memory table called memtable.
+    4. From the memtable, data is written to an sstable in memory. 
+	   Sstable stands for Sorted String table. This has a consolidated data of all the updates to the table.
+    5. From the sstable, data is updated to the actual table.
+    6. If the responsible node is down, data will be written to another node identified as tempnode. 
+	The tempnode will hold the data temporarily till the responsible node comes alive.
+
+	The diagram below [CassandraArchitecture_3.avif] depicts the write process when data is written to table A.
+	
+	

@@ -30,9 +30,10 @@ https://www.ksi.mff.cuni.cz/~svoboda/courses/2015-1-NDBI040/lectures/
 https://is.muni.cz/el/fi/podzim2019/PA195/um/
 
 ======================== chapter 03 ========================
-https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
-https://www.baeldung.com/cassandra-cluster-datacenters-racks-nodes
-https://www.instaclustr.com/blog/cassandra-architecture/
+https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-architecture
+---https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
+---https://www.baeldung.com/cassandra-cluster-datacenters-racks-nodes
+---https://www.instaclustr.com/blog/cassandra-architecture
 
 
 ======================== Success Stories / Use Cases ========================
@@ -43,3 +44,6 @@ https://www.instaclustr.com/blog/cassandra-architecture/
 https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
 https://netflixtechblog.com/building-netflixs-distributed-tracing-infrastructure-bb856c319304
 https://instagram-engineering.com/open-sourcing-a-10x-reduction-in-apache-cassandra-tail-latency-d64f86b43589
+
+
+---https://medium.com/@brunocrt/the-distributed-architecture-behind-cassandra-database-fba8b5cc4785
