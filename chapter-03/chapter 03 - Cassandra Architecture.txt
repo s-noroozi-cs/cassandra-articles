@@ -48,4 +48,40 @@ Cassandra Write Process
 
 	The diagram below [CassandraArchitecture_3.avif] depicts the write process when data is written to table A.
 	
+	Data is written to a commitlog on disk for persistence. It is also written to an in-memory memtable. 
+	Memtable data is written to sstable which is used to update the actual table.
+	
+Rack
+	The term ‘rack’ is usually used when explaining network topology. 
+	A rack is a group of machines housed in the same physical box. 
+	Each machine in the rack has its own CPU, memory, and hard disk. 
+	However, the rack has no CPU, memory, or hard disk of its own.[CassandraArchitecture_4.avif]
+	
+	Features of racks are:
+		- All machines in the rack are connected to the network switch of the rack
+		- The rack’s network switch is connected to the cluster.
+		- All machines on the rack have a common power supply. 
+		  It is important to notice that a rack can fail due to two reasons: a network switch failure or a power supply failure.
+		- If a rack fails, none of the machines on the rack can be accessed. So it would seem as though all the nodes on the rack are down.
+	
+Cassandra Read Process
+	The Cassandra read process ensures fast reads. Read happens across all nodes in parallel. 
+	If a node is down, data is read from the replica of the data. 
+	Priority for the replica is assigned on the basis of distance. Features of the Cassandra read process are:
+
+    - Data on the same node is given first preference and is considered data local.
+    - Data on the same rack is given second preference and is considered rack local.
+    - Data on the same data center is given third preference and is considered data center local.
+    - Data in a different data center is given the least preference.
+
+	Data in the memtable and sstable is checked first so that the data can be retrieved faster if it is already in memory.
+	
+Data Partitions
+	Cassandra performs transparent distribution of data by horizontally partitioning the data in the following manner:
+	- A hash value is calculated based on the primary key of the data.
+    - The hash value of the key is mapped to a node in the cluster
+    - The first copy of the data is stored on that node.
+    - The distribution is transparent as you can both calculate the hash value and determine where a particular row will be stored.
+
+	The following diagram depicts a four node cluster with token values of 0, 25, 50 and 75.[CassandraArchitecture_7.avif]
 	
