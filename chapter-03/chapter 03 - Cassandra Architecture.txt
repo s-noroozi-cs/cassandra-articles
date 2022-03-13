@@ -106,4 +106,20 @@ Replication in Cassandra
 	Replication across data centers guarantees data availability even when a data center is down.
 	
 Network Topology
-...	
+	Network topology refers to how the nodes, racks and data centers in a cluster are organized. 
+	You can specify a network topology for your cluster as follows:
+    - Specify in the Cassandra-topology.properties file.
+    - Your data centers and racks can be specified for each node in the cluster.
+    - Specify <ip-address>=<data center>:<rack name>.
+    - For unknown nodes, a default can be specified.
+    - You can also specify the hostname of the node instead of an IP address.
+
+	An example of a topology configuration file.[CassandraArchitecture_8.avif]
+	This file shows the topology defined for four nodes. The node with IP address 192.168.1.100 is mapped to data center DC1 and is present on the rack RAC1. 
+	The node with IP address 192.168.2.200 is mapped to data center DC2 and is present on the rack RAC2.
+	Similarly, the node with IP address 10.20.114.10 is mapped to data center DC2 and rack RAC1 and 
+	the node with IP address 10.20.114.11 is mapped to data center DC2 and rack RAC1. 
+	There is also a default assignment of data center DC1 and rack RAC1 so that any unassigned nodes will get this data center and rack.
+	
+	
+	
