@@ -121,5 +121,31 @@ Network Topology
 	the node with IP address 10.20.114.11 is mapped to data center DC2 and rack RAC1. 
 	There is also a default assignment of data center DC1 and rack RAC1 so that any unassigned nodes will get this data center and rack.
 	
+Snitches
+	Snitches define the topology in Cassandra. A snitch defines a group of nodes into racks and data centers. Two types of snitches are most popular:
+	1. Simple Snitch - A simple snitch is used for single data centers with no racks.
+    2. Property File Snitch - A property file snitch is used for multiple data centers with multiple racks.
+	Replication in Cassandra is based on the snitches.
 	
+Gossip Protocol
+	Cassandra uses a gossip protocol to communicate with nodes in a cluster. 
+	It is an inter-node communication mechanism similar to the heartbeat protocol in Hadoop. 
+	Cassandra uses the gossip protocol to discover the location of other nodes in the cluster and get state information of other nodes in the cluster.
+	The gossip process runs periodically on each node and exchanges state information with three other nodes in the cluster. 
+	Eventually, information is propagated to all cluster nodes. 
+	Even if there are 1000 nodes, information is propagated to all the nodes within a few seconds.
+
+	The following image depicts the gossip protocol process.[CassandraArchitecture_9.avif]
+	In step 1, one node connects to three other nodes. 
+	In step 2, each of the three nodes connects to three other nodes, thus connecting to nine nodes in total in step 2. 
+	So a total of 13 nodes are connected in 2 steps.
 	
+Seed Nodes
+	Seed nodes are used to bootstrap the gossip protocol. The features of seed nodes are:
+
+    - They are specified in the configuration file Cassandra.yaml.
+    - Seed nodes are used for bootstrapping the gossip protocol when a node is started or restarted.
+    - They are used to achieve a steady state where each node is connected to every other node but are not required during the steady state.
+
+	The diagram[CassandraArchitecture_10.avif] depicts a startup of a cluster with 2 seed nodes. Initially, there is no connection between the nodes.
+	....
