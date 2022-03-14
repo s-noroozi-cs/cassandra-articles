@@ -166,4 +166,38 @@ Virtual Nodes
 	If another physical node with 4 virtual nodes is added to the cluster, 
 	the data will be distributed to 20 vnodes in total such that each vnode will now have 1.6 TB of data.
 	
-	
+Failure Scenarios
+
+	Node Failure
+		Cassandra is highly fault tolerant. The effects of node failure are as follows:
+		- Other nodes detect the node failure.
+		- Request for data on that node is routed to other nodes that have the replica of that data.
+		- Writes are handled by a temporary node until the node is restarted.
+		- Any memtable or sstable data that is lost is recovered from commitlog.
+		- A node can be permanently removed using the nodetool utility
+		The following image [CassandraArchitecture_13.avif] shows the concept of node failure.
+		
+	Disk Failure
+		When a disk becomes corrupt, Cassandra detects the problem and takes corrective action. The effects of Disk Failure are as follows:
+		- The data on the disk becomes inaccessible
+		- Reading data from the node is not possible
+		- This issue will be treated as node failure for that portion of data
+		- Memtable and sstable will not be affected as they are in-memory tables
+		- Commitlog has replicas and they will be used for recovery
+		
+	Rack Failure
+		Sometimes, a rack could stop functioning due to power failure or a network switch problem. The effects of Rack Failure are as follows:
+		- All the nodes on the rack become inaccessible
+		- Reading data from the rack nodes is not possible
+		- The reads will be routed to other replicas of the data
+		- This will be treated as if each node in the rack has failed
+		The following figure [CassandraArchitecture_14.avif] shows the concept of rack failure:
+		
+	Data Center Failure
+		Data center failure occurs when a data center is shut down for maintenance or when it fails due to natural calamities. When that happens:
+		- All data in the data center will become inaccessible.
+		- All reads have to be routed to other data centers.
+		- The replica copies in other data centers will be used.
+		- Though the system will be operational, clients may notice slowdown due to network latency. 
+		  This is because multiple data centers are normally located at physically different locations and connected by a wide area network.
+
