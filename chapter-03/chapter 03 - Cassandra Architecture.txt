@@ -151,4 +151,19 @@ Seed Nodes
 	Initially, there is no connection between the nodes. On startup, two nodes connect to two other nodes that are specified as seed nodes. 
 	Once all the four nodes are connected, seed node information is no longer required as steady state is achieved.
 	
+Virtual Nodes
+	Virtual nodes in a Cassandra cluster are also called vnodes. 
+	Vnodes can be defined for each physical node in the cluster. 
+	Each node in the ring can hold multiple virtual nodes. By default, each node has 256 virtual nodes.
+	
+	Virtual nodes help achieve finer granularity in the partitioning of data, 
+	and data gets partitioned into each virtual node using the hash value of the key. 
+	On adding a new node to the cluster, the virtual nodes on it get equal portions of the existing data. 
+	So there is no need to separately balance the data by running a balancer. 
+	The image[CassandraArchitecture_11.avif] depicts a cluster with four physical nodes.
+	Each physical node in the cluster has four virtual nodes. So there are 16 vnodes in the cluster.
+	If 32TB of data is stored on the cluster, each vnode will get 2TB of data to store. 
+	If another physical node with 4 virtual nodes is added to the cluster, 
+	the data will be distributed to 20 vnodes in total such that each vnode will now have 1.6 TB of data.
+	
 	
