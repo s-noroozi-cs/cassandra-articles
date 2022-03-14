@@ -147,5 +147,8 @@ Seed Nodes
     - Seed nodes are used for bootstrapping the gossip protocol when a node is started or restarted.
     - They are used to achieve a steady state where each node is connected to every other node but are not required during the steady state.
 
-	The diagram[CassandraArchitecture_10.avif] depicts a startup of a cluster with 2 seed nodes. Initially, there is no connection between the nodes.
-	....
+	The diagram[CassandraArchitecture_10.avif] depicts a startup of a cluster with 2 seed nodes. 
+	Initially, there is no connection between the nodes. On startup, two nodes connect to two other nodes that are specified as seed nodes. 
+	Once all the four nodes are connected, seed node information is no longer required as steady state is achieved.
+	
+	
