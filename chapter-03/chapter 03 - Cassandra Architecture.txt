@@ -57,6 +57,33 @@ Key components for configuring cassandra
 		The number of tokens you assign depends on the hardware capabilities of the system. 
 		If not using virtual nodes (vnodes), use the initial_token setting instead.
 	
+	Replication factor
+		The total number of replicas across the cluster. 
+		A replication factor of 1 means that there is only one copy of each row on one node. 
+		A replication factor of 2 means two copies of each row, where each copy is on a different node. 
+		All replicas are equally important; there is no primary or master replica. 
+		You define the replication factor for each datacenter. 
+		Generally you should set the replication strategy greater than one, but no more than the number of nodes in the cluster.
+	
+	Replica placement strategy
+		Cassandra stores copies (replicas) of data on multiple nodes to ensure reliability and fault tolerance. 
+		A replication strategy determines which nodes to place replicas on. The first replica of data is simply the first copy; 
+		it is not unique in any sense. The NetworkTopologyStrategy is highly recommended for most deployments 
+		because it is much easier to expand to multiple datacenters when required by future expansion.
+
+		When creating a keyspace, you must define the replica placement strategy and the number of replicas you want.
+		
+	Snitch
+		A snitch defines groups of machines into datacenters and racks (the topology) that the replication strategy uses to place replicas.
+		You must configure a snitch when you create a cluster. All snitches use a dynamic snitch layer, 
+		which monitors performance and chooses the best replica for reading. 
+		It is enabled by default and recommended for use in most deployments. 
+		Configure dynamic snitch thresholds for each node in the cassandra.yaml configuration file.
+
+		The default SimpleSnitch does not recognize datacenter or rack information. 
+		Use it for single-datacenter deployments or single-zone in public clouds. 
+		The GossipingPropertyFileSnitch is recommended for production. 
+		It defines a node's datacenter and rack and uses gossip for propagating this information to other nodes.
 	
 Cassandra Architecture	
     - Cassandra is designed such that it has no master or slave nodes.
