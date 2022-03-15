@@ -1,7 +1,11 @@
 ﻿Architecture Requirements of Cassandra
 	Cassandra was designed to address many architecture requirements. 
 	The most important requirement is to ensure there is no single point of failure. 
+	Its architecture is based on the understanding that system and hardware failures can and do occur.
 	This means that if there are 100 nodes in a cluster and a node fails, the cluster should continue to operate.
+	Cassandra addresses the problem of failures by employing a peer-to-peer distributed system 
+	across homogeneous nodes where data is distributed among all nodes in the cluster.
+	Each node frequently exchanges state information about itself and other nodes across the cluster using peer-to-peer gossip communication protocol. 
 
 	This is in contrast to Hadoop where the namenode failure can cripple the entire system. 
 	Another requirement is to have massive scalability so that a cluster can hold hundreds or thousands of nodes. 
@@ -10,6 +14,36 @@
 	Further, the architecture should be highly distributed so that both processing and data can be distributed. 
 	Also, high performance of read and write of data is expected so that the system can be used in real-time. 
 	Let us explore the Cassandra architecture in the next section of the cassandra architecture tutorial.
+	
+	A sequentially written commit log on each node captures write activity to ensure data durability. 
+	Data is then indexed and written to an in-memory structure, called a memtable, which resembles a write-back cache. 
+	Each time the memory structure is full, the data is written to disk in an SSTables data file. 
+	All writes are automatically partitioned and replicated throughout the cluster. 
+	Cassandra periodically consolidates SSTables using a process called compaction, 
+	discarding obsolete data marked for deletion with a tombstone. 
+	To ensure all data across the cluster stays consistent, various repair mechanisms are employed.
+	
+	Client read or write requests can be sent to any node in the cluster. 
+	When a client connects to a node with a request, that node serves as the coordinator for that particular client operation. 
+	The coordinator acts as a proxy between the client application and the nodes that own the data being requested. 
+	The coordinator determines which nodes in the ring should get the request based on how the cluster is configured.
+	
+	Commit log
+		All data is written first to the commit log for durability. After all its data has been flushed to SSTables, it can be archived, deleted, or recycled. 
+	
+	SSTable
+		A sorted string table (SSTable) is an immutable data file to which Cassandra writes memtables periodically. 
+		SSTables are append only and stored on disk sequentially and maintained for each Cassandra table.
+
+
+Key components for configuring cassandra
+	
+	Gossip
+		A peer-to-peer communication protocol to discover and share location and state information about the other nodes in a Cassandra cluster. 
+		Gossip information is also persisted locally by each node to use immediately when a node restarts.
+		
+	
+	
 	
 Cassandra Architecture	
     - Cassandra is designed such that it has no master or slave nodes.
