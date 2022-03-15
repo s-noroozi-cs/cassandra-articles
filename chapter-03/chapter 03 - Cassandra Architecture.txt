@@ -42,7 +42,20 @@ Key components for configuring cassandra
 		A peer-to-peer communication protocol to discover and share location and state information about the other nodes in a Cassandra cluster. 
 		Gossip information is also persisted locally by each node to use immediately when a node restarts.
 		
-	
+	Partitioner
+		A partitioner determines which node will receive the first replica of a piece of data, 
+		and how to distribute other replicas across other nodes in the cluster. 
+		Each row of data is uniquely identified by a primary key, which may be the same as its partition key, 
+		but which may also include other clustering columns. 
+		
+		A partitioner is a hash function that derives a token from the primary key of a row. 
+		The partitioner uses the token value to determine which nodes in the cluster receive the replicas of that row. 
+		
+		The Murmur3Partitioner is the default partitioning strategy for new Cassandra clusters and the right choice for new clusters in almost all cases.
+		
+		You must set the partitioner and assign the node a num_tokens value for each node. 
+		The number of tokens you assign depends on the hardware capabilities of the system. 
+		If not using virtual nodes (vnodes), use the initial_token setting instead.
 	
 	
 Cassandra Architecture	
