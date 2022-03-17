@@ -301,6 +301,10 @@ How is data written?
 		To reduce the commit log replay time, the recommended best practice is to flush the memtable before you restart the nodes. 
 		If a node stops working, replaying the commit log restores to the memtable the writes that were there before it stopped.
 		
-	
+	Storing data on disk in SSTables
+		Memtables and SSTables are maintained per table. The commit log is shared among tables. 
+		SSTables are immutable, not written to again after the memtable is flushed. 
+		Consequently, a partition is typically stored across multiple SSTable files. 
+		A number of other SSTable structures exist to assist read operations: 
 
 Data in the commit log is purged after its corresponding data in the memtable is flushed to an SSTable on disk.
