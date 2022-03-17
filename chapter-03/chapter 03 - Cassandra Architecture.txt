@@ -307,3 +307,49 @@ How is data written?
 		SSTables are immutable, not written to again after the memtable is flushed. 
 		Consequently, a partition is typically stored across multiple SSTable files. 
 		A number of other SSTable structures exist to assist read operations: [dml_write-process_12.png]
+		
+		For each SSTable, Cassandra creates these structures:
+			Data (Data.db)
+				The SSTable data
+
+			Primary Index (Index.db)
+				Index of the row keys with pointers to their positions in the data file
+
+			Bloom filter (Filter.db)
+				A structure stored in memory that checks if row data exists in the memtable before accessing SSTables on disk
+			
+			Compression Information (CompressionInfo.db)
+				A file holding information about uncompressed data length, chunk offsets and other compression information
+
+			Statistics (Statistics.db)
+				Statistical metadata about the content of the SSTable
+
+			Digest (Digest.crc32, Digest.adler32, Digest.sha1)
+				A file holding adler32 checksum of the data file
+
+			CRC (CRC.db)
+				A file holding the CRC32 for chunks in an uncompressed file.
+
+			SSTable Index Summary (SUMMARY.db)
+				A sample of the partition index stored in memory
+
+			SSTable Table of Contents (TOC.txt)
+				A file that stores the list of all components for the SSTable TOC
+
+			Secondary Index (SI_.*.db)
+				Built-in secondary index. Multiple SIs may exist per SSTable
+
+
+		The SSTables are files stored on disk. The naming convention for SSTable files has changed with Cassandra 2.2 and later to shorten the file path. 
+		The data files are stored in a data directory that varies with installation. 
+		For each keyspace, a directory within the data directory stores each table. 
+		For example following path represents a data file. 
+			/data/data/ks1/cf1-5be396077b811e3a3ab9dc4b9ac088d/la-1-big-Data.db 
+		
+		ks1 represents the keyspace name to distinguish the keyspace for streaming or bulk loading data. 
+		A hexadecimal string, 5be396077b811e3a3ab9dc4b9ac088d in this example, is appended to table names to represent unique table IDs.
+		Cassandra creates a subdirectory for each table, which allows you to symlink a table to a chosen physical drive or data volume. 
+		This provides the capability to move very active tables to faster media, such as SSDs for better performance, 
+		and also divides tables across all attached storage devices for better I/O balance at the storage layer.
+		
+		
