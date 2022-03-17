@@ -290,4 +290,17 @@ How is data written?
 		even if power fails on a node. The memtable is a write-back cache of data partitions that Cassandra looks up by key. 
 		The memtable stores writes in sorted order until reaching a configurable limit, and then is flushed.
 		
+	Flushing data from the memtable
+		To flush the data, Cassandra writes the data to disk, in the memtable-sorted order. 
+		A partition index is also created on the disk that maps the tokens to a location on disk. 
+		When the memtable content exceeds the configurable threshold or the commitlog space exceeds the commitlog_total_space_in_mb, 
+		the memtable is put in a queue that is flushed to disk. 
+		The queue can be configured with the memtable_heap_space_in_mb or memtable_offheap_space_in_mb setting in the cassandra.yaml file. 
+		If the data to be flushed exceeds the memtable_cleanup_threshold, Cassandra blocks writes until the next flush succeeds. 
+		You can manually flush a table using nodetool flushor nodetool drain (flushes memtables without listening for connections to other nodes). 
+		To reduce the commit log replay time, the recommended best practice is to flush the memtable before you restart the nodes. 
+		If a node stops working, replaying the commit log restores to the memtable the writes that were there before it stopped.
+		
 	
+
+Data in the commit log is purged after its corresponding data in the memtable is flushed to an SSTable on disk.
