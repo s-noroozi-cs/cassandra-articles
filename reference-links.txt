@@ -32,6 +32,7 @@ https://is.muni.cz/el/fi/podzim2019/PA195/um/
 ======================== chapter 03 ========================
 https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-architecture
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
+https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/dml/dmlHowDataWritten.html
 ---https://www.instaclustr.com/blog/cassandra-architecture
 
 
