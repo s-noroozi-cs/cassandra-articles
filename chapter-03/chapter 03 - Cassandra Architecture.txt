@@ -379,4 +379,4 @@ Replication
 					A keyspace definition when used with NetworkTopologyStrategy specifies the number of replicas per data center as:
 						cqlsh> create keyspace ks with replication = {'class' : 'NetworkTopologyStrategy', dc_1: 3, dc_2: 1}
 						
-					
+		

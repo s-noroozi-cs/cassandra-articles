@@ -34,6 +34,7 @@ https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-architecture
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/dml/dmlHowDataWritten.html
 ---https://www.instaclustr.com/blog/cassandra-architecture
+---https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.6683&rep=rep1&type=pdf
 
 
 ======================== Success Stories / Use Cases ========================
