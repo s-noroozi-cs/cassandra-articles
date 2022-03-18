@@ -35,6 +35,8 @@ https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/dml/dmlHowDataWritten.html
 ---https://www.instaclustr.com/blog/cassandra-architecture
 ---https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.6683&rep=rep1&type=pdf
+---http://highscalability.com/blog/2011/11/14/using-gossip-protocols-for-failure-detection-monitoring-mess.html
+
 
 
 ======================== Success Stories / Use Cases ========================
