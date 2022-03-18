@@ -352,4 +352,31 @@ How is data written?
 		This provides the capability to move very active tables to faster media, such as SSDs for better performance, 
 		and also divides tables across all attached storage devices for better I/O balance at the storage layer.
 		
-		
+Replication
+	The data in each keyspace is replicated with a replication factor. 
+	The most common replication factor used is three. 
+	There is one primary replica of data that resides with the token owner node as explained in the data partitioning section. 
+	The remainder of replicas is placed by Cassandra on specific nodes using the replica placement strategy. 
+	All replicas are equally important for all database operations except for a few cluster mutation operations.
+
+	There are two settings that mainly impact replica placement. 
+		First is snitch, which determines the data center, and the rack a Cassandra node belongs to, and it is set at the node level. 
+			They inform Cassandra about the network topology so that requests are routed efficiently and 
+			allow Cassandra to distribute replicas by grouping machines into data centers and racks. 
+			GossipingPropertyFileSnitch is the goto snitch for any cluster deployment. 
+			It uses a configuration file called Cassandra-rackdc.properties on each node. 
+			It contains the rack and data center name which hosts the node. 
+			There is cloud-specific snitch available for AWS and GCP. 
+
+		The second setting is the replication strategy. 
+			The replication strategy is set at the keyspace level. 
+			There are two strategies: 
+				SimpleStrategy and NetworkTopologyStrategy. 
+					The SimpleStrategy does not consider racks and multiple data centers. It places data replicas on nodes sequentially. 
+					The NetworkTopologyStrategy is rack aware and data center aware. 
+					SimpleStrategy should be only used for temporary and small cluster deployments, 
+					for all other clusters NetworkTopologyStrategy is highly recommended. 
+					A keyspace definition when used with NetworkTopologyStrategy specifies the number of replicas per data center as:
+						cqlsh> create keyspace ks with replication = {'class' : 'NetworkTopologyStrategy', dc_1: 3, dc_2: 1}
+						
+					
