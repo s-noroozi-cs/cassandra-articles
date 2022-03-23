@@ -378,5 +378,33 @@ Replication
 					for all other clusters NetworkTopologyStrategy is highly recommended. 
 					A keyspace definition when used with NetworkTopologyStrategy specifies the number of replicas per data center as:
 						cqlsh> create keyspace ks with replication = {'class' : 'NetworkTopologyStrategy', dc_1: 3, dc_2: 1}
-						
+
+Gossip protocol - failure detection
+	When building a system on top of a set of wildly uncooperative and unruly computers you have knowledge problems: 
+		knowing when other nodes are dead; 
+		knowing when nodes become alive; 
+		getting information about other nodes so you can make local decisions, 
+		like knowing which node should handle a request based on a scheme for assigning nodes to a certain range of users; 
+		learning about new configuration data; agreeing on data values; and so on.
+
+	How do you solve these problems?
+		A common centralized approach is to use a database and all nodes query it for information. 
+		Obvious availability and performance issues for large distributed clusters. 
+		Another approach is to use Paxos, a protocol for solving consensus in a network 
+		to maintain strict consistency requirements for small groups of unreliable processes. 
+		Not practical when larger number of nodes are involved.
+
+	what's the super cool decentralized way to bring order to large clusters?
+		Gossip protocols, which maintain relaxed consistency requirements amongst a very large group of nodes. 
+		A gossip protocol is simple in concept. Each nodes sends out some data to a set of other nodes. 
+		Data propagates through the system node by node like a virus. 
+		Eventually data propagates to every node in the system. It's a way for nodes to build a global map from limited local interactions.
+
+	A node only has to send to a subset of other nodes. That's it.
+
+	
 		
+
+
+
+
