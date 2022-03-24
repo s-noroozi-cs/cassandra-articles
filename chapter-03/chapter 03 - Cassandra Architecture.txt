@@ -421,5 +421,19 @@ Gossip protocol - failure detection
 			These protocols work by or compute an aggregate of the network by sampling information at the nodes and 
 			they combine the values to acquire a system-wide value – the largest value for some measurement nodes are making, smallest, etc.
 
+Gossip protocol
+	The Gossip protocol is used to repair the problems caused by multicasting; 
+	it is a type of communication where a piece of information or gossip in this scenario, 
+	is sent from one or more nodes to a set of other nodes in a network. 
+	This is useful when a group of clients in the network require the same data at the same time. 
+	But there are many problems that occur during multicasting, 
+	if there are many nodes present at the recipient end, latency increases; the average time for a receiver to receive a multicast.
+	
+	To get this multicast message or gossip across the desired targets in the group, 
+	the gossip protocol sends out the gossip periodically to random nodes in the network, 
+	once a random node receives the gossip, it is said to be infected due to the gossip. 
+	Now the random node that receives the gossip does the same thing as the sender, 
+	it sends multiple copies of the gossip to random targets. This process continues until the target nodes get the multicast. 
+	This process turns the infected nodes to uninfected nodes after sending the gossip out to random nodes.
 
-
+	
