@@ -402,9 +402,24 @@ Gossip protocol - failure detection
 
 	A node only has to send to a subset of other nodes. That's it.
 
-	
-		
+	In a distributed system you need at least two independent sources of information to mark a node down. 
+	It's not enough to simply say because your node can't contact another node that the other node is down. 
+	It's quite possible that your node is broken and the other node is fine. 
+	But if other nodes in the system also see that other node is dead then you can with some confidence conclude that that node is dead. 
+	Many complex hard to debug bugs are hidden here.
 
+	Another advantage of this approach is data could flow directly into your monitoring system 
+	rather than having a completely separate monitoring subsystem bolted on.
+
+	There are 3 main types of gossip protocol:
+		1. Dissemination Protocols :
+				These protocols are also referred to as rumor-mongering protocols because they use gossip to spread information throughout the network, 
+				they flood the members of the network with gossips in a way that produces the worst-case load.
+		2. Anti-Entropy Protocols :
+			These are used to repair the replicated data by comparing them and modifying the comparisons.
+		3. Protocols that compute aggregates :
+			These protocols work by or compute an aggregate of the network by sampling information at the nodes and 
+			they combine the values to acquire a system-wide value – the largest value for some measurement nodes are making, smallest, etc.
 
 
 
