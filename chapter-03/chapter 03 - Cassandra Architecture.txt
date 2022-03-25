@@ -463,5 +463,52 @@ Gossip protocol
 	It will always select a live peer (if any) in the cluster, it will probabilistically pick a seed node 
 	from the cluster or maybe it will probabilistically select an unavailable node.[gossip-msg-exchange]
 
-	
+	The Gossip messaging is very similar to the TCP three-way handshake. 
+	With a regular broadcast protocol, there could only have been one message per round, 
+	and the data can be allowed to gradually spread through the cluster. 
+	But with the gossip protocol, having three messages for each round of gossip adds a degree of anti-entropy. 
+	This process allows obtaining "convergence" of data shared between the two interacting nodes much faster.
 
+		SYN: The node initiating the round of gossip sends the SYN message which contains a compendium of the nodes in the cluster. 
+		It contains tuples of the IP address of a node in the cluster, the generation and the heartbeat version of the node.
+
+		ACK: The peer after receiving SYN message compares its own metadata information with the one sent by the initiator 
+		and produces a diff. ACK contains two kinds of data. 
+		One part consists of updated metadata information (AppStates) that the peer has but the initiator doesn't, 
+		and the other part consists of digest of nodes the initiator has that the peer doesn't.
+
+		ACK2: The initiator receives the ACK from peer and updates its metadata from the AppStates and 
+		sends back ACK2 containing the metadata information the peer has requested for. 
+		The peer receives ACK2, updates its metadata and the round of gossip concludes.
+
+	An important note here is that this messaging protocol will cause only a constant amount of network traffic. 
+	Since the broadcasting of the initial digest is limited to three nodes 
+	and data convergence occurs through a pretty constant ACK and ACK2, 
+	there will not be much of network spike. Although, if a node gets UP, all the nodes might want 
+	to send data to that peer, causing the Gossip Storm.
+
+	So how does a new node get the idea of whom to start gossiping with? 
+		Well, Cassandra has many seed provider implementations that provide a list of seed addresses to the new node 
+		and starts gossiping with one of them right away. After its first round of gossip, 
+		it will now possess cluster membership information about all the other nodes in the cluster 
+		and can then gossip with the rest of them.
+
+	Well, how do we get to know if a node is UP/DOWN? 
+		The Failure Detector is the only component inside Cassandra(only the primary gossip class can mark a node UP besides) to do so. 
+		It is a heartbeat listener and marks down the timestamps and keeps backlogs of intervals 
+		at which it receives heartbeat updates from each peer. 
+		Based on the reported data, it determines whether a peer is UP/DOWN.
+
+	How does a node being UP/DOWN affect the cluster? 
+		The write operations stay unaffected. If a node does not get an acknowledgment for a write to a peer, 
+		it simply stores it up as a hint. The nodes will stop sending read requests to a peer in DOWN state 
+		and probabilistically gossiping can be tried upon since its an unavailable node, 
+		as we have already discussed early on. 
+		All repair, stream sessions are closed as well when an unavailable node is involved.
+
+	What if a peer is responding very slowly or timing out? 
+		Cassandra has another component called the Dynamic Snitch, which records and analyses 
+		latencies of read requests to peer nodes. It ranks latencies of peers in a rolling window and 
+		recalculates it every 100ms and resets the scores every 10mins to allow 
+		for any other events(Eg: Garbage Collection) delaying the response time of a peer. 
+		In this way, the Dynamic Snitch helps you identify the slow nodes and avoid them when indulging in Gossip.
