@@ -436,4 +436,19 @@ Gossip protocol
 	it sends multiple copies of the gossip to random targets. This process continues until the target nodes get the multicast. 
 	This process turns the infected nodes to uninfected nodes after sending the gossip out to random nodes.
 
+	Gossip Dissemination
+		Use random selection of nodes to pass on information to ensure it reaches all the nodes in the cluster without flooding the network.
+
+	Problem
+		In a cluster of nodes, each node needs to pass metadata information it has, 
+		to all the other nodes in the cluster, without depending on a shared storage. 
+		In a large cluster, if all servers communicate with all the other servers, 
+		a lot of network bandwidth can be consumed. 
+		Information should reach all the nodes even when some network links are experiencing issues.
+
+	Solution
+		Cluster nodes use gossip style communication to propagate state updates. 
+		Each node selects a random node to pass the information it has. 
+		This is done at a regular interval, say every 1 second. 
+		Each time, a random node is selected to pass on the information.
 	
