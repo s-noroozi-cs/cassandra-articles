@@ -451,4 +451,17 @@ Gossip protocol
 		Each node selects a random node to pass the information it has. 
 		This is done at a regular interval, say every 1 second. 
 		Each time, a random node is selected to pass on the information.
+
+	The Gossip protocol is the internal communication technique for nodes in a cluster to talk to each other. 
+	Gossip is an efficient, lightweight, reliable inter-nodal broadcast protocol for diffusing data. 
+	It's decentralized, "epidemic", fault tolerant and a peer-to-peer communication protocol. 
+	Cassandra uses gossiping for peer discovery and metadata propagation.[gossip-ring]
+
+	The gossip process runs every second for every node and exchange state messages with up to three other nodes in the cluster. 
+	Since the whole process is decentralized, there is nothing or no one that coordinates each node to gossip. 
+	Each node independently will always select one to three peers to gossip with. 
+	It will always select a live peer (if any) in the cluster, it will probabilistically pick a seed node 
+	from the cluster or maybe it will probabilistically select an unavailable node.[gossip-msg-exchange]
+
 	
+
