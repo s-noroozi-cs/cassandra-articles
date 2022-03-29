@@ -40,6 +40,8 @@ https://www.geeksforgeeks.org/the-gossip-protocol-in-cloud-computing/
 https://martinfowler.com/articles/patterns-of-distributed-systems/gossip-dissemination.html
 https://www.linkedin.com/pulse/gossip-protocol-inside-apache-cassandra-soham-saha
 https://www.geeksforgeeks.org/snitches-in-cassandra/
+https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archSnitchesAbout.html
+https://cassandra.apache.org/doc/latest/cassandra/architecture/snitch.html
 
 
 
