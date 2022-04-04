@@ -582,5 +582,11 @@ Snitches
 		CloudstackSnitch
 			Use the CloudstackSnitch for Apache Cloudstack environments.
 
+Data Distribution
+	In Cassandra data distribution and replication go together. 
+	In Cassandra distribution and replication depending on the three thing such that partition key, key value and Token range.
 
 
+
+
+	
