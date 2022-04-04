@@ -586,7 +586,6 @@ Data Distribution
 	In Cassandra data distribution and replication go together. 
 	In Cassandra distribution and replication depending on the three thing such that partition key, key value and Token range.
 
-
-
+	Distribution provides power and resiliencwe
 
 	
