@@ -621,3 +621,22 @@ Staged event-driven architecture
 	Decomposing services into a set of stages also enables modularity and code reuse, 
 	as well as the development of debugging tools for complex event-driven applications.
 
+	Let us consider a sample application which listens to a stream of messages in a Message Queue, 
+	reads them and processes them based on some business logic, and sends Email. 
+	A typical implementation of the above application uses multiple application-level threads to process messages. 
+	A single thread will read a single message from the Message Queue and is responsible for processing a single message. 
+	The horizontal scaling will be achieved by managing multiple processes deployed in multiple hosts.
+
+	One of the problems with the logic for processing a message is organized as a single continuous flow of code 
+	which makes the threads wait for any expensive IO operations involved in the business logic. 
+	The impact of the expensive IO operations on the overall throughput of the system is barely noticeable for low scale systems. 
+	But for the systems which need to process a million messages per second, 
+	these expensive operations will introduce bottleneck for the overall throughput of the system.
+
+	SEDA aims to resolve the above-mentioned problems by decomposing the application code into multiple stages, 
+	and each stage communicates with each other using the queues.
+
+	
+
+
+
