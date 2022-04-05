@@ -44,6 +44,7 @@ https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archSnitch
 https://cassandra.apache.org/doc/latest/cassandra/architecture/snitch.html
 https://www.geeksforgeeks.org/data-distribution-in-cassandra/
 https://cassandra.apache.org/_/cassandra-basics.html
+https://en.wikipedia.org/wiki/Staged_event-driven_architecture
 
 
 
