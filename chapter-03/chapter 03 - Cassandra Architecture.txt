@@ -685,8 +685,70 @@ Write Path Anatomy
 		If you specify REPLICATION_FACTOR=3, then your data will be replicated to 3 different nodes throughout the cluster. 
 		That provides fault tolerance and resilience because even if some nodes fail your data would still be safe and available.
 
-	
+	Write Consistency Level
+		Do you still remember that when the client sends a request to a Cassandra node, 
+		this node is called a coordinator and acts as a proxy between the client and the replica nodes?
+		Well, when you write to a table in Cassandra (inserting data, for example), you can specify the write consistency level. 
+		The write consistency level is the number of replica nodes that have to acknowledge the coordinator 
+		that its local insert was successful (success here means that the data was appended to the commit log and written to the memtable). 
+		As soon as the coordinator gets WRITE_CONSISTENCY_LEVEL success acknowledgments from the replica nodes, 
+		it returns success back to the client and doesn’t wait for the remaining replicas to acknowledge success.
+		For example, if an application issue an insert request with WRITE_CONSISTENCY_LEVEL=TWO to a table that is configured with REPLICATION_FACTOR=3, the coordinator will only return success to the application when two of the three replicas acknowledge success. 
+		Of course, this doesn’t mean that the third replica will not write the data too; it will, but at this point, the coordinator would already have sent success back to the client.
+		There are many different types of write consistency levels you can specify in your write request. 
+		From the less consistent to full consistency: ANY, ONE, TWO, THREE, QUORUM, LOCAL_QUORUM, EACH_QUORUM, ALL.
 
+	Write Flow Example
+		For simplicity, suppose a write request is issued to a 6-node Cassandra cluster with the following characteristics:
+			WRITE_CONSISTENCY_LEVEL=TWO
+			TABLE_REPLICATION_FACTOR=3
+			REPLICATION_STRATEGY=SimpleStrategy
+		
+		First, the client sends the write request to the Cassandra cluster using the driver. 
+		The driver is responsible for a lot of features such as asynchronous IO, parallel execution, request pipelining, connection pooling, 
+		auto node discovery, automatic reconnection, token awareness, and so on. 
+		
+		For example, by using a driver that implements a token-aware policy, the driver reduces network hops by sending requests 
+		directly to the node that owns the data instead of sending it to a “random” coordinator.
+		As soon as the coordinator gets the write request, it applies the partitioner hash function to the partition key 
+		and uses the configured Replication Strategy in order to determine the TABLE_REPLICATION_FACTOR replica nodes 
+		that will actually write the data (in this sentence, replace TABLE_REPLICATION_FACTOR with the number 3). 
+		
+		Now, before the coordinator forwards the write request to all the 3 replica nodes, 
+		it will ask to the Failure Detector component how many of these replica nodes are actually available and compare it to the WRITE_CONSISTENCY_LEVEL provided in the request. If the number of replica nodes available is less than 
+		the WRITE_CONSISTENCY_LEVEL provided, the Failure Detector will immediately throw an Exception.
+		
+		For our example, suppose the 3 replica nodes are available (that is, the Failure Detector will allow the request to continue). 
+		Now, the coordinator will asynchronously forward the write request to all the replica nodes 
+		(in these case, the 3 replica nodes that were figured in the first step). 
+		As soon as WRITE_CONSISTENCY_LEVEL replica nodes acknowledge success (node2 and node4), 
+		the coordinator returns success back to the driver.
 
+		If the WRITE_CONSISTENCY_LEVEL for this request was THREE (or ALL), the coordinator would have to wait until 
+		node3 acknowledges success too, and of course that this write request would be slower.
+		So, basically…
+			- Do you need fault tolerance and high availability? Use replication.
+			- Just bear in mind that using replication means you will pay with consistency (for most of the cases, 
+			  this is not a problem. Availability is often more important than consistency).
+			- If consistency is not an issue for your domain, perfect. If it is, just increase the consistency level, 
+			  but then you will pay with higher latency.
+			- If you want fault tolerance and high availability, strong consistency and low latency, 
+			  then you should be the client, not the software engineer (Lol).
 
+	Hinted Handoff
+		Suppose in the last example that only 2 of 3 replica nodes were available. In this case, the Failure Detector 
+		would still allow the request to continue as the number of available replica nodes is not less than the WRITE_CONSISTENCY_LEVEL provided. 
+		In this case, the coordinator would behave exactly as described before but there would be one additional step. 
+		The coordinator would write locally the hint (the write request blob along with some metadata) in the disk (hints directory) 
+		and would keep the hint there for 3 hours (by default) waiting for the replica node to become available again. 
+		If the replica node recovers within this period, the coordinator will send the hint to the replica node so that 
+		it can update itself and become consistent with the other replicas. If the replica node is offline for more than 3 hours, 
+		then a read repair is needed. This process is referred as Hinted Handoff.
+
+	Write Internals
+		In short, when a write request reaches a node, mainly two things happen:
+			1. The write request is appended to the commit log in the disk. This ensures data durability 
+			   (the write request data would permanently survive even in a node failure scenario)
+			2. The write request is sent to the memtable (a structure stored in the memory). When the memtable is full, 
+			   the data is flushed to a SSTable on disk using sequential I/O and the data in the commit log is purged.
 
