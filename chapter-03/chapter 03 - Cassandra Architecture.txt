@@ -636,7 +636,57 @@ Staged event-driven architecture
 	SEDA aims to resolve the above-mentioned problems by decomposing the application code into multiple stages, 
 	and each stage communicates with each other using the queues.
 
+Write Path Anatomy
+	Coordinator
+		When a request is sent to any Cassandra node, this node acts as a proxy for the application (actually, the Cassandra driver) 
+		and the nodes involved in the request flow. This proxy node is called as the coordinator. 
+		The coordinator is responsible for managing the entire request path and to respond back to the client.
+		Besides, sometimes when the coordinator forwards a write request to the replica nodes, 
+		they may happen to be unavailable at this very moment. In this case, the coordinator plays an important role 
+		implementing a mechanism called Hinted Handoff.
+
+	Partitioner
+		Basically, for each node in the Cassandra cluster (Cassandra ring) is assigned a range of tokens.
+		Cassandra distributes data across the cluster using a Consistent Hashing algorithm and, starting from version 1.2, 
+		it also implements the concept of virtual nodes (vnodes), where each node owns a large number of small token ranges 
+		in order to improve token reorganization and avoid hotspots in the cluster, that is, some nodes storing much more data than the others. Virtual nodes also allow to add and remove nodes in the cluster more easily and manages the token assignment automatically 
+		for you so that you can enjoy a nice coffee when adding or removing a node instead of calculating and 
+		assigning new token ranges for each node (which is a very error-prone operation, by the way).
+		Well, that said, the partitioner is the component responsible for determining how to distribute the data across the nodes in the cluster given the partition key of a row. Basically, it is a hash function for computing a token given the partition key.
+		Once the partitioner applies the hash function to the partition key and gets the token, 
+		it knows exactly which node is going to handle the request.
 	
+	Replication
+		Life would be much easier if…
+			- Nodes never fail
+			- Networks had no latency
+			- People did not stumble on cables
+			- Amazon did not restart your instances
+			- Full GC meant “Full Guitar Concert”
+		And so on. Unfortunately, these things happen all the time and you already chose a software engineer career.
+		Fortunately, Cassandra offers automatic data replication and keeps your data redundant throughout different nodes in the cluster. 
+		This means that (in certain levels) you can even resist to node failure scenarios and your data would still be safe and available. 
+		But everything comes at a price, and the price of replication is consistency.
+
+	Replication Strategy
+		Basically, the coordinator uses the Replication Strategy to find out which nodes will be the replica nodes for a given request.
+		There are two replication strategies available:
+			- SimpleStrategy: used for a single data center deployment (not recommended for production environment). 
+			  It doesn’t consider the network topology. Basically, it just takes the partitioner’s decision 
+			  (that is, the node that will handle the request first based on the token range) 
+			  and places the remaining replicas clockwise in relation to this node. 
+			- NetworkTopologyStrategy: used for multiple data centers deployment (recommended for production environment). 
+			  It also takes the partitioner’s decision and places the remaining replicas clockwise, 
+			  but it also takes into consideration the rack and data centers configuration.
+
+	Replication Factor
+		When you create a table (Column Family) in Cassandra, you specify the replication factor. 
+		The replication factor is the number of replicas that Cassandra will hold for this table in different nodes. 
+		If you specify REPLICATION_FACTOR=3, then your data will be replicated to 3 different nodes throughout the cluster. 
+		That provides fault tolerance and resilience because even if some nodes fail your data would still be safe and available.
+
+	
+
 
 
 
