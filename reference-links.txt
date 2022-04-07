@@ -46,6 +46,7 @@ https://www.geeksforgeeks.org/data-distribution-in-cassandra/
 https://cassandra.apache.org/_/cassandra-basics.html
 https://en.wikipedia.org/wiki/Staged_event-driven_architecture
 https://medium.com/@bhanukishore22/what-is-staged-event-driven-architecture-edd4f39a102c
+https://medium.com/jorgeacetozi/cassandra-architecture-and-write-path-anatomy-51e339bcfe0c
 
 
 
