@@ -796,7 +796,19 @@ Read Path Anatomy
 		
 		- SSTable: The on-disk data structure which holds all the data once flushed from memory. 
 
+	Read Operation on a Node
 
+		1. Cassandra checks the row cache for data presence. If present, the data is returned, and the request ends.
+		
+		2. The flow of request includes checking bloom filters. If the bloom filter indicates data presented in an SSTable, 
+		   Cassandra continues to look for the required partition in the SSTable.
+		
+		3. The key cache is checked for the partition key presence. The cache hit provides an offset for the partition in SSTable. 
+		   This offset is then used to retrieve the partition, and the request completes.
+
+		4. Cassandra continues to seek the partition in the partition summary and partition index. 
+		   These structures also provide the partition offset in an SSTable which is then used to retrieve the partition and return. 
+		   The caches are updated if present with the latest data read.
 
 
 
