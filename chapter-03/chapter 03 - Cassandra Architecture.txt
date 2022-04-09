@@ -810,5 +810,34 @@ Read Path Anatomy
 		   These structures also provide the partition offset in an SSTable which is then used to retrieve the partition and return. 
 		   The caches are updated if present with the latest data read.
 
+	Read Repair
+		Cassandra ensures that frequently read data remains consistent. Once a read is done, the coordinator node compares the data 
+		from all remaining replicas that own the row in the background. If they are inconsistent, issues writes to the 
+		out of data replicas to update the row to reflect the most recently written values.
+		Read repairs can be configured per column family and is enabled by default.
+		Read repair is important because every time a read request occurs, it provides an opportunity for consistency improvement. 
+		As a background process, read repair generally puts little strain on the cluster.
+
+		How does a read repair work?
+			When a query is made against a given key…
+			1. Cassandra performs a Read Repair
+			2. Read Repair perform a digest query on all replicas for that key. A digest query asks a replica to 
+			   return a hash digest value and the timestamp for the key’s data. Digest query verify whether replica 
+			   posses the same data without sending the data over the network.
+			3. Cassandra pushes the most recent data to any out of date replicas to make the queries data consistent again. 
+			   Next query will therefore return a consistent data.
+
+	Strategies for Reads
+		ONE — reads from the closest node holding the data
+		QUORUM — returns a result from a quorum of servers with the most recent timestamp of data
+		LOCAL_QUORUM — returns a result from a quorum of servers with the most recent timestamp for the data 
+					   in the same data center as teh coordinator node
+		EACH_QUORUM — returns a result from a quorum of servers with the most recent timestamp in all data centers
+		ALL — returns a result from all replica nodes for a row key
+
+
+
+
+
 
 
