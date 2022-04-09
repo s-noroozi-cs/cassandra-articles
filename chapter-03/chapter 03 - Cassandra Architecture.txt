@@ -752,3 +752,51 @@ Write Path Anatomy
 			2. The write request is sent to the memtable (a structure stored in the memory). When the memtable is full, 
 			   the data is flushed to a SSTable on disk using sequential I/O and the data in the commit log is purged.
 
+Read Path Anatomy
+	
+	Steps:
+		Cassandra read path is the process followed by a Cassandra node to retrieve data in response to a read operation. 
+		The read path has more steps than the write path. Actions performed to serve a read request are as follows:
+			1. The coordinator generates a hash using the partition key and gathers the replica nodes which are responsible for storing the data.
+			2. The coordinator checks if replicas required to satisfy the read consistency level are available. 
+			   If not, an exception is thrown, and the read operation ends.
+			3. The coordinator then sends a read data request to the fastest responding replica; 
+			   the fastest replica could be the coordinator itself. The fast replica is determined by a dynamic snitch, 
+			   which keeps track of node latencies dynamically.
+			4. The coordinator then sends a digest request to the replicas of data. 
+			   The digest is a hash calculated over requested data by the replica nodes.
+			5. The coordinator compares all the digests to determine whether all the replicas have a consistent version of the data. 
+			   If those are equal, it returns the result obtained from the fastest replica.
+		If the digests from all the replicas are not equal, it means some replicas do not have the latest version of the data. 
+		In this case, read data requests for all the replicas are issued, and the data with the latest timestamp is returned to the client. 
+		Also, read repair requests are issued for the replicas which do not have the latest data version.
+
+	Components involved in a read operation on a node:
+
+		- Row cache: This is a cache for frequently read data rows, also referred to as hot data. 
+		  It stores a complete data row which can be returned directly to the client if requested by a read operation. 
+		  This is an optional feature and works best if there are a small number of hot rows which can fit in the row cache.
+		
+		- Partition key cache: This component caches the partition index entries per table which are frequently used. 
+		  In other words, it stores the location of partitions that are commonly queried but not the complete rows. 
+		  This feature is used by default in Cassandra, but it can be optimized more.
+		
+		- Bloom filter: A bloom filter is a data structure that indicates if a data partition could be included in a given SSTable. 
+		  The positive result returned by a bloom filter can be a false signal, but the negative results are always accurate. 
+		  Hence it saves a lot of seek-time for read operations.
+
+		- Partition index and summary: A partition index contains the offset of all partitions for their location in SSTable. 
+		  The partition summary is a summary of the index. These components enable locating a partition exactly in an SSTable 
+		  rather than scanning data.
+	
+		- Memtable: Memtable is an in-memory representation of SSTables. If a data partition is present in memtable, 
+		  it can be directly read for specific data rows and returned to the client.
+	
+		- Compression offset map: This is the map for locating data in SSTables when it is compressed on-disk. 
+		
+		- SSTable: The on-disk data structure which holds all the data once flushed from memory. 
+
+
+
+
+
