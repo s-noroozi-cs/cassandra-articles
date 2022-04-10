@@ -891,6 +891,6 @@ Consistency Level
 
 		We can configure the consistency level for each read query or at the global query level.
 
-		The diagram [] shows a couple of examples of CL on read:
+		The diagram [consistency-level-read.webp] shows a couple of examples of CL on read:
 
 
