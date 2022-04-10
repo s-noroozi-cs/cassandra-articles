@@ -875,6 +875,22 @@ Consistency Level
 
 		The diagram [consistency-level-write.webp] shows a couple of examples of CL on write:
 
+	Consistency Level (CL) on Read
+		For read operations, the consistency level specifies how many replica nodes must respond with the latest consistent data before the coordinator successfully sends the data back to the client.
 
+		The consistency level ONE means only one replica node returns the data. The data retrieval is fastest in this case.
+
+		The consistency level QUORUM means 51% or a majority of replica nodes across all datacenters responds. 
+		Then the coordinator returns the data to the client. In the case of multiple data centers, 
+		the latency of inter-data center communication results in a slow read.
+
+		The consistency level of LOCAL_QUORUM means 51% or a majority of replica nodes within the same datacenter. 
+		As the coordinator responds, then the coordinator returns the data to the client. Thus, it avoids the latency of inter-datacenter communication.
+
+		The consistency level of ALL means all the replica nodes respond, then the coordinator returns the data to the client. Since all replica nodes need to acknowledge, the read operation is the slowest in this case. Moreover, if one of the replica nodes is down during the read operation, it fails, and availability suffers. The best practice is not to use this option in production deployment.
+
+		We can configure the consistency level for each read query or at the global query level.
+
+		The diagram [] shows a couple of examples of CL on read:
 
 
