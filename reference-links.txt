@@ -33,7 +33,7 @@ https://is.muni.cz/el/fi/podzim2019/PA195/um/
 https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-architecture
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archIntro.html
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/dml/dmlHowDataWritten.html
----https://www.instaclustr.com/blog/cassandra-architecture
+https://www.instaclustr.com/blog/cassandra-architecture
 https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.6683&rep=rep1&type=pdf
 http://highscalability.com/blog/2011/11/14/using-gossip-protocols-for-failure-detection-monitoring-mess.html
 https://www.geeksforgeeks.org/the-gossip-protocol-in-cloud-computing/
@@ -48,7 +48,7 @@ https://en.wikipedia.org/wiki/Staged_event-driven_architecture
 https://medium.com/@bhanukishore22/what-is-staged-event-driven-architecture-edd4f39a102c
 https://medium.com/jorgeacetozi/cassandra-architecture-and-write-path-anatomy-51e339bcfe0c
 https://allaboutreact.medium.com/study-guide-cassandra-data-consistency-496e5bf9cadb
-
+https://www.baeldung.com/cassandra-consistency-levels
 
 
 ======================== Success Stories / Use Cases ========================
