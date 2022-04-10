@@ -865,15 +865,15 @@ Consistency Level
 
 		The consistency level ONE means it needs acknowledgment from only one replica node. Since only one replica needs to acknowledge, the write operation is fastest in this case.
 
-The consistency level QUORUM means it needs acknowledgment from 51% or a majority of replica nodes across all datacenters.
+		The consistency level QUORUM means it needs acknowledgment from 51% or a majority of replica nodes across all datacenters.
 
-The consistency level of LOCAL_QUORUM means it needs acknowledgment from 51% or a majority of replica nodes just within the same datacenter as the coordinator. Thus, it avoids the latency of inter-datacenter communication.
+		The consistency level of LOCAL_QUORUM means it needs acknowledgment from 51% or a majority of replica nodes just within the same datacenter as the coordinator. Thus, it avoids the latency of inter-datacenter communication.
 
-The consistency level of ALL means it needs acknowledgment from all the replica nodes. Since all replica nodes need to acknowledge, the write operation is the slowest in this case. Moreover, if one of the replica nodes is down during the write operation, it fails, and availability suffers. Therefore, the best practice is not to use this option in production deployment.
+		The consistency level of ALL means it needs acknowledgment from all the replica nodes. Since all replica nodes need to acknowledge, the write operation is the slowest in this case. Moreover, if one of the replica nodes is down during the write operation, it fails, and availability suffers. Therefore, the best practice is not to use this option in production deployment.
 
-We can configure the consistency level for each write query or at the global query level.
+		We can configure the consistency level for each write query or at the global query level.
 
-The diagram below shows a couple of examples of CL on write:
+		The diagram [consistency-level-write.webp] shows a couple of examples of CL on write:
 
 
 
