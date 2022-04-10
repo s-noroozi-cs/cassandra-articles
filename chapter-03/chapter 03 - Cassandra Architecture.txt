@@ -835,8 +835,30 @@ Read Path Anatomy
 		EACH_QUORUM — returns a result from a quorum of servers with the most recent timestamp in all data centers
 		ALL — returns a result from all replica nodes for a row key
 
+Data Replication
+	Data replication refers to storing copies of each row in multiple nodes. 
+	The reason for data replication is to ensure reliability and fault tolerance. 
+	Consequently, if any node fails for any reason, the replication strategy makes sure that the same data is available in other nodes.
+	
+	The replication factor (RF) specifies how many nodes across the cluster would store the replicas.
+	There are two available replication strategies:
+		1. The SimpleStrategy is used for a single data center and one rack topology. 
+		   First, Cassandra uses partitioner logic to determine the node to place the row. 
+		   Then it puts additional replicas on the next nodes clockwise in the ring.
 
+		2. The NetworkTopologyStrategy is generally used for multiple datacenters and multiple racks. 
+		   Additionally, it allows you to specify a different replication factor for each data center. 
+		   Within a data center, it allocates replicas to different racks to maximize availability.
 
+Consistency Level
+	Consistency indicates how recent and in-sync all replicas of a row of data are. 
+	With the replication of data across the distributed system, achieving data consistency is a very complicated task.
+
+	Cassandra prefers availability over consistency. It doesn't optimize for consistency. Instead, 
+	it gives you the flexibility to tune the consistency depending on your use case. 
+	In most use cases, Cassandra relies on eventual consistency.
+
+	Let's look at consistency level impact during the write and read of data.
 
 
 
