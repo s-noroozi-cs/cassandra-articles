@@ -954,11 +954,65 @@ Repair
 		
 		4. Compaction bottleneck - Building Merkle trees and exchanging Merkle trees deal with validation compaction. Based on the repair strategy and data load bottlenecks can be occurred.
 
+	Improve repairs
+		Cassandra nodetool introduced some mechanisms to provide better repair strategies to run repairs effectively and smoothly.
+		
+		1. Primary range repair - By default, repair will operate on all token ranges replicated by the node you’re running the repair. It will cause duplicate work if you run the repair on every node. Primary range repair will only repairs the data of the primary range, but not other ranges managed on the node. When using this option, it avoids the cost of doing Merkle tree calculation on non-primary range data. It also helps reduce excessive data streaming across the network. Since each node only repairs one range of data that is managed by a node, this option needs to run on ALL nodes in the ring in order to repair all the data. This option is available in very early release (0.x) of Cassandra.
 
+		2. Parallel/Sequential repair - With parallel repairs, the expensive repair operations (especially the Merkle tree building part) can run on multiple nodes concurrently. This could be problematic and may slow down the entire cluster. With sequential repairs at any time for a given replica set of data, only one replica is being repaired, allowing other replica to satisfy the application requests in a more performant way. Sequential is a default strategy after Cassandra 2.0.
 
+		3. Incremental repair - Normal repairs which identifies as full repairs build Merkel trees from all SSTables(repaired or not). To overcome this concerns incremental repairs has been introduced in Cassandra 2.1. This has become the default strategy since Cassandra 2.2. Instead of building a Merkle tree out of all SSTables (repaired or not), incremental option only builds the tree out of un-repaired SSTables. To do this it maintains two SSTables(one that contains the data that was repaired in the session and another one with the remaining un-repaired data). With this option the size of the Merkel tree will be reduced and cost less CPU/IO resources and compaction bottleneck, less data will be streamed over the network, already repaired data won’t be repaired again. Incremental repair is not concurrency oriented. If we run incremental repairs concurrently in multiple nodes, it may causes errors.
 
+		4. Subrange repair - To solve the issues with overstreaming subrange repair can be used. Subrange repair involves repairing smaller subset of the data in token range of a node. It has options of -st (or –start-token) and -et(or –end-token) to specify a particular sub-range of data to repair. Subrange repairs can be parallelly run on different sets of data at the same time, either on the same node, or on different nodes. This repairs are incompatible with incremental repairs, that means subrange repairs cannot run as incrementally. Subrange repairs allows DevOps teams to schedule the repairs to best match the cluster’s workload. Any way need to make sure that all subrange repairs run with in gc_grace_seconds limit.
 
+	When and when not to repair
+		When and when not to run repairs in Cassandra clusters? is always a debatable question. 
+	
+		Following are some common scenarios which repairs are required.
+		
+		1. Multi region clusters.
+		2. Low consistent read and writes.
+		3. Frequent node outages.
+		4. Low read-repair change.
+		5. Having flaky, easily breakable network.
 
+		Following are some scenarios which may not need to run repairs in Cassandra cluster.
+	
+		1. Short TTLs.
+		2. Just do single writes with no updates.
+		3. Have a single data center and rely on TTLs to delete your data
+		4. Highly consistent read and writes.
+		5. High read repair chance.
+
+	Repair best practices
+		Following are some best practices we can follow and some bad practices we need to avoid when running Cassandra repairs.
+
+		1. Avoid running repairs on all nodes at once in the cluster since it could lead performance bottleneck.
+		
+		2. Put your repair strategy in place from day one when deploying the cluster. Don’t wait till getting errors.
+		
+		3. Use tools to orchestrate the repairs. Build your own tool or use some available tools like OpsCenter(available on
+		   datastax enterprise) and Cassandra-Reaper.
+
+		4. Complete whole repair cycles with in gc_grace_seconds limit(run repair at lease once in gc_grace_seconds limit).
+
+		5. Don’t repair everything in the cluster, choose tables with more manual DELETE operations and critical data.
+
+		6. Avoid concurrency in incremental repairs(run one node at a time).
+
+	Repair orchestration with Reaper
+		When running repairs in larger clusters continuously, we need to have some way to orchestrate the repairs. 
+		There are some tools available to do repair orchestration such as OpsCenter(in datastax enterprise) and Cassandra-Reaper. 
+
+		About Reaper
+			Reaper is an open source tool that aims to schedule and orchestrate repairs of Apache Cassandra clusters. 
+			It improves the existing nodetool repair process by 
+
+			1. Splitting repair jobs into smaller tunable segments.
+			2. Handling back-pressure through monitoring running repairs and pending compactions.
+			3. Adding ability to pause or cancel repairs and track progress precisely.
+
+		Reaper ships with a REST API, a command line tool and a web UI. It connects to Cassandra cluster via JMX endpoint and executes nodetool commands. The latest Reaper version(2.0) allows to run 
 
 
 
