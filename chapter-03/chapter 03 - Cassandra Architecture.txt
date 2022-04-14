@@ -930,20 +930,29 @@ Repair
 	It is advised to run repair operations at leasts every gc_grace_seconds(default 10 days) to ensure 
 	that tombstones will get replicated consistently to avoid zombie records if you perform DELETE statements on your tables.
 
-How repair works
-	The Anti-Entropy repair perform repairs without comparing all data between all replicas, 
-	Cassandra uses Merkle trees to compare trees of hashed values instead. We can run the repair with nodetool reapir command. 
-	It can be run on either a specified node or on all nodes(if a node is not specified it runs on all nodes). 
-	The node that initiates the repair becomes the coordinator node for the operation. Following are the steps of repairing.
+	How repair works
+		The Anti-Entropy repair perform repairs without comparing all data between all replicas, 
+		Cassandra uses Merkle trees to compare trees of hashed values instead. We can run the repair with nodetool reapir command. 
+		It can be run on either a specified node or on all nodes(if a node is not specified it runs on all nodes). 
+		The node that initiates the repair becomes the coordinator node for the operation. Following are the steps of repairing.
 
-		1. Coordinator node scans the partition ranges that it owns (either as primary or replica) one by one. For each partition
-		   range, it sends the request to each of the peer/replica nodes to build a Merkle tree.
+			1. Coordinator node scans the partition ranges that it owns (either as primary or replica) one by one. 
+			For each partition range, it sends the request to each of the peer/replica nodes to build a Merkle tree.
+			
+			2. The peer/replica node scans all SSTables and a major, or validation, compaction is triggered. 
+			It reads every row in the SSTables, generates a hash for it, and then adds the result to a Merkle tree.
+			
+			3. Once the peer node finishes building the Merkle tree, it sends the result back to the coordinator. 
+			The coordinator node compares every Merkle tree with all other trees. If difference is detected, data is exchanged between differing nodes.
+
+	Concerns in reapair
+		1. Overstreaming - In Cassandra Merkle trees can have maximum 32,000 leaf nodes. Due to this reason each leaf node of the Merkle tree may not responsible for one row in the data set. It may contains thousand of rows(with GBs of size). If data mismatch occurs in one record in the leaf node, it needs to stream whole leaf node between peers/replicas instead of streaming single mismated record. It could causes streaming large data between nodes(could be GBs or TBs of size) which identified as overstreaming.
 		
-		2. The peer/replica node scans all SSTables and a major, or validation, compaction is triggered. It reads every row in the
-		   SSTables, generates a hash for it, and then adds the result to a Merkle tree.
+		2. High CPU/IO operations - Building Merkle tree requires hashing every row of all SSTables, it is a very expensive operation, stressing CPU, memory, and disk I/O.
 		
-		3. Once the peer node finishes building the Merkle tree, it sends the result back to the coordinator. The coordinator node 
-		   compares every Merkle tree with all other trees. If difference is detected, data is exchanged between differing nodes.
+		3. Long time and stuck repairs - Based on the data load in the nodes, repair may take long time. Sometimes with stuck behaviors.
+		
+		4. Compaction bottleneck - Building Merkle trees and exchanging Merkle trees deal with validation compaction. Based on the repair strategy and data load bottlenecks can be occurred.
 
 
 
