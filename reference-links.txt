@@ -49,6 +49,9 @@ https://medium.com/@bhanukishore22/what-is-staged-event-driven-architecture-edd4
 https://medium.com/jorgeacetozi/cassandra-architecture-and-write-path-anatomy-51e339bcfe0c
 https://allaboutreact.medium.com/study-guide-cassandra-data-consistency-496e5bf9cadb
 https://www.baeldung.com/cassandra-consistency-levels
+https://cassandra.apache.org/doc/latest/cassandra/operating/repair.html
+https://medium.com/rahasak/orchestrate-repairs-with-cassandra-reaper-26094bdb59f6
+
 
 
 ======================== Success Stories / Use Cases ========================
