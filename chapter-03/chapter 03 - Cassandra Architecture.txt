@@ -893,4 +893,67 @@ Consistency Level
 
 		The diagram [consistency-level-read.webp] shows a couple of examples of CL on read:
 
+Repair
+	Cassandra is designed to remain available if one of it’s nodes is down or unreachable. 
+	However, when a node is down or unreachable, it needs to eventually discover the writes it missed. 
+	Hints attempt to inform a node of missed writes, but are a best effort, 
+	and aren’t guaranteed to inform a node of 100% of the writes it missed. 
+	These inconsistencies can eventually result in data loss as nodes are replaced or tombstones expire.
+
+	These inconsistencies are fixed with the repair process. Repair synchronizes the data between nodes by 
+	comparing their respective datasets for their common token ranges, and streaming the differences for 
+	any out of sync sections between the nodes. It compares the data with merkle trees, which are a hierarchy of hashes.
+
+	Incremental and Full Repairs
+		There are 2 types of repairs: full repairs, and incremental repairs. 
+			1. Full repairs operate over all of the data in the token range being repaired. 
+			2. Incremental repairs only repair data that’s been written since the previous incremental repair.
+
+		Incremental repairs are the default repair type, and if run regularly, can significantly reduce the time 
+		and io cost of performing a repair. However, it’s important to understand that once an incremental repair 
+		marks data as repaired, it won’t try to repair it again. This is fine for syncing up missed writes, 
+		but it doesn’t protect against things like disk corruption, data loss by operator error, or bugs in Cassandra. 
+		For this reason, full repairs should still be run occasionally.
+
+	To orchestrate the repairs I’m gonna use Cassandra-Reaper tool which built and open sourced by Spotify. 
+	Now this package is maintaining by a team at Thelastpickle. 
+
+	In some scenarios Cassandra automatically repair the data inconsistencies with Hinted Hand-off and Read-Repair. 
+	But in some scenarios such as node goes down longer than max_hint_window_in_ms(which defaults to 3 hours), 
+	having low read write consistency levels, corrupted SSTables, more manual data deletion with out using TTLs, 
+	low time interval in TTL(lower than 3 hours) we need to run manual repair on Cassandra cluster. 
+
+	The manual repair process in Cassandra known as Anti-Entropy repair. Anti-Entropy repair in Cassandra is a 
+	maintenance operation that restores data consistency throughout a cluster(data inconsistencies are fixed 
+	with the repair process). Repair synchronizes the data between nodes by comparing their respective datasets 
+	for their common token ranges, and streaming the differences for any out of sync sections between the nodes. 
+	It is advised to run repair operations at leasts every gc_grace_seconds(default 10 days) to ensure 
+	that tombstones will get replicated consistently to avoid zombie records if you perform DELETE statements on your tables.
+
+How repair works
+	The Anti-Entropy repair perform repairs without comparing all data between all replicas, 
+	Cassandra uses Merkle trees to compare trees of hashed values instead. We can run the repair with nodetool reapir command. 
+	It can be run on either a specified node or on all nodes(if a node is not specified it runs on all nodes). 
+	The node that initiates the repair becomes the coordinator node for the operation. Following are the steps of repairing.
+
+		1. Coordinator node scans the partition ranges that it owns (either as primary or replica) one by one. For each partition
+		   range, it sends the request to each of the peer/replica nodes to build a Merkle tree.
+		
+		2. The peer/replica node scans all SSTables and a major, or validation, compaction is triggered. It reads every row in the
+		   SSTables, generates a hash for it, and then adds the result to a Merkle tree.
+		
+		3. Once the peer node finishes building the Merkle tree, it sends the result back to the coordinator. The coordinator node 
+		   compares every Merkle tree with all other trees. If difference is detected, data is exchanged between differing nodes.
+
+
+
+
+
+
+
+
+
+
+
+
 
