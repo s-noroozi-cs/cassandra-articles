@@ -1014,7 +1014,12 @@ Repair
 
 		Reaper ships with a REST API, a command line tool and a web UI. It connects to Cassandra cluster via JMX endpoint and executes nodetool commands. The latest Reaper version(2.0) allows to run Reaper as sidecar on Cassandra cluster.
 
+Compaction
+	Cassandra is optimized for writing large amounts of data very quickly. 
+	Cassandra writes all incoming data in an append-only manner in internal files called SSTables. 
+	These SSTables hence contain newly inserted data and updates/deletes of previously inserted data.
 
+	
 
 
 
