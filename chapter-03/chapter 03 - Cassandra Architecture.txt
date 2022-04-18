@@ -1029,6 +1029,10 @@ Compaction
 	It is important to take some time when designing a Cassandra table schema to think about 
 	how each table will be used, and therefore the Cassandra Compaction strategy would be most effective.
 
-	
+	Although it is possible to change compaction strategies after the table has been created, 
+	doing so will have a significant impact on the cluster’s performance that is proportionate 
+	to the amount of data in the table. This is because Cassandra will re-write all of the data 
+	in that table using the new Compaction Strategy.
 
+	
 
