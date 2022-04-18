@@ -51,6 +51,7 @@ https://allaboutreact.medium.com/study-guide-cassandra-data-consistency-496e5bf9
 https://www.baeldung.com/cassandra-consistency-levels
 https://cassandra.apache.org/doc/latest/cassandra/operating/repair.html
 https://medium.com/rahasak/orchestrate-repairs-with-cassandra-reaper-26094bdb59f6
+https://www.instaclustr.com/blog/apache-cassandra-compaction/
 
 
 
