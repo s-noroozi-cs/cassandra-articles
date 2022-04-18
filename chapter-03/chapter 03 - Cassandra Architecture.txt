@@ -1019,9 +1019,12 @@ Compaction
 	Cassandra writes all incoming data in an append-only manner in internal files called SSTables. 
 	These SSTables hence contain newly inserted data and updates/deletes of previously inserted data.
 
+	Cassandra Compaction is a process of reconciling various copies of data spread across distinct SSTables. 
+	Cassandra performs compaction of SSTables as a background activity. 
+	Cassandra has to maintain fewer SSTables and fewer copies of each data row due to compactions improving its read performance.
+	Compaction is a crucial area of Cassandra performance and maintenance.
+
 	
-
-
 
 
 
