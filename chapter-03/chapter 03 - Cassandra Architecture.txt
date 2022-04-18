@@ -1024,8 +1024,11 @@ Compaction
 	Cassandra has to maintain fewer SSTables and fewer copies of each data row due to compactions improving its read performance.
 	Compaction is a crucial area of Cassandra performance and maintenance.
 
+	While regular compactions are an integral part of any healthy Cassandra cluster – the way that they are configured 
+	can vary significantly depending on the way a particular table is being used. 
+	It is important to take some time when designing a Cassandra table schema to think about 
+	how each table will be used, and therefore the Cassandra Compaction strategy would be most effective.
+
 	
-
-
 
 
