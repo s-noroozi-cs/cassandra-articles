@@ -1057,5 +1057,88 @@ Compaction
 		   Compactions prune deleted data and merge disparate row data into new SSTables in order 
 		   to reclaim disk space and keep read operations optimized.
 
-	
+	Compaction Strategies
+		Multiple Compaction Strategies are included with Cassandra, and each is optimized for a different use case:
+		
+		Type of Compaction Strategy
+			SizeTiered Compaction Strategy (STCS)
 
+		Description
+			This is the default compaction strategy. This compaction strategy triggers a compaction 
+			when multiple SSTables of a similar size are present. 
+			Additional of parameters allow STCS to be tuned to increase or decrease 
+			the number of compactions it performs and how tombstones are handled.
+
+		When
+			This compaction strategy is good for insert-heavy and general workloads.
+
+		------------------------------------------------------------------------------------------------------------
+
+		Type of Compaction Strategy
+			Leveled Compaction Strategy (LCS)
+		
+		Description
+			This strategy groups SSTables into levels, each of which has a fixed size limit which is 10 times 
+			larger than the previous level. SSTables are of a fixed, relatively small size (160MB by default) – 
+			so if Level 1 might contain 10 SSTables at most, then Level 2 will contain 100 SSTables at most. 
+			SSTables are guaranteed to be non-overlapping within each level – 
+			if any data overlaps when a table is promoted to the next level, overlapping tables are re-compacted.
+
+			For example: when Level 1 is filled, any new SSTables being added to that level are compacted 
+			together with any existing tables that contain overlapping data. 
+			If these compactions result in Level 1 now containing too many tables, 
+			the additional table(s) overflow to Level 2.
+
+		When
+			This compaction strategy is the best for read-heavy workloads (because tables within a level 
+			are non-overlapping, LCS guarantees that 90% of all reads can be satisfied from a single SSTable) 
+			or workloads where there are more updates than there are inserts.
+
+		------------------------------------------------------------------------------------------------------------
+
+		Type of Compaction Strategy
+			DateTiered Compaction Strategy (DTCS)
+
+		Description
+			This compaction strategy is designed for use with time-series data. 
+			DTCS stores data written within a the same time period in the same SSTable. 
+			Multiple SSTables that are themselves written in the same time window will be compacted together, 
+			up until a certain point, after which the SSTables are no longer compacted. 
+			SSTables are also configured with a TTL. SSTables that are older than the TTL will be dropped, 
+			incurring zero compaction overhead.
+
+		When
+			DTCS is deprecated in Cassandra 3.0.8/3.8 and later. 
+			The TWCS is improved version of DTCS, it is available with version 3.0.8/3.8 and later.
+			
+			DTCS is highly performant and efficient, but only if the workload matches the strict requirements of DTCS. 
+			DTCS is not designed to be used with workloads where there are updates to old data or 
+			inserts that are out of order. If your workload does not fit these requirements, 
+			you may be better off using STCS and using a bucketing key (such as hour/day/week) to break up your data.
+		
+		------------------------------------------------------------------------------------------------------------
+
+		Type of Compaction Strategy
+			Time Window Compaction Strategy
+
+		Description
+			The Time Window Compaction Strategy is designed to work on time series data. 
+			It compactes SSTables within a configured time window. 
+			TWCS utilizes STCS to perform these compactions. At the end of each time window, 
+			all SSTables are compacted to a single SSTable so there is one SSTable for a time window. 
+			TWCS also effectively purges data when configured with time to live by dropping complete SSTables after TTL expiry.
+			
+			TWCS is similar to DTCS except for operational improvements. 
+			Write amplifications is prevented by only compacting SSTables within a time window. 
+			The maximum SSTable timestamp is used to decide which time window it belongs to.
+
+		When
+			TWCS is ideal for time series data which is immutable after a fixed time interval. 
+			Updating the data after the specified time window results in multiple SSTables referring 
+			to the same data. Those SSTables will not get compacted together.
+ 			
+ 			TWCS can be used with Cassandra 2.x by  adding jar file.
+
+
+
+ 			
