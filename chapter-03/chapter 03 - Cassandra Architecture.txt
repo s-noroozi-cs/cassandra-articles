@@ -1034,5 +1034,28 @@ Compaction
 	to the amount of data in the table. This is because Cassandra will re-write all of the data 
 	in that table using the new Compaction Strategy.
 
+	To understand the importance of compactions in Cassandra, you must first understand how Cassandra writes data to a disk. 
+	The Cassandra write path in a nutshell:
+
+		1. Cassandra stores recent writes in memory (in a structure called the Memtable).
+		
+		2. When enough writes have been made, Cassandra flushes the Memtable to disk. 
+		   Data on disk is stored in relatively simple data structures called Sorted String Tables (SSTable). 
+		   At the most simplified level, an SSTable could be described as a sorted array of strings.
+
+		3. Before writing a new SSTable, Cassandra merges and pre-sorts the data in the Memtable according to Primary Key. 
+		   In Cassandra, a Primary Key consists of a Partition Key (the unique key that determines which node 
+		   the data is stored on) and any Clustering Keys that have been defined.
+
+		4. The SSTable is written to disk as a single contiguous write operation. 
+		   SStables are immutable. Once they are written to disk they are not modified. 
+		   Any updates to data or deletion of data within an SSTable is written to a new SSTable. 
+		   If data is updated regularly, Cassandra may need to read from multiple SSTables to retrieve a single row.
+		
+		5. Compaction operations occur periodically to re-write and combine SSTables. 
+		   This is required because SSTables are immutable (no modifications once written to disk). 
+		   Compactions prune deleted data and merge disparate row data into new SSTables in order 
+		   to reclaim disk space and keep read operations optimized.
+
 	
 
