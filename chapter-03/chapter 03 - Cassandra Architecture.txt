@@ -1175,3 +1175,12 @@ Introduction
 		and a set of non-contiguous counters. 
 	It can be thought of as indicated [node-logical-clock-bitmap.png]
 
+	In order to map dots to the actual keys they represent, a special Dot-Key map is stored. 
+	So when a certain dots are missing during repair or anti-entropy process, they’re filled using this map.
+
+	In order to keep the clocks compact, node base versions are “stripped” and replicated versions 
+	are removed from causal context.
+
+	
+
+
