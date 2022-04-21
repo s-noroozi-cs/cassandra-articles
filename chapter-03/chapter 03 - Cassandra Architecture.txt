@@ -1203,6 +1203,82 @@ Tombstones
 		Therefore in-place deletes will not work with a distributed system like Cassandra and 
 		would need a more sophisticated mechanism to handle deletes called Tombstones.
 
-	
+		A Tombstone is a special marker for the data by which Cassandra creates a placeholder for the deleted data. 
+		What this means is, data is not immediately deleted from your data store, 
+		so you wouldn’t see the size of your data store shrink immediately following a delete operation. 
+		If any of the nodes did not receive the delete request, the tombstone can be replayed to such nodes 
+		when they are back online again. Each node keeps track of the age of all its tombstones. 
+		A configurable parameter gc_grace_seconds is the time for which tombstones will be retained 
+		by a node before a compaction cycle runs and the tombstones are garbage collected 
+		freeing up the disk space on the node. The default value for gc_grace_seconds is 864,000 (or 10 days).
 
+	Tombstones and reads
+		Every piece of data that is written to Cassandra is stored with an associated timestamp attached to it, 
+		this is applicable even for tombstones. Tombstones are scanned by Cassandra while servicing a read request. 
+		The shards of the data from memtable and SSTables are merged together along with tombstones and 
+		the correct data value is chosen with the Last-Write-Wins (LWW) algorithm. 
+		This means, your read performance will degrade with the number of tombstones present in your tables.
+
+	Types of tombstones
+		Tombstones can get created in a number of ways and it is crucial that you understand certain pitfalls 
+		that can lead to implicit creation of tombstones that will remain hidden from the programmer’s point of view 
+		until it surfaces as a plausible issue affecting your cluster. 
+		Therefore, it’s important to understand the types of tombstones that can be created in Cassandra:
+
+		Cell tombstones
+			Insert statements can create tombstones when a certain cell value is set as null in the query. 
+			This can happen when the database abstraction layer or an ORM framework abstracts the query 
+			with object-level representation and the null values get implicitly sent down in the actual query to Cassandra. 
+			For instance, consider the following CQL query:
+
+				INSERT INTO item_price 
+					( store_number,  item_id  , price  , replacements , product_code ) 
+				VALUES 
+					( ‘CA104’     , ‘item104’ , 2.50   , null         , ‘p104’);
+
+			This would create a cell tombstone for the replacements column for the record with store_number CA104.
+
+			Now consider the following delete query:
+			
+				DELETE replacements FROM item_price WHERE store_number = ‘CA104’;
+
+			This would also create a cell tombstone for the corresponding record.
+
+		Row tombstones
+			An entire row is marked as a tombstone as a result of a delete query that identifies a row. For example:
+
+			DELETE FROM item_price WHERE store_number = ‘CA101’ and item_id=’item101' and price = 1.80;
+
+			Sstabledump would show a deletion_info at the row level for the clustering columns within the partition.
+
+			A large number of row tombstones can be an indication of a poor data model whereby your application 
+			is frequently deleting records from a table. In such cases, consider revisiting your data model 
+			and redesigning tables based on query patterns and the cardinality.
+
+
+		Range tombstones
+			Deleting an entire range of rows using WHERE clause with a partition key and a range represented 
+			by a clustering column. For instance:
+
+			DELETE FROM item_price WHERE store_number = ‘CA101’ AND item_id=’item101' AND price > 2.0;
+
+		Partition tombstones
+			Tombstones of this type are created when a delete query is fired using only the partition key in the WHERE clause. 
+			For example:
+
+				DELETE FROM item_price WHERE store_number = ‘CA102’;
+
+			As you have undoubtedly guessed, this would delete the entire partition CA102 and the sstabledump 
+			would show the partition the deletion_info attribute with marked_deleted timestamp.
+
+		TTL tombstones
+			These are tombstones created automatically when the time-to-live expires for a particular row or cell. 
+			However, they are marked differently than normal tombstones.
+			The following insert statement would create a TTL tombstone after 20 seconds.
+
+			INSERT INTO item_price 
+				( store_number, item_id  , price , replacements             , product_code) 
+			VALUES 
+				( ‘CA103’     , ‘item103’, 3.0   , {‘item101-r’, ‘item101’} , ‘p103’) 
+			using TTL 20;
 
