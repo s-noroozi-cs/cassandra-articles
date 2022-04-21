@@ -1156,3 +1156,11 @@ Causal Consistency
 	This is an important model in distributed systems, since even perfect physical clocks, 
 	which cannot be achieved in practice, will still fail to capture the causality between updates.
 
+Distributed Deletes
+	given a delete request, completely removing an object from storage is normally not possible 
+	without losing causality information which may lead to that object resurfacing 
+	via delayed replication messages or synchronisation with outdated nodes. 
+	In order to solve this problem, tombstones serve as placeholders for a key, indicating that the record was removed.
+
+
+	
