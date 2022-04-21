@@ -1182,6 +1182,27 @@ Compaction
 		are removed from causal context.
 
 Tombstones
+	Deleting data is not the same in Cassandra as it is with a relational database. 
+	Unlike a relational database system, Cassandra does not remove the data immediately 
+	but simply captures the delete operation as a marker on that data which is called a Tombstone. 
+	This very fact presents the challenge of propagating deletes on the stored data. 
+	If not properly handled, this can become a performance bottleneck, 
+	therefore it is crucial to understand how deletes are handled in Cassandra.
+
+	The Need for Tombstones
+		Apache Cassandra is a distributed database that offers high availability and partition tolerance 
+		with eventual or tunable consistency. It uses log-structured merge-tree storage that means, 
+		writes are always appended while reads take care of merging multiple fragments of a row by 
+		picking the latest version of data for each column. Any node in a Cassandra cluster can process 
+		a write operation and every write is sent to all replica nodes for that data. 
+		Now consider a situation when one of the replica nodes was down when a delete operation was performed; 
+		the node would simply miss the delete request. Once this downed node comes back online, 
+		it would mistakenly think that all the other nodes where the delete was applied 
+		had actually missed a write and would start repairing all the other nodes by sending the deleted data. 
+		This would lead to data resurrection issues in the cluster. 
+		Therefore in-place deletes will not work with a distributed system like Cassandra and 
+		would need a more sophisticated mechanism to handle deletes called Tombstones.
+
 	
 
 
