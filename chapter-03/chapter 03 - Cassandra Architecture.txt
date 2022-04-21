@@ -1139,8 +1139,20 @@ Compaction
  			
  			TWCS can be used with Cassandra 2.x by  adding jar file.
 
+ Anti-Entropy
+ 	in systems without strong coordination, consistency guarantees are somewhat loosened. 
+ 	In order to keep nodes in sync in presence of network partitions, anti-entropy protocols 
+ 	are used in order to “repair” the data and reconcile missing records.
 
+ Merkle-Trees 
+ 	are a binary hash-tree, holding hierarchies of hashes, often used for conflict resolution. 
+ 	Each inner node stores the hash of its children hashes; 
+ 	the leaf nodes store a list of key-hash pairs. By comparing hashes from top to the bottom, 
+ 	it is possible to locate the difference between trees and, subsequently, the information they represent.
 
+Causal Consistency
+	a model that captures causal relationship between two operations and guarantees that 
+	all processes can observe these operations in common causal order. 
+	This is an important model in distributed systems, since even perfect physical clocks, 
+	which cannot be achieved in practice, will still fail to capture the causality between updates.
 
-
- 			
