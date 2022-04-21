@@ -1144,43 +1144,44 @@ Compaction
  	In order to keep nodes in sync in presence of network partitions, anti-entropy protocols 
  	are used in order to “repair” the data and reconcile missing records.
 
- Merkle-Trees 
- 	are a binary hash-tree, holding hierarchies of hashes, often used for conflict resolution. 
- 	Each inner node stores the hash of its children hashes; 
- 	the leaf nodes store a list of key-hash pairs. By comparing hashes from top to the bottom, 
- 	it is possible to locate the difference between trees and, subsequently, the information they represent.
+	Merkle-Trees 
+	 	are a binary hash-tree, holding hierarchies of hashes, often used for conflict resolution. 
+	 	Each inner node stores the hash of its children hashes; 
+	 	the leaf nodes store a list of key-hash pairs. By comparing hashes from top to the bottom, 
+	 	it is possible to locate the difference between trees and, subsequently, the information they represent.
 
-Causal Consistency
-	a model that captures causal relationship between two operations and guarantees that 
-	all processes can observe these operations in common causal order. 
-	This is an important model in distributed systems, since even perfect physical clocks, 
-	which cannot be achieved in practice, will still fail to capture the causality between updates.
+	Causal Consistency
+		a model that captures causal relationship between two operations and guarantees that 
+		all processes can observe these operations in common causal order. 
+		This is an important model in distributed systems, since even perfect physical clocks, 
+		which cannot be achieved in practice, will still fail to capture the causality between updates.
 
-Distributed Deletes
-	given a delete request, completely removing an object from storage is normally not possible 
-	without losing causality information which may lead to that object resurfacing 
-	via delayed replication messages or synchronisation with outdated nodes. 
-	In order to solve this problem, tombstones serve as placeholders for a key, indicating that the record was removed.
+	Distributed Deletes
+		given a delete request, completely removing an object from storage is normally not possible 
+		without losing causality information which may lead to that object resurfacing 
+		via delayed replication messages or synchronisation with outdated nodes. 
+		In order to solve this problem, tombstones serve as placeholders for a key, indicating that the record was removed.
 
-Introduction
-	Every node keeps the log of operations, occurred locally or replicated, per peer. 
-	During anti-entropy, a node compares it’s own local Node Clock 
-	(represented in a compact way as a Bitmapped Version Vector) with remote Node Clock.
-	Node Clock summaries the local storage history, causality metadata for each object version. 
-	It represents which update events this node has seen, directly (coordinated by itself) 
-	or transitively (received from others). Concretely, the node clock groups dots per peer node, 
-	factoring out the node id part from the dots. For each node, the node clock represents 
-	the set of counters in two parts: 
-		an base counter representing the contiguous sequence starting from 1 (as in Version Vectors), 
-		and a set of non-contiguous counters. 
-	It can be thought of as indicated [node-logical-clock-bitmap.png]
+	Tips:
+		Every node keeps the log of operations, occurred locally or replicated, per peer. 
+		During anti-entropy, a node compares it’s own local Node Clock 
+		(represented in a compact way as a Bitmapped Version Vector) with remote Node Clock.
+		Node Clock summaries the local storage history, causality metadata for each object version. 
+		It represents which update events this node has seen, directly (coordinated by itself) 
+		or transitively (received from others). Concretely, the node clock groups dots per peer node, 
+		factoring out the node id part from the dots. For each node, the node clock represents 
+		the set of counters in two parts: 
+			an base counter representing the contiguous sequence starting from 1 (as in Version Vectors), 
+			and a set of non-contiguous counters. 
+		It can be thought of as indicated [node-logical-clock-bitmap.png]
 
-	In order to map dots to the actual keys they represent, a special Dot-Key map is stored. 
-	So when a certain dots are missing during repair or anti-entropy process, they’re filled using this map.
+		In order to map dots to the actual keys they represent, a special Dot-Key map is stored. 
+		So when a certain dots are missing during repair or anti-entropy process, they’re filled using this map.
 
-	In order to keep the clocks compact, node base versions are “stripped” and replicated versions 
-	are removed from causal context.
+		In order to keep the clocks compact, node base versions are “stripped” and replicated versions 
+		are removed from causal context.
 
+Tombstones
 	
 
 
