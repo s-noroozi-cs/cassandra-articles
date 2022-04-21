@@ -1162,5 +1162,16 @@ Distributed Deletes
 	via delayed replication messages or synchronisation with outdated nodes. 
 	In order to solve this problem, tombstones serve as placeholders for a key, indicating that the record was removed.
 
+Introduction
+	Every node keeps the log of operations, occurred locally or replicated, per peer. 
+	During anti-entropy, a node compares it’s own local Node Clock 
+	(represented in a compact way as a Bitmapped Version Vector) with remote Node Clock.
+	Node Clock summaries the local storage history, causality metadata for each object version. 
+	It represents which update events this node has seen, directly (coordinated by itself) 
+	or transitively (received from others). Concretely, the node clock groups dots per peer node, 
+	factoring out the node id part from the dots. For each node, the node clock represents 
+	the set of counters in two parts: 
+		an base counter representing the contiguous sequence starting from 1 (as in Version Vectors), 
+		and a set of non-contiguous counters. 
+	It can be thought of as indicated [node-logical-clock-bitmap.png]
 
-	
