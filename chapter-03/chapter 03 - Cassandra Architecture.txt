@@ -1134,10 +1134,12 @@ Compaction
 
 		When
 			TWCS is ideal for time series data which is immutable after a fixed time interval. 
-			Updating the data after the specified time window results in multiple SSTables referring 
-			to the same data. Those SSTables will not get compacted together.
+			Updating the data after the specified time window results in multiple SSTables referring to the same data. 
+			Those SSTables will not get compacted together.
  			
  			TWCS can be used with Cassandra 2.x by  adding jar file.
+
+
 
 
 
