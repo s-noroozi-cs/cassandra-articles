@@ -1282,3 +1282,18 @@ Tombstones
 				( ‘CA103’     , ‘item103’, 3.0   , {‘item101-r’, ‘item101’} , ‘p103’) 
 			using TTL 20;
 
+	Summary
+		- Cassandra treats a delete query internally as an update operation which adds a marker called tombstone 
+		  on the data to be deleted.
+
+		- Tombstones can be configured with an expiry time (gc_grace_seconds) and are cleaned up during the compaction process.
+
+		- sstabledump utility can be used to view the contents of an SSTable file in a human-readable format.
+
+		- Avoid writing Null values to your tables, as there can create tombstones. 
+		  Take care while making queries abstracted by your ORM layer.
+
+		- Range tombstones are preferred over cell or row tombstones as it just stores the range boundaries saving disk space.
+
+		- Avoid replacing entire elements of a collection like the set, list, map with INSERT and UPDATE queries 
+		  as this can create range tombstones.
