@@ -55,6 +55,8 @@ https://www.instaclustr.com/blog/apache-cassandra-compaction/
 https://medium.com/@ifesdjeen/database-papers-anti-entropy-without-merkle-trees-deletes-without-tombstones-a47d2b1608f3
 https://medium.com/walmartglobaltech/tombstones-in-apache-cassandra-d0a068a72dcc
 
+======================== chapter 04 ========================
+
 
 ======================== Success Stories / Use Cases ========================
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
