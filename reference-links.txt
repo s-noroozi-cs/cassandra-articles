@@ -66,6 +66,7 @@ https://medium.com/walmartglobaltech/tombstones-in-apache-cassandra-d0a068a72dcc
 https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
 https://netflixtechblog.com/building-netflixs-distributed-tracing-infrastructure-bb856c319304
 https://instagram-engineering.com/open-sourcing-a-10x-reduction-in-apache-cassandra-tail-latency-d64f86b43589
+https://engineering.atspotify.com/2015/01/personalization-at-spotify-using-cassandra/
 
 
 ---https://medium.com/@brunocrt/the-distributed-architecture-behind-cassandra-database-fba8b5cc4785
