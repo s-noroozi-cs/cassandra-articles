@@ -126,4 +126,8 @@ Instagram
 	We have open sourced our Rocksandra code base and benchmark framework, which you can download from Github to try out in your own environment! 
 	https://github.com/Instagram/cassandra/tree/rocks_3.0
 	https://github.com/Instagram/cassandra-aws-benchmark
+
+Spotify
+	Personalization at Spotify using Cassandra
+	
 	
