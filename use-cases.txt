@@ -128,6 +128,28 @@ Instagram
 	https://github.com/Instagram/cassandra-aws-benchmark
 
 Spotify
+	
 	Personalization at Spotify using Cassandra
+
+	At Spotify we have have over 60 million active users who have access to a vast music catalog of over 30 million songs. 
+	Our users have a choice to follow thousands of artists and hundreds of their friends and create their own music graph. 
+	On our service they also discover new and existing content by experiencing a variety of music promotions 
+	(album releases, artist promos), which get served over our ad platform. 
+	These options have empowered our users and made them really engaged. 
+	Over time they have created over 1.5 billion playlists and just last year they streamed over 7 billion hours worth of music.
+
+	But at times an abundance of options has also made our users feel a bit lost. 
+	How do you find that right playlist for your workout from over a billion playlists? 
+	How do you discover new albums which are relevant to your taste? 
+	We help our users discover and experience relevant content by personalizing their experience on our platform.
+
+	Personalizing user experience involves learning their tastes and distastes in different contexts.
+	A metal genre listener might not enjoy an announcement for a metal genre album when they are trying to put 
+	their kid to sleep and playing kid’s music at night. 
+	Serving them a recommendation for a kid’s music album might be more relevant in that context. 
+	But this experience might not be relevant for another metal genre listener who doesn’t mind 
+	receiving metal genre album recommendations during any context. 
+	These two users with similar listening habits might have different preferences. 
+	Personalizing their experiences on Spotify according to their respective taste in different contexts helps us make them more engaged.
 	
-	
+	Overall Architecture
