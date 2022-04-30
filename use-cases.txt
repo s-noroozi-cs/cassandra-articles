@@ -153,3 +153,19 @@ Spotify
 	Personalizing their experiences on Spotify according to their respective taste in different contexts helps us make them more engaged.
 	
 	Overall Architecture
+		In our personalization stack we are using Kafka for log collection, Storm for real-time event processing, 
+		Crunch for running batch map-reduce jobs on Hadoop and Cassandra to store user profile attributes 
+		and metadata about entities like playlists, artists, etc.
+
+		In the diagram below logs are forwarded by Kafka producers, running on different services and emitting different kinds of events like completion of a song and delivery of an ad impression, to the Kafka broker. There are 2 sets of Kafka consumers, subscribed to different topics, for consuming events:
+
+		Kafka Consumers for Hadoop which write these events to HDFS. All the raw logs on HDFS are then processed in Crunch to remove duplicate events, filter out unwanted fields and convert records into Avro Format.
+
+		Kafka Consumer Spouts running within Storm topologies which stream the events for real-time computation.
+		
+		There are also other Crunch pipelines which ingest and generate metadata (genre, tempo, etc.) for different entities. These data records are stored in HDFS and also exported using  Crunch to Cassandra for real-time lookup in Storm pipelines. We will call the Cassandra cluster which stores entity metadata the Entity Metadata Store (EMS).
+
+		The Storm pipelines process raw log events from Kafka, filter out unwanted events, decorate the entities with metadata fetched from EMS, group it per user and determine user level attributes by some algorithmic combination of aggregation and derivation. These user attributes when combined represent a user’s profile and they are stored in a Cassandra Cluster which we will call the User Profile Store (UPS). [] 
+
+
+
