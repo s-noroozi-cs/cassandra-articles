@@ -137,6 +137,92 @@ Data types
 		- '08:12:54.123456'
 		- '08:12:54.123456789'
 
+	Duration type
+		Values of the duration type are encoded as 3 signed integer of variable lengths. 
+		The first integer represents the number of months, the second the number of days and the third the number of nanoseconds. This is due to the fact that the number of days in a month can change, and a day can have 23 or 25 hours depending on the daylight saving. Internally, the number of months and days are decoded as 32 bits integers whereas the number of nanoseconds is decoded as a 64 bits integer.
+
+		A duration can be input as:
+			- (quantity unit)+ like 12h30m where the unit can be:
+				- y: years (12 months)
+				- mo: months (1 month)
+				- w: weeks (7 days)
+				- d: days (1 day)
+				- h: hours (3,600,000,000,000 nanoseconds)
+				- m: minutes (60,000,000,000 nanoseconds)
+				- s: seconds (1,000,000,000 nanoseconds)
+				- ms: milliseconds (1,000,000 nanoseconds)
+				- us or µs : microseconds (1000 nanoseconds)
+				- ns: nanoseconds (1 nanosecond)
+			- ISO 8601 format: P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W
+			- ISO 8601 alternative format: P[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]
+
+		Duration columns cannot be used in a table’s PRIMARY KEY. 
+		This limitation is due to the fact that durations cannot be ordered. 
+		It is effectively not possible to know if 1mo is greater than 29d without a date context.
+		A 1d duration is not equal to a 24h one as the duration type has been created to be able to support daylight saving.
+
+	Collections
+		CQL supports three kinds of collections: maps, sets and lists.
+		Note however that neither bind_marker nor NULL are supported inside collection literals.
+
+		Noteworthy characteristics
+			Collections are meant for storing/denormalizing relatively small amount of data. 
+			They work well for things like “the phone numbers of a given user”, “labels applied to an email”, etc. 
+			But when items are expected to grow unbounded (“all messages sent by a user”, “events registered by a sensor”…​), then collections are not appropriate and a specific table (with clustering columns) should be used. Concretely, (non-frozen) collections have the following noteworthy characteristics and limitations:
+
+			- Individual collections are not indexed internally. Which means that even to access a single element of 
+			  a collection, the while collection has to be read (and reading one is not paged internally).
+			- While insertion operations on sets and maps never incur a read-before-write internally, 
+			  some operations on lists do. Further, some lists operations are not idempotent by nature 
+			  (see the section on lists below for details), making their retry in case of timeout problematic. 
+			  It is thus advised to prefer sets over lists when possible.
+
+		Please note that while some of those limitations may or may not be removed/improved upon in the future, it is a anti-pattern to use a (single) collection to store large amounts of data.
+
+		Maps
+			A map is a (sorted) set of key-value pairs, where keys are unique and the map is sorted by its keys.
+
+		Sets
+			A set is a (sorted) collection of unique values. 
+
+		Lists
+			A list is a (sorted) collection of non-unique values where elements are ordered by there position in the list. 
+
+	User-Defined Types (UDTs)
+		CQL support the definition of user-defined types (UDTs). Such a type can be created, modified and removed using the create_type_statement, alter_type_statement and drop_type_statement described below. But once created, a UDT is simply referred to by its name:
+			user_defined_type::= udt_name
+			udt_name::= [ keyspace_name '.' ] identifier
+
+		Things to keep in mind about UDTs:
+			
+			- Attempting to create an already existing type will result in an error unless the IF NOT EXISTS option is used. 
+			  If it is used, the statement will be a no-op if the type already exists.
+			
+			- A type is intrinsically bound to the keyspace in which it is created, and can only be used in that keyspace. 
+			  At creation, if the type name is prefixed by a keyspace name, it is created in that keyspace. 
+			  Otherwise, it is created in the current keyspace.
+			
+			- As of Cassandra , UDT have to be frozen in most cases, hence the frozen<address> in the table definition above.
+			  Please see the section on frozen for more details.
+
+	Tuples
+		CQL also support tuples and tuple types (where the elements can be of different types). 
+		Functionally, tuples can be though as anonymous UDT with anonymous fields.
+
+		Unlike other composed types, like collections and UDTs, a tuple is always frozen <frozen> 
+		(without the need of the frozen keyword) and it is not possible to update only some elements of a tuple 
+		(without updating the whole tuple). Also, a tuple literal should always have the same number of value 
+		than declared in the type it is a tuple of (some of those values can be null but they need to be explicitly declared as so).
+
+	Custom Types
+		A custom type is defined by:
+			custom_type::= string
+
+		A custom type is a string that contains the name of Java class that extends the server side AbstractType class and that can be loaded by Cassandra (it should thus be in the CLASSPATH of every node running Cassandra). That class will define what values are valid for the type and how the time sorts when used for a clustering column. For any other purpose, a value of a custom type is the same than that of a blob, and can in particular be input using the blob literal syntax.
+
 	
+
+
+
 
 
