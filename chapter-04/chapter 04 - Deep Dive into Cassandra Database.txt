@@ -84,3 +84,59 @@ Data types
 	uuid 					uuid 						A UUID (of any version)
 	varchar 				string 						UTF8 encoded string
 	varint 					integer 					Arbitrary-precision integer
+
+	Counters
+		The counter type is used to define counter columns. A counter column is a column whose value is a 64-bit signed integer and on which 2 operations are supported: incrementing and decrementing (see the UPDATE statement for syntax). 
+		Note that the value of a counter cannot be set: a counter does not exist until first incremented/decremented, 
+		and that first increment/decrement is made as if the prior value was 0.
+
+		Counters have a number of important limitations:
+			- They cannot be used for columns part of the PRIMARY KEY of a table.
+			- A table that contains a counter can only contain counters. In other words, 
+			  either all the columns of a table outside the PRIMARY KEY have the counter type, or none of them have it.
+			- Counters do not support expiration.
+			- The deletion of counters is supported, but is only guaranteed to work the first time you delete a counter. 
+			  In other words, you should not re-update a counter that you have deleted 
+			  (if you do, proper behavior is not guaranteed).
+			- Counter updates are, by nature, not idemptotent. An important consequence is that if a 
+			  counter update fails unexpectedly (timeout or loss of connection to the coordinator node), 
+			  the client has no way to know if the update has been applied or not. 
+			  In particular, replaying the update may or may not lead to an over count.
+
+
+	Working with timestamps
+		Values of the timestamp type are encoded as 64-bit signed integers representing a number of milliseconds since the standard base time known as the epoch: January 1 1970 at 00:00:00 GMT.
+		
+		Timestamps can be input in CQL either using their value as an integer, or using a string that represents an ISO 8601 date. For instance, all of the values below are valid timestamp values for Mar 2, 2011, at 04:05:00 AM, GMT:
+
+		- 1299038700000
+		- '2011-02-03 04:05+0000'
+		- '2011-02-03 04:05:00+0000'
+		- '2011-02-03 04:05:00.000+0000'
+		- '2011-02-03T04:05+0000'
+		- '2011-02-03T04:05:00+0000'
+		- '2011-02-03T04:05:00.000+0000'
+
+		The +0000 above is an RFC 822 4-digit time zone specification; +0000 refers to GMT. US Pacific Standard Time is -0800. 
+		The time zone may be omitted if desired ('2011-02-03 04:05:00'), and if so, the date will be interpreted as being in the time zone under which the coordinating Cassandra node is configured. There are however difficulties inherent in relying on the time zone configuration being as expected, so it is recommended that the time zone always be specified for timestamps when feasible.
+		
+		The time of day may also be omitted ('2011-02-03' or '2011-02-03+0000'), in which case the time of day will default to 00:00:00 in the specified or default time zone. However, if only the date part is relevant, consider using the date type.
+
+
+	Date type
+		Values of the date type are encoded as 32-bit unsigned integers representing a number of days with “the epoch” at the center of the range (2^31). Epoch is January 1st, 1970
+
+		For timestamps, a date can be input either as an integer or using a date string. In the later case, the format should be yyyy-mm-dd (so '2011-02-03' for instance).
+
+	Time type
+		Values of the time type are encoded as 64-bit signed integers representing the number of nanoseconds since midnight.
+		
+		For timestamps, a time can be input either as an integer or using a string representing the time. In the later case, the format should be hh:mm:ss[.fffffffff] (where the sub-second precision is optional and if provided, can be less than the nanosecond). So for instance, the following are valid inputs for a time:
+		- '08:12:54'
+		- '08:12:54.123'
+		- '08:12:54.123456'
+		- '08:12:54.123456789'
+
+	
+
+
