@@ -220,9 +220,125 @@ Data types
 
 		A custom type is a string that contains the name of Java class that extends the server side AbstractType class and that can be loaded by Cassandra (it should thus be in the CLASSPATH of every node running Cassandra). That class will define what values are valid for the type and how the time sorts when used for a clustering column. For any other purpose, a value of a custom type is the same than that of a blob, and can in particular be input using the blob literal syntax.
 
+The Primary key
+	Within a table, a row is uniquely identified by its PRIMARY KEY, and hence all tables must define a single PRIMARY KEY. 
+	A PRIMARY KEY is composed of one or more of the defined columns in the table. 
+	Syntactically, the primary key is defined with the phrase PRIMARY KEY followed by a comma-separated list of the column names within parenthesis. If the primary key has only one column, you can alternatively add the PRIMARY KEY phrase to that column in the table definition. The order of the columns in the primary key definition defines the partition key and clustering columns.
+
+	A CQL primary key is composed of two parts:
+		- partition key
+			It is the first component of the primary key definition. It can be a single column or, using an additional set of parenthesis, can be multiple columns. A table must have at least one partition key, the smallest possible table definition is:
+
+			CREATE TABLE t (k text PRIMARY KEY);
+		
+		- clustering columns
+			The columns are the columns that follow the partition key in the primary key definition. The order of those columns define the clustering order.
+
+	Some examples of primary key definition are:
+		- PRIMARY KEY (a): a is the single partition key and there are no clustering columns
+		
+		- PRIMARY KEY (a, b, c) : a is the single partition key and b and c are the clustering columns
+
+		- PRIMARY KEY ((a, b), c) : a and b compose the composite partition key and c is the clustering column
+
+		Important: 
+			The primary key uniquely identifies a row in the table, as described above. 
+			A consequence of this uniqueness is that if another row is inserted using the same primary key, 
+			then an UPSERT occurs and an existing row with the same primary key is replaced. 
+			Columns that are not part of the primary key cannot define uniqueness.
+
+	Partition key
+		Within a table, CQL defines the notion of a partition that defines the location of data within a Cassandra cluster. 
+		A partition is the set of rows that share the same value for their partition key.
+
+		Note that if the partition key is composed of multiple columns, then rows belong to the same partition when they have the same values for all those partition key columns. A hash is computed from the partition key columns and that hash value defines the partition location. So, for instance, given the following table definition and content:
+			
+			CREATE TABLE t (
+    			a int,
+    			b int,
+			    c int,
+			    d int,
+			    PRIMARY KEY ((a, b), c, d)
+			);
+			
+			INSERT INTO t (a, b, c, d) VALUES (0,0,0,0);
+			INSERT INTO t (a, b, c, d) VALUES (0,0,1,1);
+			INSERT INTO t (a, b, c, d) VALUES (0,1,2,2);
+			INSERT INTO t (a, b, c, d) VALUES (0,1,3,3);
+			INSERT INTO t (a, b, c, d) VALUES (1,1,4,4);
+			SELECT * FROM t;
+
+		will result in
+			 a | b | c | d
+			---+---+---+---
+			 0 | 0 | 0 | 0 	
+			 0 | 0 | 1 | 1
+			 0 | 1 | 2 | 2	
+			 0 | 1 | 3 | 3
+			 1 | 1 | 4 | 4  
+
+			(5 rows)
+
+		- Rows 1 and 2 are in the same partition, because both columns a and b are zero.
+		- Rows 3 and 4 are in the same partition, but a different one, because column a is zero and column b is 1 in both rows.
+		- Row 5 is in a third partition by itself, because both columns a and b are 1.
+
+		Note that a table always has a partition key, and that if the table has no clustering columns, then every partition of that table has a single row. because the partition key, compound or otherwise, identifies a single location.
+
+		The most important property of partition is that all the rows belonging to the same partition are guaranteed to be stored on the same set of replica nodes. In other words, the partition key of a table defines which rows will be localized on the same node in the cluster. 
+		The localization of data is important to the efficient retrieval of data, requiring the Cassandra coordinator to contact as few nodes as possible. However, there is a flip-side to this guarantee, and all rows sharing a partition key will be stored on the same node, creating a hotspot for both reading and writing. While selecting a primary key that groups table rows assists batch updates and can ensure that the updates are atomic and done in isolation, the partitions must be sized "just right, not too big nor too small".
+
+		Data modeling that considers the querying patterns and assigns primary keys based on the queries will have the lowest latency in fetching data.
+
+	Clustering columns
+		The clustering columns of a table define the clustering order for the partition of that table. For a given partition, all rows are ordered by that clustering order. Clustering columns also add uniqueness to a row in a table.
+		For instance, given:
+
+		CREATE TABLE t2 (
+		    a int,
+		    b int,
+		    c int,
+		    d int,
+		    PRIMARY KEY (a, b, c)
+		);
+
+		INSERT INTO t2 (a, b, c, d) VALUES (0,0,0,0);
+		INSERT INTO t2 (a, b, c, d) VALUES (0,0,1,1);
+		INSERT INTO t2 (a, b, c, d) VALUES (0,1,2,2);
+		INSERT INTO t2 (a, b, c, d) VALUES (0,1,3,3);
+		INSERT INTO t2 (a, b, c, d) VALUES (1,1,4,4);
+		SELECT * FROM t2;
+
+		will result in
+
+		 a | b | c | d
+		---+---+---+---
+		 1 | 1 | 4 | 4	
+		 0 | 0 | 0 | 0
+		 0 | 0 | 1 | 1
+		 0 | 1 | 2 | 2
+		 0 | 1 | 3 | 3
+
+		(5 rows)
+
+		Row 1 is in one partition, and Rows 2-5 are in a different one. The display order is also different.
+
+		Looking more closely at the four rows in the same partition, the b clustering column defines the order in which those rows are displayed. Whereas the partition key of the table groups rows on the same node, the clustering columns control how those rows are stored on the node.
+
+		That sorting allows the very efficient retrieval of a range of rows within a partition:
+			
+			SELECT * FROM t2 WHERE a = 0 AND b > 0 and b <= 3;
+		
+		will result in
+			 a | b | c | d
+			---+---+---+---
+			 0 | 1 | 2 | 2
+			 0 | 1 | 3 | 3
+
+			(2 rows)
+
+
+
+
+
 	
-
-
-
-
-
