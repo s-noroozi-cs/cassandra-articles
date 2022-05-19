@@ -58,6 +58,7 @@ https://medium.com/walmartglobaltech/tombstones-in-apache-cassandra-d0a068a72dcc
 ======================== chapter 04 ========================
 https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archDataDistributeReplication.html
 https://cassandra.apache.org/doc/latest/cassandra/cql/types.html
+https://cassandra.apache.org/doc/4.0/cassandra/cql/ddl.html
 
 ======================== Success Stories / Use Cases ========================
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
