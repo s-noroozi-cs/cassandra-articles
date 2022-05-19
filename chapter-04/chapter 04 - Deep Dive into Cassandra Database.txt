@@ -337,8 +337,19 @@ The Primary key
 
 			(2 rows)
 
+	Impacts of data partition on Cassandra clusters
+		Controlling the size of the data stored in each partition is essential to ensure even distribution of data across the cluster and to get good I/O performance. Below are the impacts Partitioning has on some of the different aspects of a Cassandra cluster:
 
+		- Read Performance
+			Cassandra maintains caches, indexes and index summaries to locate partitions within SSTables files on disk. Large partitions cause inefficiency in maintaining these data structures and result in performance degradation. The Cassandra project has made several improvements in this area, especially in version 3.6 where the engine was restructured to be more performant for large partitions and more resilient against memory issues and crashing.
 
+		- Memory Usage
+			The partition size directly impacts the JVM heap size and garbage collection mechanism. Large partitions increase pressure on the JVM heap and make garbage collection inefficient.
 
+		- Cassandra Repairs
+			Repair is a maintenance operation to make data consistent. It involves scanning data and comparing it with other data replicas followed by data streaming if required. Large partition sizes make it hard to repair data.
 
-	
+		- Tombstones Eviction
+			Cassandra uses unique markers called ‘tombstones’ to mark data deletion. Large partitions can contribute to difficulties in tombstone eviction if data deletion pattern and compaction strategy are not appropriately implemented. 
+
+		Being aware of these impacts helps in an optimal partition key design while deploying Cassandra. It might be tempting to design the partition key to having only one row or a few rows per partition. However, a few other factors might influence the design decision, primarily, the data access pattern and ideal partition size.
