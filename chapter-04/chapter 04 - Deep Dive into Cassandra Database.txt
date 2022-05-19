@@ -353,3 +353,12 @@ The Primary key
 			Cassandra uses unique markers called ‘tombstones’ to mark data deletion. Large partitions can contribute to difficulties in tombstone eviction if data deletion pattern and compaction strategy are not appropriately implemented. 
 
 		Being aware of these impacts helps in an optimal partition key design while deploying Cassandra. It might be tempting to design the partition key to having only one row or a few rows per partition. However, a few other factors might influence the design decision, primarily, the data access pattern and ideal partition size.
+
+	The important elements of the Cassandra partition key discussion are summarized below:
+		1. Each Cassandra table has a partition key which can be standalone or composite. 
+		2. The partition key determines data locality through indexing in Cassandra.
+		3. The partition size is a crucial attribute for Cassandra performance and maintenance.
+		4. The ideal size of a Cassandra partition is equal to or lower than 10MB with a maximum of 100MB.
+		5. The partition key should be designed carefully to create bounded partitions with size in the ideal range. 
+		6. It is essential to understand your data demographics and consider partition size and data distribution when designing your schema. There are several tools to test, analyse and monitor Cassandra partitions.
+		7. The Cassandra version 3.6 and above incorporates significant improvements in the storage engine which provides much better partition handling.
