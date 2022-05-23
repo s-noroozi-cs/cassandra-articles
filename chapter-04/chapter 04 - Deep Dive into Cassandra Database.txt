@@ -445,6 +445,28 @@ Tombstones
 
 			- More detailed information on stored tombstones can be found using ic-tools.
 
+	How can I avoid tombstone issues?
+
+		- Avoid queries that will run on all partitions in the table 
+		  (eg queries with no WHERE clause, or any query that requires ALLOW FILTERING).
+
+		- Alter range queries to avoid querying deleted data, or operate on a narrower range of data. 
+		  Performance problems only occur if the tombstones are read, and scale with the number of tombstones read.
+
+		- Design the data model to avoid deleting large amounts of data.
+
+		- If planning to delete all the data in a table, 
+		  truncate or drop the table to remove all the data without generating tombstones.
+
+		- Use a default time-to-live value. This only works efficiently if the primary key of your data is time-based, 
+		  your data is written in chronological order, and the data will be deleted at a known date. 
+		  To do this, set a default TTL in the table-level options, and set a time-based compaction strategy 
+		  (TimeWindowCompactionStrategy if available, DateTieredCompactionStrategy otherwise). 
+		  This will still create tombstones, but whole sstables will be efficiently dropped once 
+		  the TTL on all of their contents have passed.
+
+	How can I get rid of existing tombstones?
+
 
 
 
