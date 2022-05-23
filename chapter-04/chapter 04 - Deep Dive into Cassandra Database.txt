@@ -482,7 +482,21 @@ Tombstones
 
 		Tombstones will only be removed if gc_grace_seconds have elapsed since the tombstones were created. The intended purpose of gc_grace_seconds is to provide time for repairs to restore consistency to the cluster, so be careful when modifying it – prematurely removing tombstones can result in the resurrection of deleted data. Also, the gc_grace_seconds setting affects expiration of hints generated for hinted handoff, so it is dangerous to reduce gc_grace_seconds below the duration of the hinted handoff window (by default, 3 hours).
 
-		
+	Repairs
+		Repairs can prevent dropping tombstones under some circumstances. When a full or incremental repair is run, the sstables it has affected are marked as repaired; in subsequent compactions, these tables will be compacted separately from sstables that have not been repaired. If tombstones are in unrepaired sstables and the shadowed data is in repaired sstables (or vice versa), that data cannot be dropped because the sstables cannot be compacted together.
+
+		Whether this causes problems depends on your repair situation:
+			- If full or incremental repairs are regularly run on the cluster, this is not an issue, 
+			  since tombstones and the data they shadow will both be marked as repaired eventually – so it will eventually be possible to compact them together.
+
+			- If full or incremental repairs have been run on the cluster in the past, but are no longer run, 
+			  there may be a mix of repaired and unrepaired sstables that will never be compacted together. 
+			  The ‘sstablemetadata’ utility can be used to inspect the repaired status of your sstables to work out 
+			  whether this has happened. If so, it may be advisable to set all sstables as unrepaired with 
+			  the `sstablerepairedset` utility. (Cassandra must be stopped while this operation is performed.)
+
+			- If you have never run repairs on your cluster, or you only use subrange repairs, this isn’t a concern. 
+			  (Subrange repairs do not mark sstables as repaired).
 
 
 
