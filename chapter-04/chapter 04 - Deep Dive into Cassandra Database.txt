@@ -467,6 +467,23 @@ Tombstones
 
 	How can I get rid of existing tombstones?
 
+		Under most circumstances, the best approach is to wait for the tombstone to compact away normally. 
+		If urgent performance or disk usage issues require more immediate action, there are two nodetool commands 
+		that can be used to force compactions, which can assist in dropping tombstones. 
+		These should be considered a last resort – in a healthy cluster with a well-designed data model, 
+		it is not necessary to run manual compactions.
+
+		Running `nodetool compact` forces a compaction of all sstables. This requires a large amount of free disk space. 
+		Keyspace and table arguments should be used to limit the compaction to the tables where tombstones are a problem. 
+		On tables where Size-Tiered Compaction Strategy is used, this command can lead to the creation of one 
+		enormous sstable that will never have peers to compact with; if the `–split-output` flag is available, it should be used.
+
+		The `nodetool garbagecollect` command is available from Cassandra 3.10 onwards. This command runs a series of smaller compactions that also check overlapping sstables. It is more CPU intensive and time-consuming than `nodetool compact`, but requires less free disk space.
+
+		Tombstones will only be removed if gc_grace_seconds have elapsed since the tombstones were created. The intended purpose of gc_grace_seconds is to provide time for repairs to restore consistency to the cluster, so be careful when modifying it – prematurely removing tombstones can result in the resurrection of deleted data. Also, the gc_grace_seconds setting affects expiration of hints generated for hinted handoff, so it is dangerous to reduce gc_grace_seconds below the duration of the hinted handoff window (by default, 3 hours).
+
+		
+
 
 
 
