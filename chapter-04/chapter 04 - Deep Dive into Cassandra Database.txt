@@ -422,7 +422,28 @@ Tombstones
 
 	How can I diagnose tombstone-related problems?
 
-		
+		Queries that encounter large numbers of tombstones will show up in the logs. By default, a read encountering more than a thousand tombstones will generate a warning:
+
+		WARN org.apache.cassandra.db.ReadCommand Read 0 live rows and 87051 tombstone cells for query SELECT * FROM example.table
+
+		By default, encountering more than 100,000 tombstones will cause the query to fail with a TombstoneOverwhelmingException.
+
+		To verify whether tombstone reads are causing performance problems, check whether the reads correlate with an increase in read latency and GC pause duration.
+
+		If it is clear that tombstones are the issues, the following techniques can help narrow down the scope of the problem:
+
+			- The number of tombstones returned in a particular query can be found 
+			  by running the query in cqlsh with tracing enabled.
+
+			- Statistics for the number of tombstones encountered recently in each 
+			  table are available in the output from `nodetool cfstats`.
+
+			- For clusters in our managed service, statistics for recently 
+			  encountered tombstones are available on the cluster page in Metrics Lists > Table Info. 
+			  This includes live cells per read and average and max tombstones per read, 
+			  broken down by node or table for a given time period.
+
+			- More detailed information on stored tombstones can be found using ic-tools.
 
 
 
