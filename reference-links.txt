@@ -60,6 +60,7 @@ https://docs.datastax.com/en/cassandra-oss/3.0/cassandra/architecture/archDataDi
 https://cassandra.apache.org/doc/latest/cassandra/cql/types.html
 https://cassandra.apache.org/doc/4.0/cassandra/cql/ddl.html
 https://www.instaclustr.com/blog/cassandra-data-partitioning/
+https://www.instaclustr.com/support/documentation/cassandra/using-cassandra/managing-tombstones-in-cassandra/
 
 ======================== Success Stories / Use Cases ========================
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
