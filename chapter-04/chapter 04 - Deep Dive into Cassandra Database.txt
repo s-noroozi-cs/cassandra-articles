@@ -415,7 +415,14 @@ Tombstones
 				- Queries that run over all partitions in a table (“select * from keyspace.table”)
 				- Range queries (“select * from keyspace.table WHERE value > x”, or “WHERE value IN (value1, value2, …)”
 				- Any query that can only be run with an “ALLOW FILTERING” clause.
-			
+
+			These performance issues occur because of the behaviour of tombstones during reads. In a range query, your Cassandra driver will normally use paging, which allows nodes to return a limited number of responses at a time. When cassandra tombstones are involved, the node needs to keep the tombstones that it has encountered in memory and return them to the coordinator, in case one of the other replicas is unaware that the relevant data has been deleted. The tombstones cannot be paged because it is essential to return all of them, so latency and memory use increase proportionally to the number of tombstones encountered.
+
+			Whether the tombstones will be encountered depends on the way the data is stored and retrieved. For example, if Cassandra is used to store data in a queue (which is not recommended), queries may encounter tens of thousands of tombstones to return a few rows of data.
+
+	How can I diagnose tombstone-related problems?
+
+		
 
 
 
