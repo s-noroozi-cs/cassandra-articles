@@ -498,9 +498,45 @@ Tombstones
 			- If you have never run repairs on your cluster, or you only use subrange repairs, this isn’t a concern. 
 			  (Subrange repairs do not mark sstables as repaired).
 
+TTL
+	TTL stands for ‘Time to Live’ . It’s a common functionality provided by many of new age DBs.
 
+	What is TTL
+		It’s a simple way of telling that for how long a data is valid. 
+		That’s the core of it but perhaps more important is who decides as how long data is valid, 
+		What do we mean by validity of data. What should happen to invalid data?
 
+		If I have to define TTL in a SQL world, I would think in a manner that you add a trigger on INSERT or UPDATE, 
+		what this trigger does is that it takes that particular row and starts a timer of set time let’s say 1 hour, 
+		After 1 hour the row would be deleted by itself unless you update the records in between.
 
+		What possible scenario we will use it, The sky is the limit, one most obvious case is for maintaining a user session. 
+		set a ttl of 3600, whenever the request comes you update the time with current time and reset the clock, 
+		if the request comes after 1 hour, obviously the records will be not available and you can initiate the process 
+		of re login indicating the session has expired.
+
+		Using the DB for maintaining a session, helps you to alleviate the problem in a cluster scenario, 
+		A call can go to any instance and we do not have to rely on sticky sessions. 
+		prevention is better than cure.
+
+	Other Examples
+		- To send a reset password link valid for 1 day.
+		- OTP validity for set time
+		- Opening of a bid or offer for certain period and which will be closed post that
+
+	Summary
+		- TTL is used for expiring records or data.
+		- Cassandra TTL are applied at column level.
+		- If a record is inserted with TTL, separate TTL will be applied on all the columns mentioned in the insert statement.
+		- Whenever a TTL is expired in Cassandra for a column it checks for all the non primary column values in the record, 
+		  if all values are null, record gets deleted.
+		- Even after TTL is expired in Cassandra and at later point all the non primary column value turns null, 
+		  the record gets deleted.
+		- TTL is not applicable on primary columns in Cassandra.
+		- When columns with ongoing TTL are updated without TTL values, the existing TTL gets removed from those columns. 
+		  In other words, One cannot update the value of a column with TTL without altering the TTL, 
+		  either by new TTL or by removing it.
+		- TTL is not applicable for Cassandra column type counter.
 
 
 
