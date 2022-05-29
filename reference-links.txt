@@ -62,6 +62,9 @@ https://cassandra.apache.org/doc/4.0/cassandra/cql/ddl.html
 https://www.instaclustr.com/blog/cassandra-data-partitioning/
 https://www.instaclustr.com/support/documentation/cassandra/using-cassandra/managing-tombstones-in-cassandra/
 https://medium.com/@27.rahul.k/cassandra-ttl-intricacies-and-usage-by-examples-d54248f2853c
+---https://medium.com/turkcell/apache-cassandra-spring-data-for-cassandra-cassandra-native-driver-crud-performance-comparison-97843e98e162
+---https://medium.com/building-the-open-data-stack/build-crud-operations-with-node-js-and-python-on-datastax-astra-db-d0e49fa5bbcb
+---https://towardsdatascience.com/getting-started-with-apache-cassandra-and-python-81e00ccf17c9
 
 ======================== Success Stories / Use Cases ========================
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
