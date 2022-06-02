@@ -179,6 +179,45 @@ Spotify
 
 		We considered variety of solutions that we commonly use at Spotify like Memcached, Sparkey and Cassandra. Only Cassandra fit the bill for all these requirements.
 
+Common Apache Cassandra Use Cases
+	
+	Cassandra's benefits include:
+		- Open source
+			Increases innovation, speed of implementation, flexibility, and extensibility. 
+			More cost effective, while avoiding vendor lock-in.
+
+		- Handles a high volume of data with ease
+			Built to handle a massive amount of data across many servers. 
+			Some large organizations are using it to manage petabytes of information.
+
+		- Continuous availability
+			No single point of failure means zero downtime. 
+			If a particular node fails, users will be automatically moved to the closest working node. 
+			The system will continue to work as designed, with applications always available, and data always accessible. 
+			Users will never know there was an outage. 
+			This is a key for companies that can’t afford to ever have their database go offline, or to lose any data.
+
+		- High performance and fast
+			Cassandra has a peer-to-peer, distributed architecture, where every node can perform all read and write operations. This adds resiliency, while improving performance. Write speed is especially fast. 
+			And Cassandra can write loads of data, without speed or accuracy being affected.
+
+		- Straightforward scalability
+			Cassandra’s horizontal scaling is straightforward and cost-effective. 
+			Instead of scaling vertically with expensive hardware, Cassandra enables companies to expand to any size simply by adding low-cost commodity servers or virtual machines—no shutdowns required. 
+			And its linear scalability ensures high performance is maintained across all nodes. 
+			Cassandra’s scalability benefits make it popular with companies working with large datasets, 
+			that have many concurrent users, and are expecting continued growth.
+
+		- Seamless replication
+			Like other NoSQL databases, Cassandra doesn’t require a fixed schema, making replication simple. 
+			And, since it’s a peer-to-peer system, data can be quickly replicated across the entire system, 
+			regardless of geographic location. Wide, even global, distribution is possible. 
+			Replication across data centers creates high fault tolerance and zero data loss—an outage 
+			in any particular region won’t matter. And placing data closer to end users also leads to low latency.
+
+		- Familiar Interface
+			Most developers will be able to pick up Cassandra’s query language quickly. 
+			That’s because Cassandra Query Language (CQL) has a strong resemblance to SQL.
 		
 
 
