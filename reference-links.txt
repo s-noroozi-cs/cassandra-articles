@@ -70,7 +70,7 @@ https://towardsdatascience.com/getting-started-with-apache-cassandra-and-python-
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
 ---https://www.datastax.com/blog/success-stories
 ---https://cassandra.apache.org/_/case-studies.html
----https://www.datastax.com/blog/exploring-common-apache-cassandra-use-cases
+https://www.datastax.com/blog/exploring-common-apache-cassandra-use-cases
 https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
 https://netflixtechblog.com/building-netflixs-distributed-tracing-infrastructure-bb856c319304
 https://instagram-engineering.com/open-sourcing-a-10x-reduction-in-apache-cassandra-tail-latency-d64f86b43589
