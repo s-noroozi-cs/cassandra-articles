@@ -218,6 +218,55 @@ Common Apache Cassandra Use Cases
 		- Familiar Interface
 			Most developers will be able to pick up Cassandra’s query language quickly. 
 			That’s because Cassandra Query Language (CQL) has a strong resemblance to SQL.
+	
+	Sure, Cassandra has a laundry list of benefits, but how is it actually being used to help companies? On the community team at DataStax we spend a lot of time talking to, and hearing from, companies that are using Apache Cassandra in production.
+	
+	Here are some use cases we see often:
 		
+		- E-commerce and inventory management
+		
+		- Personalization, recommendations, and customer experience
+		
+		- Internet of things and edge computing
+		
+		- Fraud detection and authentication
 
 
+	E-commerce and inventory management
+		
+		E-commerce companies can’t afford to have their site go down, and that’s especially true during a peak period. 
+		Every minute they’re offline quickly eats away at their bottom line. 
+		Since rapid growth is always the goal, they also need the ability to cost-effectively scale their online inventory 
+		on the fly. For the same reason, these organizations need a database that can handle an enormous amount of data with ease. And to meet or exceed customer expectations, they need the flexibility to continuously modify their product mix.
+
+		Here’s why Cassandra is a good fit for e-commerce and inventory management:
+
+			- Resilient with zero downtime
+				Distributed with multi-region replication, Cassandra ensures zero downtime. 
+				Even the loss of an entire region won’t bring it down.
+			
+			- Highly responsive
+				Cassandra’s peer-to-peer architecture also allows data to reside in regions around the world and closer to any particular customer—allowing the system to be highly responsive and fast.
+
+			- Predictable scalability
+				Cassandra’s horizontal scalability is straightforward, predictable, and cost-effective.
+		
+			- Provides faster catalog refreshes
+			
+			- Analyzes its catalog and inventory in real time. 
+
+	Personalization, recommendations, and customer experience
+
+		Personalization and recommendation engines are everywhere now. Almost like personal assistants built-into apps and websites, they help us decide what events to buy tickets to, surfacing articles we might find interesting, and much more. Eventbrite now uses Cassandra instead of MySQL to power their mobile experience, letting users know what events are happening around them that they will be interested in attending. Eventbrite chose Cassandra for its read/write capacity and ease of deployment. Outbrain, a company you use frequently, but may be unfamiliar with, uses Cassandra to power their content discovery platform, helping companies add revenue streams by serving up applicable third-party articles you may find interesting. 
+
+Near real-time, relevant, personalized experiences are now expected. Here’s why Cassandra is the right choice to power tailored experiences:
+
+Fast response times.
+Extremely low latency, even as your customer base expands.
+Handles all types of data, structured and unstructured, from a variety of sources.
+Built to scale while staying cost-effective.
+Ability to store, manage, query, and modify extremely large datasets, while delivering personalized experiences to millions of customers.
+High read/write capacity.
+Ease of deployment.
+Flexible, enabling continuous customer experience innovation.
+Consider the success story of Macquarie Bank. With an architectural foundation built on Cassandra, the company moved from no retail banking presence to a top contender in the digital banking space in less than two years, by truly understanding customer behavior and prioritizing personalization. Learn how MacQuarie Bank uses Cassandra to provide personalization for their customers.
