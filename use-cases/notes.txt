@@ -259,14 +259,18 @@ Common Apache Cassandra Use Cases
 
 		Personalization and recommendation engines are everywhere now. Almost like personal assistants built-into apps and websites, they help us decide what events to buy tickets to, surfacing articles we might find interesting, and much more. Eventbrite now uses Cassandra instead of MySQL to power their mobile experience, letting users know what events are happening around them that they will be interested in attending. Eventbrite chose Cassandra for its read/write capacity and ease of deployment. Outbrain, a company you use frequently, but may be unfamiliar with, uses Cassandra to power their content discovery platform, helping companies add revenue streams by serving up applicable third-party articles you may find interesting. 
 
-Near real-time, relevant, personalized experiences are now expected. Here’s why Cassandra is the right choice to power tailored experiences:
+		Near real-time, relevant, personalized experiences are now expected. Here’s why Cassandra is the right choice to power tailored experiences:
 
-Fast response times.
-Extremely low latency, even as your customer base expands.
-Handles all types of data, structured and unstructured, from a variety of sources.
-Built to scale while staying cost-effective.
-Ability to store, manage, query, and modify extremely large datasets, while delivering personalized experiences to millions of customers.
-High read/write capacity.
-Ease of deployment.
-Flexible, enabling continuous customer experience innovation.
-Consider the success story of Macquarie Bank. With an architectural foundation built on Cassandra, the company moved from no retail banking presence to a top contender in the digital banking space in less than two years, by truly understanding customer behavior and prioritizing personalization. Learn how MacQuarie Bank uses Cassandra to provide personalization for their customers.
+			- Fast response times.
+			- Extremely low latency, even as your customer base expands.
+			- Handles all types of data, structured and unstructured, from a variety of sources.
+			- Built to scale while staying cost-effective.
+			- Ability to store, manage, query, and modify extremely large datasets, 
+			  while delivering personalized experiences to millions of customers.
+			- High read/write capacity.
+			- Ease of deployment.
+			- Flexible, enabling continuous customer experience innovation.
+
+		Consider the success story of Macquarie Bank. With an architectural foundation built on Cassandra, the company moved from no retail banking presence to a top contender in the digital banking space in less than two years, by truly understanding customer behavior and prioritizing personalization. Learn how MacQuarie Bank uses Cassandra to provide personalization for their customers.
+
+			https://www.datastax.com/enterprise-success/macquarie-bank/achieving-digital-transformation-with-dse
