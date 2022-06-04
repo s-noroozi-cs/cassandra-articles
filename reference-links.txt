@@ -75,4 +75,4 @@ https://www.slideshare.net/jaykumarpatel/cassandra-at-ebay-13920376
 https://netflixtechblog.com/building-netflixs-distributed-tracing-infrastructure-bb856c319304
 https://instagram-engineering.com/open-sourcing-a-10x-reduction-in-apache-cassandra-tail-latency-d64f86b43589
 https://engineering.atspotify.com/2015/01/personalization-at-spotify-using-cassandra/
-
+---https://www.datastax.com/enterprise-success/macquarie-bank/achieving-digital-transformation-with-dse
