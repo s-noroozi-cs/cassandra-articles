@@ -274,3 +274,44 @@ Common Apache Cassandra Use Cases
 		Consider the success story of Macquarie Bank. With an architectural foundation built on Cassandra, the company moved from no retail banking presence to a top contender in the digital banking space in less than two years, by truly understanding customer behavior and prioritizing personalization. Learn how MacQuarie Bank uses Cassandra to provide personalization for their customers.
 
 			https://www.datastax.com/enterprise-success/macquarie-bank/achieving-digital-transformation-with-dse
+
+	Internet of things and edge computing
+
+		Whether tracking weather, traffic, energy consumption, inventory levels, health indicators, video game stats, farming conditions or countless other metrics, internet of things (IoT) sensors, wearables, vehicles, mobile devices, appliances, drones, and other devices at the edge produce an avalanche of never-ending data. This data needs to be securely collected—sometimes from millions of devices—aggregated, processed, and analyzed on an ongoing basis.
+
+		Consider how the National Renewable Energy Laboratory uses Cassandra to store and analyze sensor data at the world's most environmentally friendly building. They find ways to save water and energy by running the world's smartest thermostat on top of Cassandra. The system continuously learns about energy usage patterns, and automatically adjusts settings, even when no one is there to program it.
+
+		Here are some of the reasons Cassandra is a good fit for IoT and edge computing needs:
+
+			- Cassandra can ingest concurrent data from any node in the cluster, since all have read/write capacity.
+			- Ability to handle a large volume of high-velocity, time-series data.
+			- High availability.
+			- Supports continuous, real-time analysis.
+
+	Fraud detection and authentication
+
+		Security threats continue to rise, and many companies are always on the defensive, playing catch-up with their smart fraud detection capabilities. That’s because fraudsters are constantly on the attack, looking for new and creative ways to steal customer data and compromise other sensitive information.
+
+		To have any chance of preventing illegitimate users from gaining access, companies need data and a lot of it. Continuous, real-time analysis of large and diverse datasets is required to find patterns and anomalies that can be indicators of fraud. A high priority for all businesses, fraud detection’s importance is elevated in areas like financial services, banking, payments, and insurance. As an example, take a look at how ACI Worldwide has used Cassandra to drastically improve its fraud detection rate and false positive rate.
+
+		Identity authentication is the other side of the fraud detection coin. Instead of focusing on keeping fraudsters out, the goal of authentication is to confirm that only legitimate customers gain access. The trick is, you want to make the log-in process as painless and fast as possible, while still making absolutely sure they are who they say they are. As with fraud detection, to pull this off, you need to conduct real-time analysis of a wide variety and high volume of data. And since authentication is likely a central part of all your systems, outages must be avoided at all costs. If a customer experiences friction trying to access your site, whether due to a false positive or because the auth system is down, it likely won’t take too long for them to leave in frustration.
+
+		Here are some reasons Cassandra is a great database choice for fighting fraud and ensuring identity authentication:
+
+			- Flexible schema
+				Handles numerous data types, and they can be quickly added to the mix.
+			- Enables complex, real-time analysis, including the ability to incorporate and support machine learning and AI.
+			- Handles large-scale, growing datasets.
+
+	Other common Cassandra use cases
+
+		There are countless other applications that can benefit from Cassandra. Here are a few more:
+
+			- Financial services and payments
+			- Messaging
+			- Playlists
+			- Logistics and asset management
+			- Content management systems
+			- Transaction logging
+			- Tracking of all kinds, including packages and orders
+			- Digital and media management
