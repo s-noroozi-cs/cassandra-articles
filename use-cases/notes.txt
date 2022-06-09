@@ -315,3 +315,27 @@ Common Apache Cassandra Use Cases
 			- Transaction logging
 			- Tracking of all kinds, including packages and orders
 			- Digital and media management
+
+	Cassandra provides a solid foundation for dashboards for many reasons, including:
+
+		- Easily handles frequent updates—there are typically many, ongoing updates for each user.
+		- Built to take on extremely large datasets—hundreds of millions of events can reside in one table.
+		- Efficient way to store time-series data.
+
+		Soundcloud
+
+			The dashboard Soundcloud provides its customers is one of its most popular features. In fact, the company credits much of its rapid data growth to it. Soundcloud customers can personalize their dashboard with the option to see where in the world their audio uploads are being listened to, and by which users, along with being a home for incoming sound clips from people they follow, and much more.
+
+			Soundcloud turned to Cassandra because of its ability to store and access vast amounts of data, its built-in persistence of that data, and for its scalability. Cassandra’s read/write capabilities were also a strong selling point for Soundcloud’s adoption. With Cassandra, they can provide each customer with a sequential read path—so posts can be browsed in the correct time order. Cassandra also allows Soundcloud users to randomly access write events, and have any particular one put into sequential order. One write event could end up in millions of users’ dashboards, and Soundcloud uses Cassandra to ensure it's always displayed in the right place. The company also leans on Cassandra to explore relationships between customers, and personalize their experiences.
+
+	Replication
+
+		As discussed earlier, creating and storing replicas of datasets at geographically dispersed data centers makes a lot of sense. It increases fault tolerance, reliability, and availability. If a data center in the cluster goes down, operations will continue without a blip. Having data closer to customers, no matter where they’re using your app around the world, also decreases read and write latency.
+
+		Cassandra has a peer-to-peer, distributed architecture, without the need of a primary node. Instead, every node can perform read and write operations, and all replicas, across the cluster, are equally important. That means data can quickly be replicated across all nodes and Cassandra doesn’t have a single point of failure. That translates into always-on availability with zero downtime. That’s why so many companies turn to Cassandra when data storage is mission critical, and they need a database that can comfortably handle petabyte-sized datasets and full global replication.
+
+		Instagram
+
+			Instagram has used Cassandra from the beginning, way back in 2010. When they started expanding, they created replicas in each new data center. As Instagram kept replicating in data centers around the world, they found their performance dropped. To combat the dip, they started storing data only in the region closest to where it was generated. Local data access has helped them provide a faster, more efficient service to the more than one billion active daily users they have today. Learn more about how Instagram uses Cassandra to replicate on a global scale.
+
+	
