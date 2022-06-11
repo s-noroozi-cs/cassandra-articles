@@ -66,6 +66,11 @@ https://medium.com/@27.rahul.k/cassandra-ttl-intricacies-and-usage-by-examples-d
 https://medium.com/turkcell/apache-cassandra-spring-data-for-cassandra-cassandra-native-driver-crud-performance-comparison-97843e98e162
 https://towardsdatascience.com/getting-started-with-apache-cassandra-and-python-81e00ccf17c9
 
+======================== chapter 05 ========================
+https://www.geeksforgeeks.org/node-in-apache-cassandra/
+
+
+
 ======================== Success Stories / Use Cases ========================
 ---https://www.datastax.com/enterprise-success/capital-one/capital-one-handles-21-000-transactions-per-second
 ---https://www.datastax.com/blog/success-stories
