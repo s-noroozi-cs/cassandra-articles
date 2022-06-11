@@ -1,0 +1,23 @@
+Node
+
+	- A node in Cassandra contains the actual data and it’s information such that location, data center information, etc.
+	- A node contains the data such that keyspaces, tables, the schema of data, etc.
+	- you can perform operations such that read, write, delete data, etc. on a node.
+	- A node plays an important role in Cassandra clusters.
+	- In Cassandra ring where every node is connected peer to peer and every node is similar to every other node in the cluster.
+
+	Let’s consider an example where you have three replicas of data and each replica on different nodes. now, if you want to read data then anyone node can respond that’s why the concept of distributed data across the cluster is so effective and high availability mechanism in Cassandra.
+
+Nodetool
+
+	- It is the node management utility tool by which you can get the node health information, node information, cluster information, etc.
+	- with the help of nodetool commands, you can access all the required information of the nodes.
+	- Nodetool commands such that help, info, the status will give you the general information about the node.
+	- It’s by default located in the bin/ folder where Cassandra is installed.	
+
+	Some basics Nodetool commands :
+
+		Command				Descriptions
+		help				It will list out all the nodetool commands.
+		status				It will give you the status and a reports about basic health information of the node.
+		info				It will give you the descriptions of the current settings and stats of the node. 
