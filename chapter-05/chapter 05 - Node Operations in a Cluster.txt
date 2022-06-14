@@ -21,3 +21,36 @@ Nodetool
 		help				It will list out all the nodetool commands.
 		status				It will give you the status and a reports about basic health information of the node.
 		info				It will give you the descriptions of the current settings and stats of the node. 
+
+Seed Node
+	
+	Seed nodes are used to bootstrap the gossip protocol. The features of seed nodes are:
+
+		- They are specified in the configuration file Cassandra.yaml.
+		- Seed nodes are used for bootstrapping the gossip protocol when a node is started or restarted.
+		- They are used to achieve a steady state where each node is connected to every other node but are not required during the steady state.
+		
+	The diagram [seed-nodes.webp] depicts a startup of a cluster with 2 seed nodes. 
+	Initially, there is no connection between the nodes.
+	On startup, two nodes connect to two other nodes that are specified as seed nodes. 
+	Once all the four nodes are connected, seed node information is no longer required as steady state is achieved.
+
+	What are seeds?
+
+		Seeds are used during startup to discover the cluster.
+		
+		If you configure your nodes to refer some node as seed, nodes in your ring tend to send Gossip message to seeds more often (also see the section on gossip <gossip>) than to non-seeds. In other words, seeds are worked as hubs of Gossip network. With seeds, each node can detect status changes of other nodes quickly.
+
+		Seeds are also referred by new nodes on bootstrap to learn other nodes in ring. When you add a new node to ring, you need to specify at least one live seed to contact. Once a node join the ring, it learns about the other nodes, so it doesn’t need seed on subsequent boot.
+
+		You can make a seed a node at any time. There is nothing special about seed nodes. If you list the node in seed list it is a seed
+
+		Seeds do not auto bootstrap (i.e. if a node has itself in its seed list it will not automatically transfer data to itself) If you want a node to do that, bootstrap it first and then add it to seeds later. If you have no data (new install) you do not have to worry about bootstrap at all.
+		
+		Recommended usage of seeds:
+			- pick two (or more) nodes per data center as seed nodes.
+			- sync the seed list to all your nodes
+
+	Does single seed mean single point of failure?
+
+		The ring can operate or boot without a seed; however, you will not be able to add new nodes to the cluster. It is recommended to configure multiple seeds in production system.

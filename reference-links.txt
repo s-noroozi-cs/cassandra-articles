@@ -68,7 +68,9 @@ https://towardsdatascience.com/getting-started-with-apache-cassandra-and-python-
 
 ======================== chapter 05 ========================
 https://www.geeksforgeeks.org/node-in-apache-cassandra/
-
+https://cassandra.apache.org/_/glossary.html
+https://cassandra.apache.org/doc/latest/cassandra/faq/#what-are-seeds
+https://www.simplilearn.com/tutorials/big-data-tutorial/cassandra-architecture
 
 
 ======================== Success Stories / Use Cases ========================
