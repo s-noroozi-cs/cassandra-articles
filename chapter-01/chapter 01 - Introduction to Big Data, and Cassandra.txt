@@ -392,3 +392,21 @@ History of Cassandra
 	- It was accepted by Apache Incubator in March 2009.
 	- Cassandra is a top level project of Apache since February 2010.
 	- The latest version of Apache Cassandra is 3.11 (8 February 2022)
+
+Some of the things about Apache Cassandra before using it in Production
+	
+	Deleting bulk data from Cassandra table makes reads very slow
+		In Cassandra, when you delete a record, it does not hard delete it and just creates a tombstone.
+		In the context of Cassandra, a tombstone is specific data stored alongside standard data. A delete operation does nothing more than inserting a tombstone. And when you read data from this table, Cassandra has to scan all non-deleted/live records plus tombstones making the reads slower. There is a configuration(gc_grace_seconds) per table after that tombstones get deleted. Also if your tombstones limit reaches a threshold value, you cannot read from your table. All reads are stopped till you get tombstones cleared on every Cassandra Node in the cluster.
+
+	If you model your tables incorrectly, your application is screwed
+		When designing a table in Cassandra, you have to specify Partition Key and Clustering Key. The partition key allows the database to quickly retrieve the data from the appropriate node. The database requires that all partition keys are restricted or none. All the partition key columns are required to compute the hash and locate the node containing the partition. If you want to fetch data from multiple partitions, brace yourself for ReadTimeoutExceptions.
+
+	Choose one of the two “strong consistency” or “high availability”
+		This should hold true for all distributed databases and not just Cassandra. But you have to choose one of these properties carefully, else either your application will not be available for some time or it will be available but return stale data.
+
+	Having too many tables in a cluster cause performance degradation
+		According to Datastax documentation, Once your database reaches the warning threshold(200 tables), it’s time to start monitoring and planning a re-architecture. If possible, remove unused and underutilized tables. The failure threshold is 500 tables.
+
+	SELECT….IN query — A big NO!!!!!!!!!!!!!!!!!!!!!!!!!
+		Under most conditions, using IN in relation to the partition key is not recommended. To process a list of values, the SELECT may have to query many nodes, which degrades performance and may cause timeouts.
