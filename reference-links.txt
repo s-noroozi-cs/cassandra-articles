@@ -13,6 +13,7 @@ https://blog.knoldus.com/is-apache-cassandra-really-the-database-you-need/
 https://www.javatpoint.com/use-cases-of-cassandra
 https://www.datastax.com/resources/infographic/apache-cassandratm-version-history
 https://cdn.cupinteractive.com/assets/zdnet/downloads/The_History_of_Apache_Cassandra.pdf
+https://stuff.technology/things-i-wish-i-knew-before-using-apache-cassandra-3ccdd2707ac5
 
 ======================== chapter 02 ========================
 
